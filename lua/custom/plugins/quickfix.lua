@@ -1,3 +1,20 @@
+--- Keeps track of the last open Trouble mode.
+local trouble_mode = ''
+
+--- Toggle Trouble window. If mode is omitted, use the last open Trouble mode.
+--- @param mode string?
+local function trouble_toggle(mode)
+  local trouble = require 'trouble'
+  if vim.bo.filetype == 'trouble' then
+    trouble.close()
+  else
+    if mode then
+      trouble_mode = mode
+    end
+    trouble.open(trouble_mode)
+  end
+end
+
 --- Delete items from Trouble quickfix window.
 --- @param ids string[] List of item ids to be deleted.
 local function delete(ids)
@@ -27,10 +44,26 @@ return {
     --- @type trouble.Config
     opts = {
       focus = true,
+      formatters = {
+        diagnostic_icon = function(ctx)
+          local type = ctx.item.item.type:lower()
+          local severities = {
+            e = { text = 'E', hl = 'DiagnosticSignError' },
+            w = { text = 'W', hl = 'DiagnosticSignWarn' },
+            h = { text = 'H', hl = 'DiagnosticSignHint' },
+            i = { text = 'I', hl = 'DiagnosticSignInfo' },
+          }
+          return severities[type] or '?'
+        end,
+      },
       modes = {
         quickfix = {
           -- More info in the [source](https://github.com/folke/trouble.nvim/blob/bd67efe408d4816e25e8491cc5ad4088e708a69a/lua/trouble/sources/lsp.lua#L112).
           title = '{hl:Title} QuickFix {hl} {count}',
+        },
+        make = {
+          mode = 'quickfix',
+          format = '{diagnostic_icon} {text:md} {pos}',
         },
         diagnostics = {
           filter = {
@@ -133,14 +166,7 @@ return {
       vim.keymap.set('n', '<C-l>', ':cnext<CR>', { desc = 'Qui[C]kfix: Go to next item' })
       vim.keymap.set('n', '<C-h>', ':cprev<CR>', { desc = 'Qui[C]kfix: Go to prev item' })
 
-      vim.keymap.set('n', '<leader>co', function()
-        local trouble = require 'trouble'
-        if vim.bo.filetype == 'trouble' then
-          trouble.close()
-        else
-          trouble.open 'quickfix'
-        end
-      end, { desc = 'Qui[C]kfix: [O]pen' })
+      vim.keymap.set('n', '<leader>co', trouble_toggle, { desc = 'Qui[C]kfix: [O]pen' })
 
       vim.keymap.set('n', '<leader>lr', function()
         vim.lsp.buf.references(nil, {
@@ -148,7 +174,7 @@ return {
             --- This is done per documentation: `:help vim.lsp.listOpts`.
             --- @diagnostic disable-next-line: param-type-mismatch
             vim.fn.setqflist({}, 'r', o)
-            vim.cmd 'Trouble quickfix'
+            trouble_toggle 'quickfix'
           end,
         })
       end, { desc = '[L]ist [R]eferences' })
@@ -185,7 +211,7 @@ return {
       vim.keymap.set('n', '<leader>ld', function()
         local diagnostics = vim.diagnostic.get()
         vim.fn.setqflist(vim.diagnostic.toqflist(diagnostics), ' ')
-        vim.cmd 'Trouble quickfix'
+        trouble_toggle 'quickfix'
       end, { desc = '[L]ist [D]iagnostics' })
     end,
   },
@@ -210,7 +236,7 @@ return {
           vim.schedule(function()
             vim.cmd 'cclose'
           end)
-          vim.api.nvim_command ':Trouble quickfix'
+          trouble_toggle 'make'
         end,
       })
 
