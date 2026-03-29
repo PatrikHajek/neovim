@@ -65,6 +65,11 @@ return {
           mode = 'quickfix',
           format = '{diagnostic_icon} {text:md} {pos}',
         },
+        qf_diagnostics = {
+          mode = 'quickfix',
+          title = '{hl:Title} Diagnostics {hl} {count}',
+          format = '{diagnostic_icon} {text:md} {item.source} {code} {pos}',
+        },
         diagnostics = {
           filter = {
             severity = {
@@ -210,8 +215,14 @@ return {
 
       vim.keymap.set('n', '<leader>ld', function()
         local diagnostics = vim.diagnostic.get()
-        vim.fn.setqflist(vim.diagnostic.toqflist(diagnostics), ' ')
-        trouble_toggle 'quickfix'
+        local items = {}
+        for _, d in ipairs(diagnostics) do
+          local item = vim.diagnostic.toqflist({ d })[1]
+          item.text = ('%s [%s] %s'):format(item.text, d.code, d.source)
+          table.insert(items, item)
+        end
+        vim.fn.setqflist(items, ' ')
+        trouble_toggle 'qf_diagnostics'
       end, { desc = '[L]ist [D]iagnostics' })
     end,
   },
