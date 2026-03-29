@@ -51,6 +51,7 @@ return {
             e = { text = 'E', hl = 'DiagnosticSignError' },
             w = { text = 'W', hl = 'DiagnosticSignWarn' },
             h = { text = 'H', hl = 'DiagnosticSignHint' },
+            n = { text = 'H', hl = 'DiagnosticSignHint' },
             i = { text = 'I', hl = 'DiagnosticSignInfo' },
           }
           return severities[type] or '?'
