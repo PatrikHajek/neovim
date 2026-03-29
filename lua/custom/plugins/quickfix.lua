@@ -1,5 +1,5 @@
 --- Keeps track of the last open Trouble mode.
-local trouble_mode = ''
+local trouble_mode = 'quickfix'
 
 --- Toggle Trouble window. If mode is omitted, use the last open Trouble mode.
 --- @param mode string?
