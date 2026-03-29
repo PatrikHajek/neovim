@@ -247,8 +247,8 @@ vim.keymap.set('n', '<leader><CR>', function()
 end, { desc = 'Search line under the cursor ignoring indentation' })
 
 vim.keymap.set('n', '/', '/\\v', { desc = 'Enable very magic for searching', noremap = true })
-vim.keymap.set('n', '<leader>br', ':%s//', { desc = '[B]uffer [R]eplace' })
-vim.keymap.set('v', '<leader>br', ':s//', { desc = '[B]uffer [R]eplace in selected lines' })
+vim.keymap.set('n', '<leader>br', ':%s///g<Left><Left>', { desc = '[B]uffer [R]eplace' })
+vim.keymap.set('v', '<leader>br', ':s///g<Left><Left>', { desc = '[B]uffer [R]eplace in selected lines' })
 
 -- keep cursor in the middle when searching
 vim.keymap.set('n', 'n', 'nzzzv', { silent = true })
