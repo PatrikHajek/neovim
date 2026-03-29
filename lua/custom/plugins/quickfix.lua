@@ -61,8 +61,9 @@ return {
           -- More info in the [source](https://github.com/folke/trouble.nvim/blob/bd67efe408d4816e25e8491cc5ad4088e708a69a/lua/trouble/sources/lsp.lua#L112).
           title = '{hl:Title} QuickFix {hl} {count}',
         },
-        make = {
+        qf_make = {
           mode = 'quickfix',
+          title = '{hl:Title} Make {hl} {count}',
           format = '{diagnostic_icon} {text:md} {pos}',
         },
         qf_diagnostics = {
@@ -247,7 +248,7 @@ return {
           vim.schedule(function()
             vim.cmd 'cclose'
           end)
-          trouble_toggle 'make'
+          trouble_toggle 'qf_make'
         end,
       })
 
