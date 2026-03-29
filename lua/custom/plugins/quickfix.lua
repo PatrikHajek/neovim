@@ -1,5 +1,5 @@
 --- Keeps track of the last open Trouble mode.
-local trouble_mode = 'quickfix'
+local trouble_mode = 'qflist'
 
 --- Toggle Trouble window. If mode is omitted, use the last open Trouble mode.
 --- @param mode string?
@@ -57,17 +57,17 @@ return {
         end,
       },
       modes = {
-        quickfix = {
+        qflist = {
           -- More info in the [source](https://github.com/folke/trouble.nvim/blob/bd67efe408d4816e25e8491cc5ad4088e708a69a/lua/trouble/sources/lsp.lua#L112).
           title = '{hl:Title} QuickFix {hl} {count}',
         },
         qf_make = {
-          mode = 'quickfix',
+          mode = 'qflist',
           title = '{hl:Title} Make {hl} {count}',
           format = '{diagnostic_icon} {text:md} {pos}',
         },
         qf_diagnostics = {
-          mode = 'quickfix',
+          mode = 'qflist',
           title = '{hl:Title} Diagnostics {hl} {count}',
           format = '{diagnostic_icon} {text:md} {item.source} {code} {pos}',
         },
@@ -122,7 +122,7 @@ return {
         ['d'] = {
           --- @param view trouble.View
           action = function(view)
-            if view.opts.mode ~= 'quickfix' then
+            if not vim.startswith(view.opts.mode, 'qf') then
               print 'Deletions only work in quickfix windows!'
               return
             end
@@ -145,7 +145,7 @@ return {
         ['dd'] = {
           --- @param view trouble.View
           action = function(view)
-            if view.opts.mode ~= 'quickfix' then
+            if not vim.startswith(view.opts.mode, 'qf') then
               print 'Deletions only work in quickfix windows!'
               return
             end
@@ -180,7 +180,7 @@ return {
             --- This is done per documentation: `:help vim.lsp.listOpts`.
             --- @diagnostic disable-next-line: param-type-mismatch
             vim.fn.setqflist({}, 'r', o)
-            trouble_toggle 'quickfix'
+            trouble_toggle 'qflist'
           end,
         })
       end, { desc = '[L]ist [R]eferences' })
