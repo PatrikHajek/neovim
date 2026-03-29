@@ -14,7 +14,7 @@ vim.api.nvim_buf_set_var(0, 'current_compiler', 'nuxi')
 vim.opt_local.makeprg = [[NO_COLOR=1 pnpm nuxi typecheck]]
 
 vim.opt_local.errorformat = {
-  [[%f(%l\,%c):\ error\ TS%n:\ %m]],
+  [[%f(%l\,%c):\ %trror\ TS%n:\ %m]],
   [[%-G%[ℹ✔]%.%#]], -- ignore the info output at the start
   [[%-G\ ERROR\ %.%#]], -- ignore the big ERROR block
   [[%-G\ \ \ \ at\ %.%#]], -- ignore stack traces
