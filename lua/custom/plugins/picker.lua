@@ -31,6 +31,13 @@ return {
               ['<C-q>'] = require('telescope.actions').smart_send_to_qflist,
               ['<C-x>'] = require('telescope.actions').delete_buffer,
               ['<C-i>'] = require('telescope.actions.layout').toggle_preview,
+              ['<C-r>/'] = function()
+                local pattern = vim.fn.getreg '/'
+                if pattern:match '^\\v' then
+                  pattern = pattern:sub(3)
+                end
+                vim.api.nvim_put({ pattern }, 'c', true, true)
+              end,
             },
             n = {
               ['<C-q>'] = require('telescope.actions').smart_send_to_qflist,
