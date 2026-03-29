@@ -62,6 +62,10 @@ return {
           -- More info in the [source](https://github.com/folke/trouble.nvim/blob/bd67efe408d4816e25e8491cc5ad4088e708a69a/lua/trouble/sources/lsp.lua#L112).
           title = '{hl:Title} QuickFix {hl} {count}',
         },
+        qf_references = {
+          mode = 'qflist',
+          title = '{hl:Title} References {hl} {count}',
+        },
         qf_make = {
           mode = 'qflist',
           title = '{hl:Title} Make {hl} {count}',
@@ -173,7 +177,7 @@ return {
             --- This is done per documentation: `:help vim.lsp.listOpts`.
             --- @diagnostic disable-next-line: param-type-mismatch
             vim.fn.setqflist({}, 'r', o)
-            trouble_toggle 'qflist'
+            trouble_toggle 'qf_references'
           end,
         })
       end, { desc = '[L]ist [R]eferences' })
