@@ -259,7 +259,7 @@ return {
 
                 --@ `&` runs commands in parallel. Since both compilers write to stdout, this might
                 --@ break the output if they finish at the same time.
-                vim.opt_local.makeprg = table.concat(combined_prg, ' & ')
+                vim.opt_local.makeprg = table.concat(combined_prg, ' & ') .. ' & wait'
                 vim.opt_local.errorformat = combined_efm
 
                 vim.cmd 'Make'
