@@ -71,14 +71,6 @@ return {
           title = '{hl:Title} Diagnostics {hl} {count}',
           format = '{diagnostic_icon} {text:md} {item.source} {code} {pos}',
         },
-        diagnostics = {
-          filter = {
-            severity = {
-              vim.diagnostic.severity.ERROR,
-              vim.diagnostic.severity.WARN,
-            },
-          },
-        },
         -- Can be used to include the item the cursor is on in lsp_references window.
         -- lsp_base = {
         --   params = {
