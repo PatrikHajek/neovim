@@ -74,7 +74,7 @@ return {
         qf_diagnostics = {
           mode = 'qflist',
           title = '{hl:Title} Diagnostics {hl} {count}',
-          format = '{diagnostic_icon} {text:md} {item.source} {code} {pos}',
+          format = '{diagnostic_icon} {text:md} {pos}',
         },
         -- Can be used to include the item the cursor is on in lsp_references window.
         -- lsp_base = {
