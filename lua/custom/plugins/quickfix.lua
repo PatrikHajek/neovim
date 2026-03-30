@@ -88,7 +88,7 @@ return {
         ['<esc>'] = false,
         ['<cr>'] = 'jump_close',
         ['='] = 'fold_toggle',
-        ['f'] = {
+        ['gf'] = {
           action = function()
             vim.cmd 'q'
             vim.cmd 'cfirst'
