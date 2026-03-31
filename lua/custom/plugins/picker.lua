@@ -230,7 +230,6 @@ return {
         { kind = 'keyword.conditional.ternary', name = 'cond ternany' },
         { kind = 'label', name = 'label' },
         { kind = 'keyword.exception', name = 'exception' },
-        { kind = 'constant', name = 'constant' },
         { kind = 'local.definition.var', name = 'variable', hl = '@variable' },
         { kind = 'variable', name = 'variable', hl = '@variable', filters = { 'include', { prisma = true } } },
         { kind = 'property', name = 'member', hl = '@variable.member', chars = 10 },
