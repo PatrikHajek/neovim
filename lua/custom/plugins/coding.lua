@@ -55,6 +55,14 @@ return {
       end)
       vim.keymap.set({ 'n', 'x' }, ']p', paragraph_next, { desc = 'Next paragraph' })
       vim.keymap.set({ 'n', 'x' }, '[p', paragraph_prev, { desc = 'Previous paragraph' })
+
+      local sentence_next, sentence_prev = repeat_move.make_repeatable_move_pair(function()
+        vim.cmd 'normal! )'
+      end, function()
+        vim.cmd 'normal! ('
+      end)
+      vim.keymap.set({ 'n', 'x', 'o' }, ']g)', sentence_next, { desc = 'sentence' })
+      vim.keymap.set({ 'n', 'x', 'o' }, '[g(', sentence_prev, { desc = 'sentence' })
     end,
   },
 
