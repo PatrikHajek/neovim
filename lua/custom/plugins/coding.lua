@@ -188,24 +188,26 @@ return {
         end
 
         if key_enclosing_start then
-          vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_start, function()
-            move.goto_enclosing_start({ forward = true }, { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } })
-          end, { desc = 'Enclosing ' .. opts.name .. ' start' })
+          local enclosing_start = ts_repeat_move.make_repeatable_move(function()
+            move.goto_enclosing_start { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } }
+          end)
+          vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_start, enclosing_start, { desc = 'Enclosing ' .. opts.name .. ' start' })
         end
 
         if key_enclosing_end then
-          vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_end, function()
-            move.goto_enclosing_end({ forward = true }, { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } })
-          end, { desc = 'Enclosing ' .. opts.name .. ' end' })
+          local enclosing_end = ts_repeat_move.make_repeatable_move(function()
+            move.goto_enclosing_end { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } }
+          end)
+          vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_end, enclosing_end, { desc = 'Enclosing ' .. opts.name .. ' end' })
         end
       end
 
       local move = require 'custom.plugins.treesitter.move'
       vim.keymap.set({ 'n', 'x', 'o' }, '-', function()
-        move.goto_enclosing_start { forward = true }
+        move.goto_enclosing_start()
       end, { desc = 'Enclosing parent start' })
       vim.keymap.set({ 'n', 'x', 'o' }, '+', function()
-        move.goto_enclosing_end { forward = true }
+        move.goto_enclosing_end()
       end, { desc = 'Enclosing parent end' })
 
       local opts = {
@@ -224,11 +226,11 @@ return {
       }
       vim.keymap.set({ 'n', 'x', 'o' }, ')', function()
         vim.cmd 'normal! m`'
-        require('custom.plugins.treesitter.move').goto_sibling_next_start({ forward = true }, opts)
+        require('custom.plugins.treesitter.move').goto_sibling_next_start(opts)
       end, { desc = 'Go to next block in the same depth' })
       vim.keymap.set({ 'n', 'x', 'o' }, '(', function()
         vim.cmd 'normal! m`'
-        require('custom.plugins.treesitter.move').goto_sibling_prev_start({ forward = true }, opts)
+        require('custom.plugins.treesitter.move').goto_sibling_prev_start(opts)
       end, { desc = 'Go to previous block in the same depth' })
 
       map('block', 'b', 'B', 'b', 'b')

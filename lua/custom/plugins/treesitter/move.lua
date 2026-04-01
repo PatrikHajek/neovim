@@ -1,7 +1,5 @@
 local M = {}
 
-local ts_repeat_move = require 'nvim-treesitter-textobjects.repeatable_move'
-
 --- @param node TSNode
 --- @param query vim.treesitter.Query
 --- @param captures string[]
@@ -82,10 +80,8 @@ local function get_enclosing(opts, predicate)
   end
 end
 
---- @param _ TSTextObjects.MoveOpts
 --- @param opts treesitter_get_enclosing_opts?
---- @type fun(opts: TSTextObjects.MoveOpts, opts: treesitter_get_enclosing_opts?)
-M.goto_enclosing_start = ts_repeat_move.make_repeatable_move(function(_, opts)
+M.goto_enclosing_start = function(opts)
   local node = get_enclosing(opts, function(curr)
     local cursor = vim.api.nvim_win_get_cursor(0)[1]
     local c_row = curr:range()
@@ -97,12 +93,10 @@ M.goto_enclosing_start = ts_repeat_move.make_repeatable_move(function(_, opts)
     vim.cmd 'normal! m`'
     vim.api.nvim_win_set_cursor(0, { row + 1, col })
   end
-end)
+end
 
---- @param _ TSTextObjects.MoveOpts
 --- @param opts treesitter_get_enclosing_opts?
---- @type fun(opts: TSTextObjects.MoveOpts, opts: treesitter_get_enclosing_opts?)
-M.goto_enclosing_end = ts_repeat_move.make_repeatable_move(function(_, opts)
+M.goto_enclosing_end = function(opts)
   local node = get_enclosing(opts, function(curr)
     local cursor = vim.api.nvim_win_get_cursor(0)[1]
     local _, _, c_row = curr:range()
@@ -114,7 +108,7 @@ M.goto_enclosing_end = ts_repeat_move.make_repeatable_move(function(_, opts)
     local line_count = vim.api.nvim_buf_line_count(0)
     vim.api.nvim_win_set_cursor(0, { math.min(line_count, row + 1), math.max(0, col - 1) })
   end
-end)
+end
 
 --- Finds the sibling where `predicate` is true. If no direct sibling exists, goes up to the parent
 --- and uses it's sibling. Repeats this until it finds a sibling or reaches the root, in which case
@@ -165,10 +159,8 @@ local function get_sibling(opts, dir, predicate)
   end
 end
 
---- @param _ TSTextObjects.MoveOpts
 --- @param opts treesitter_get_enclosing_opts?
---- @type fun(opts: TSTextObjects.MoveOpts, opts: treesitter_get_enclosing_opts?)
-M.goto_sibling_next_start = ts_repeat_move.make_repeatable_move(function(_, opts)
+M.goto_sibling_next_start = function(opts)
   local node_cursor = vim.treesitter.get_node()
   if not node_cursor or not node_cursor:parent() then
     vim.cmd 'normal! }{j_'
@@ -185,12 +177,10 @@ M.goto_sibling_next_start = ts_repeat_move.make_repeatable_move(function(_, opts
     vim.cmd 'normal! m`'
     vim.api.nvim_win_set_cursor(0, { row + 1, col })
   end
-end)
+end
 
---- @param _ TSTextObjects.MoveOpts
 --- @param opts treesitter_get_enclosing_opts?
---- @type fun(opts: TSTextObjects.MoveOpts, opts: treesitter_get_enclosing_opts?)
-M.goto_sibling_prev_start = ts_repeat_move.make_repeatable_move(function(_, opts)
+M.goto_sibling_prev_start = function(opts)
   local node_cursor = vim.treesitter.get_node()
   if not node_cursor or not node_cursor:parent() then
     vim.cmd 'normal! {}k_'
@@ -207,6 +197,6 @@ M.goto_sibling_prev_start = ts_repeat_move.make_repeatable_move(function(_, opts
     vim.cmd 'normal! m`'
     vim.api.nvim_win_set_cursor(0, { row + 1, col })
   end
-end)
+end
 
 return M
