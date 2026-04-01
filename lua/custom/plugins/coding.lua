@@ -38,23 +38,56 @@ return {
       })
 
       local paragraph_next, paragraph_prev = repeat_move.make_repeatable_move_pair(function()
-        vim.cmd 'normal! }j_'
+        vim.cmd 'normal! }'
       end, function()
-        local row = math.max(2, vim.api.nvim_win_get_cursor(0)[1])
-        local line = vim.api.nvim_buf_get_lines(0, row - 2, row - 1, false)[1]
-        if line:match '^%s*$' then
-          vim.cmd 'normal! {{'
-        else
-          vim.cmd 'normal! {'
-        end
-
-        row = vim.api.nvim_win_get_cursor(0)[1]
-        if row ~= 1 then
-          vim.cmd 'normal! j_'
-        end
+        vim.cmd 'normal! {'
       end)
       vim.keymap.set({ 'n', 'x' }, ']p', paragraph_next, { desc = 'Next paragraph' })
       vim.keymap.set({ 'n', 'x' }, '[p', paragraph_prev, { desc = 'Previous paragraph' })
+
+      --- Return the line above current line, the current line and the line below in this order. If
+      --- at the start of end of the buffer, return empty string for the above/below line.
+      --- @return string Line above
+      --- @return string Line current
+      --- @return string Line below
+      local function get_current_line_with_neighbors()
+        local row = vim.api.nvim_win_get_cursor(0)[1]
+        local lines = vim.api.nvim_buf_get_lines(0, row - 2, row + 1, false)
+        return lines[1], lines[2], lines[3]
+      end
+
+      vim.keymap.set({ 'n', 'x' }, '}', function()
+        local _, curr, below = get_current_line_with_neighbors()
+        if vim.trim(curr):match '^$' then
+          if vim.trim(below):match '^%S+' then
+            vim.cmd 'normal! j_'
+          else
+            vim.cmd 'normal! }{j_'
+          end
+        else
+          if vim.trim(below):match '^$' then
+            vim.cmd 'normal! }j_'
+          else
+            vim.cmd 'normal! }k_'
+          end
+        end
+      end, { desc = 'Next paragraph start/end' })
+      vim.keymap.set({ 'n', 'x' }, '{', function()
+        local above, curr = get_current_line_with_neighbors()
+        if vim.trim(curr):match '^$' then
+          if vim.trim(above):match '^%S+' then
+            vim.cmd 'normal! k_'
+          else
+            vim.cmd 'normal! {}k_'
+          end
+        else
+          if vim.trim(above):match '^$' then
+            vim.cmd 'normal! {k_'
+          else
+            vim.cmd 'normal! {j_'
+          end
+        end
+      end, { desc = 'Previous paragraph start/end' })
 
       local sentence_next, sentence_prev = repeat_move.make_repeatable_move_pair(function()
         vim.cmd 'normal! )'
