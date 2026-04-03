@@ -86,11 +86,11 @@ return {
           if vim.trim(below):match '^$' then
             vim.cmd 'normal! }j_'
           else
-            vim.cmd 'normal! }'
+            vim.cmd 'normal! }k_'
             local row = vim.api.nvim_win_get_cursor(0)[1]
             local buf_len = vim.api.nvim_buf_line_count(0)
-            if row ~= buf_len then
-              vim.cmd 'normal! k_'
+            if row == buf_len - 1 then
+              vim.cmd 'normal! j_'
             end
           end
         end
@@ -111,10 +111,10 @@ return {
           if vim.trim(above):match '^$' then
             vim.cmd 'normal! {k_'
           else
-            vim.cmd 'normal! {'
+            vim.cmd 'normal! {j_'
             local row = vim.api.nvim_win_get_cursor(0)[1]
-            if row ~= 1 then
-              vim.cmd 'normal! j_'
+            if row == 2 then
+              vim.cmd 'normal! k_'
             end
           end
         end
