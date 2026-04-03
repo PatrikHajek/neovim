@@ -46,18 +46,36 @@ return {
       vim.keymap.set({ 'n', 'x' }, '[p', paragraph_prev, { desc = 'Previous paragraph' })
 
       --- Return the line above current line, the current line and the line below in this order. If
-      --- at the start of end of the buffer, return empty string for the above/below line.
-      --- @return string Line above
+      --- at the start of end of the buffer, return nil for the above/below line.
+      --- @return string? Line above
       --- @return string Line current
-      --- @return string Line below
+      --- @return string? Line below
       local function get_current_line_with_neighbors()
-        local row = vim.api.nvim_win_get_cursor(0)[1]
+        local cursor = vim.api.nvim_win_get_cursor(0)[1]
+        local buf_len = vim.api.nvim_buf_line_count(0)
+
+        local row = math.max(cursor, 2)
+        row = math.min(row, buf_len - 3)
         local lines = vim.api.nvim_buf_get_lines(0, row - 2, row + 1, false)
-        return lines[1], lines[2], lines[3]
+        assert(lines[1])
+        assert(lines[2])
+        assert(lines[3])
+
+        if cursor == 1 then
+          return nil, lines[1], lines[2]
+        elseif cursor == buf_len then
+          return lines[2], lines[3], nil
+        else
+          return lines[1], lines[2], lines[3]
+        end
       end
 
       vim.keymap.set({ 'n', 'x' }, '}', function()
         local _, curr, below = get_current_line_with_neighbors()
+        if not below then
+          return -- is on the last line
+        end
+
         if vim.trim(curr):match '^$' then
           if vim.trim(below):match '^%S+' then
             vim.cmd 'normal! j_'
@@ -68,12 +86,21 @@ return {
           if vim.trim(below):match '^$' then
             vim.cmd 'normal! }j_'
           else
-            vim.cmd 'normal! }k_'
+            vim.cmd 'normal! }'
+            local row = vim.api.nvim_win_get_cursor(0)[1]
+            local buf_len = vim.api.nvim_buf_line_count(0)
+            if row ~= buf_len then
+              vim.cmd 'normal! k_'
+            end
           end
         end
       end, { desc = 'Next paragraph start/end' })
       vim.keymap.set({ 'n', 'x' }, '{', function()
         local above, curr = get_current_line_with_neighbors()
+        if not above then
+          return -- is on the first line
+        end
+
         if vim.trim(curr):match '^$' then
           if vim.trim(above):match '^%S+' then
             vim.cmd 'normal! k_'
@@ -84,7 +111,11 @@ return {
           if vim.trim(above):match '^$' then
             vim.cmd 'normal! {k_'
           else
-            vim.cmd 'normal! {j_'
+            vim.cmd 'normal! {'
+            local row = vim.api.nvim_win_get_cursor(0)[1]
+            if row ~= 1 then
+              vim.cmd 'normal! j_'
+            end
           end
         end
       end, { desc = 'Previous paragraph start/end' })
