@@ -55,7 +55,7 @@ end
 --- @param predicate fun(curr: TSNode, init: TSNode): boolean
 --- @return TSNode | nil
 local function get_enclosing(opts, predicate)
-  local node = vim.treesitter.get_node()
+  local node = vim.treesitter.get_node { ignore_injections = false }
   if not node then
     return
   end
@@ -121,7 +121,7 @@ end
 --- @param predicate fun(curr: TSNode, init: TSNode): boolean
 --- @return TSNode | nil
 local function get_sibling(opts, dir, predicate)
-  local node = vim.treesitter.get_node()
+  local node = vim.treesitter.get_node { ignore_injections = false }
   if not node then
     return
   end
@@ -161,7 +161,7 @@ end
 
 --- @param opts treesitter_get_enclosing_opts?
 M.goto_sibling_next_start = function(opts)
-  local node_cursor = vim.treesitter.get_node()
+  local node_cursor = vim.treesitter.get_node { ignore_injections = false }
   if not node_cursor or not node_cursor:parent() then
     vim.cmd 'normal! }{j_'
     return
@@ -181,7 +181,7 @@ end
 
 --- @param opts treesitter_get_enclosing_opts?
 M.goto_sibling_prev_start = function(opts)
-  local node_cursor = vim.treesitter.get_node()
+  local node_cursor = vim.treesitter.get_node { ignore_injections = false }
   if not node_cursor or not node_cursor:parent() then
     vim.cmd 'normal! {}k_'
     return
