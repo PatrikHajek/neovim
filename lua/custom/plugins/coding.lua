@@ -125,8 +125,8 @@ return {
       end, function()
         vim.cmd 'normal! ('
       end)
-      vim.keymap.set({ 'n', 'x', 'o' }, ']g)', sentence_next, { desc = 'Next sentence' })
-      vim.keymap.set({ 'n', 'x', 'o' }, '[g(', sentence_prev, { desc = 'Previous sentence' })
+      vim.keymap.set({ 'n', 'x', 'o' }, ']gs', sentence_next, { desc = 'Next sentence' })
+      vim.keymap.set({ 'n', 'x', 'o' }, '[gs', sentence_prev, { desc = 'Previous sentence' })
     end,
   },
 
