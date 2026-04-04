@@ -2,6 +2,9 @@
 vim.keymap.set({ 'n', 'x' }, '<C-d>', '5j')
 vim.keymap.set({ 'n', 'x' }, '<C-u>', '5k')
 
+vim.keymap.set('x', '>', '>gv')
+vim.keymap.set('x', '<', '<gv')
+
 vim.keymap.set({ 'x', 'o' }, 'i_', function()
   vim.cmd 'normal! \27'
   local is_fugitive = require('custom.utils').is_fugitive()
