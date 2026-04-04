@@ -327,7 +327,7 @@ return {
         require('nvim-treesitter-textobjects.select').select_textobject('@assignment.lhs', 'textobjects')
       end, { desc = 'lhs of assignment' })
 
-      map('comment', 'n', false, false, false, false, false)
+      map('comment', 'gn', false, false, false, false, false)
 
       map('list_item', 'gl', 'gL', 'gl', 'gl', 'gl', 'gL', { name = 'markdown list item' })
       map('list_item.unchecked', 'gu', false, false, false, 'gu', 'gU', { name = 'markdown list item unchecked' })
