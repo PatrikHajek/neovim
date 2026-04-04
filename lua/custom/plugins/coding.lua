@@ -432,6 +432,8 @@ return {
       map('"', '"s', '"e', '" start', '" end')
       map('`', '`s', '`e', '` start', '` end')
 
+      vim.keymap.set({ 'x', 'o' }, 'ign', require('mini.comment').textobject, { desc = 'comment' })
+
       local statusline = require 'mini.statusline'
       statusline.setup { use_icons = vim.g.have_nerd_font }
 
