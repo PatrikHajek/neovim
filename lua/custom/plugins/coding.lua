@@ -281,12 +281,14 @@ return {
         query_files = { 'locals', 'textobjects', 'highlights' },
         captures = {
           'local.definition.import',
+          'keyword.import',
           'block.outer',
           'statement.outer',
           'class.outer',
           'function.outer',
           'call.outer',
           'local.definition.var',
+          'assignment.outer',
           -- Prisma.
           'keyword',
           'keyword.type',
