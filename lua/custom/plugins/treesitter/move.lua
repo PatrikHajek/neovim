@@ -1,23 +1,40 @@
 local M = {}
 
+local T = require 'custom.toolkit'
+
 --- @param node TSNode
 --- @param queries { [string]: vim.treesitter.Query }
 --- @param captures string[]
 --- @return string | nil capture The first capture from captures that is queried or nil.
 local function get_capture(node, queries, captures)
-  local n_row = node:range()
+  local n_row, n_col = node:range()
 
   for _, query in pairs(queries) do
     for id, matched_node in query:iter_captures(node, 0) do
       local capture = query.captures[id]
-      local m_row = matched_node:range()
-      if vim.list_contains(captures, capture) and n_row == m_row then
+      local m_row, m_col = matched_node:range()
+      if vim.list_contains(captures, capture) and n_row == m_row and n_col == m_col then
         return capture
       end
     end
   end
 
   return nil
+end
+
+--- @param node TSNode
+--- @param queries { [string]: vim.treesitter.Query }
+--- @param captures string[]
+--- @return TSNode?
+local function get_node_captured(node, queries, captures)
+  --- @type TSNode?
+  local n = node
+  while n do
+    if get_capture(n, queries, captures) ~= nil then
+      return n
+    end
+    n = n:parent()
+  end
 end
 
 --- @param query_files string[]
@@ -128,13 +145,12 @@ local function get_sibling(opts, dir, predicate)
 
   local queries = opts and prepare_queries(opts.query_files, node) or {}
 
-  --- @type TSNode?
-  local curr = node
-  local parent = node:parent()
+  local curr = T.if_else(opts, opts and get_node_captured(node, queries, opts.captures), node)
+  local parent = curr and curr:parent()
   while parent do
     while curr do
       -- "block" nodes start on the first line in the block and interfering with the real siblings.
-      if curr:type() ~= 'block' and curr:parent() == parent and predicate(curr, node) then
+      if curr:type() ~= 'block' and predicate(curr, node) then
         if opts then
           if get_capture(curr, queries, opts.captures) ~= nil then
             return curr
@@ -152,8 +168,8 @@ local function get_sibling(opts, dir, predicate)
         error('Unknown option: ' .. tostring(dir))
       end
     end
-    curr = parent
-    parent = parent:parent()
+    curr = T.if_else(opts, opts and get_node_captured(parent, queries, opts.captures), parent)
+    parent = curr and curr:parent()
   end
 end
 
