@@ -280,6 +280,7 @@ return {
       local opts = {
         query_files = { 'locals', 'textobjects', 'highlights' },
         captures = {
+          'local.definition.import',
           'block.outer',
           'statement.outer',
           'class.outer',
