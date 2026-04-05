@@ -310,7 +310,7 @@ return {
 
       map('function', 'm', 'M', 'm', 'm')
 
-      map('call', false, false, false, false, 'f', 'F')
+      map('call', 'f', 'F', false, false, 'f', 'F')
 
       map('parameter', 'a', 'A', false, false)
 
