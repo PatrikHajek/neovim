@@ -596,3 +596,5 @@ upsert
 lowercased
 de
 jitter
+autocompletion
+truthy
