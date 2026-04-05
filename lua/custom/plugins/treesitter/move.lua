@@ -1,7 +1,5 @@
 local M = {}
 
-local T = require 'custom.toolkit'
-
 --- @param node TSNode
 --- @param queries { [string]: vim.treesitter.Query }
 --- @param captures string[]
@@ -27,10 +25,12 @@ end
 --- @param captures string[]
 --- @return TSNode?
 local function get_node_captured(node, queries, captures)
+  local node_row, node_col = node:range()
   --- @type TSNode?
   local n = node
   while n do
-    if get_capture(n, queries, captures) ~= nil then
+    local n_row, n_col = n:range()
+    if get_capture(n, queries, captures) ~= nil and node_row == n_row and node_col == n_col then
       return n
     end
     n = n:parent()
@@ -145,7 +145,8 @@ local function get_sibling(opts, dir, predicate)
 
   local queries = opts and prepare_queries(opts.query_files, node) or {}
 
-  local curr = T.if_else(opts, opts and get_node_captured(node, queries, opts.captures), node)
+  --- @type TSNode?
+  local curr = opts and get_node_captured(node, queries, opts.captures) or node
   local parent = curr and curr:parent()
   while parent do
     while curr do
@@ -168,7 +169,7 @@ local function get_sibling(opts, dir, predicate)
         error('Unknown option: ' .. tostring(dir))
       end
     end
-    curr = T.if_else(opts, opts and get_node_captured(parent, queries, opts.captures), parent)
+    curr = opts and get_node_captured(parent, queries, opts.captures) or parent
     parent = curr and curr:parent()
   end
 end
