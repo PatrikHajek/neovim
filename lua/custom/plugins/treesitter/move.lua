@@ -1,17 +1,19 @@
 local M = {}
 
 --- @param node TSNode
---- @param query vim.treesitter.Query
+--- @param queries { [string]: vim.treesitter.Query }
 --- @param captures string[]
 --- @return string | nil capture The first capture from captures that is queried or nil.
-local function get_capture(node, query, captures)
+local function get_capture(node, queries, captures)
   local n_row = node:range()
 
-  for id, matched_node in query:iter_captures(node, 0) do
-    local capture = query.captures[id]
-    local m_row = matched_node:range()
-    if vim.list_contains(captures, capture) and n_row == m_row then
-      return capture
+  for _, query in pairs(queries) do
+    for id, matched_node in query:iter_captures(node, 0) do
+      local capture = query.captures[id]
+      local m_row = matched_node:range()
+      if vim.list_contains(captures, capture) and n_row == m_row then
+        return capture
+      end
     end
   end
 
@@ -67,10 +69,8 @@ local function get_enclosing(opts, predicate)
   while curr do
     if predicate(curr, node) then
       if opts then
-        for _, query in pairs(queries) do
-          if get_capture(curr, query, opts.captures) ~= nil then
-            return curr
-          end
+        if get_capture(curr, queries, opts.captures) ~= nil then
+          return curr
         end
       else
         return curr
@@ -136,10 +136,8 @@ local function get_sibling(opts, dir, predicate)
       -- "block" nodes start on the first line in the block and interfering with the real siblings.
       if curr:type() ~= 'block' and curr:parent() == parent and predicate(curr, node) then
         if opts then
-          for _, query in pairs(queries) do
-            if get_capture(curr, query, opts.captures) ~= nil then
-              return curr
-            end
+          if get_capture(curr, queries, opts.captures) ~= nil then
+            return curr
           end
         else
           return curr
