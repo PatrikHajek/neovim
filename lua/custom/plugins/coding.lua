@@ -24,6 +24,20 @@ vim.keymap.set({ 'x', 'o' }, 'in_', '<ESC>m0g_v`0', { remap = true, desc = 'up t
 
 return {
   {
+    'folke/which-key.nvim',
+    init = function()
+      require('which-key').add {
+        { ']', group = 'Go to next textobject' },
+        { '[', group = 'Go to previous textobject' },
+        { '^', group = 'Go to enclosing textobject' },
+        { ']g', group = 'Less used' },
+        { '[g', group = 'Less used' },
+        { '^g', group = 'Less used' },
+      }
+    end,
+  },
+
+  {
     'kiyoon/repeatable-move.nvim',
     init = function()
       local repeat_move = require 'repeatable_move'
@@ -164,15 +178,6 @@ return {
       vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T_expr, { expr = true })
 
       -- [[ Textobjects ]]
-      require('which-key').add {
-        { ']', group = 'Go to next textobject' },
-        { '[', group = 'Go to previous textobject' },
-        { '^', group = 'Go to enclosing textobject' },
-        { ']g', group = 'Less used' },
-        { '[g', group = 'Less used' },
-        { '^g', group = 'Less used' },
-      }
-
       --- @param textobject string
       --- @param key_start string | false
       --- @param key_end string | false
