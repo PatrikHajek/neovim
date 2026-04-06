@@ -352,7 +352,26 @@ return {
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     config = function()
-      require('mini.ai').setup {
+      local ai = require 'mini.ai'
+
+      --- @param textobject string
+      --- @param fallback fun()
+      local function treesitter_with_fallback(textobject, fallback)
+        return function(ai_type)
+          local ts_spec = ai.gen_spec.treesitter {
+            a = '@' .. textobject .. '.outer',
+            i = '@' .. textobject .. '.inner',
+          }
+          local ok, ts_match = pcall(ts_spec, ai_type)
+          if ok and ts_match then
+            return ts_match
+          else
+            return fallback()
+          end
+        end
+      end
+
+      ai.setup {
         n_lines = 500,
         search_method = 'cover',
         custom_textobjects = {
@@ -364,6 +383,7 @@ return {
           ['c'] = false,
           ['='] = false,
           ['_'] = false,
+          ['f'] = treesitter_with_fallback('call', ai.gen_spec.function_call),
         },
       }
 
