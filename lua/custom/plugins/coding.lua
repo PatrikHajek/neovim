@@ -296,11 +296,11 @@ return {
         },
       }
       vim.keymap.set({ 'n', 'x', 'o' }, ')', function()
-        vim.cmd 'normal! m`'
+        vim.cmd 'normal! m`_'
         require('custom.plugins.treesitter.move').goto_sibling_next_start(opts)
       end, { desc = 'Go to next block in the same depth' })
       vim.keymap.set({ 'n', 'x', 'o' }, '(', function()
-        vim.cmd 'normal! m`'
+        vim.cmd 'normal! m`_'
         require('custom.plugins.treesitter.move').goto_sibling_prev_start(opts)
       end, { desc = 'Go to previous block in the same depth' })
 
