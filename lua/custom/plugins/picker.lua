@@ -239,6 +239,7 @@ return {
         { kind = 'tag', name = 'tag' },
         { kind = 'tag.attribute', name = 'attribute' },
         { kind = 'string.regexp', name = 'regexp', chars = 100 },
+        { kind = 'string', name = 'string', chars = 120 },
         { kind = 'comment', name = 'comment', chars = 200 },
         { kind = 'comment.documentation', name = 'documentation', chars = 190 },
       }
