@@ -384,6 +384,7 @@ return {
           ['='] = false,
           ['_'] = false,
           ['f'] = treesitter_with_fallback('call', ai.gen_spec.function_call),
+          ['a'] = treesitter_with_fallback('parameter', ai.gen_spec.argument),
         },
       }
 
