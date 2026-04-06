@@ -278,8 +278,9 @@ return {
       end, { desc = 'Enclosing parent end' })
 
       local opts = {
-        query_files = { 'locals', 'textobjects', 'highlights' },
+        query_files = { 'locals', 'textobjects', 'highlights', 'indents' },
         captures = {
+          'indent.begin',
           'local.definition.import',
           'keyword.import',
           'block.outer',
