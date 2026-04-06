@@ -352,6 +352,7 @@ return {
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
     dependencies = {
+      'kiyoon/repeatable-move.nvim',
       'nvim-treesitter/nvim-treesitter',
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
