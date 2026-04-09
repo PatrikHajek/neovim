@@ -33,6 +33,8 @@ return {
         { ']g', group = 'Less used' },
         { '[g', group = 'Less used' },
         { '^g', group = 'Less used' },
+        { '<leader>]', group = 'Swap with next textobject' },
+        { '<leader>[', group = 'Swap with previous textobject' },
       }
     end,
   },
