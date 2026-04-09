@@ -274,6 +274,19 @@ return {
         end
       end
 
+      --- @param textobject_next string
+      --- @param textobject_prev string
+      --- @param key string
+      --- @param name string
+      local function map_swap(textobject_next, textobject_prev, key, name)
+        vim.keymap.set('n', '<leader>]' .. key, function()
+          require('nvim-treesitter-textobjects.swap').swap_next('@' .. textobject_next)
+        end, { desc = name })
+        vim.keymap.set('n', '<leader>[' .. key, function()
+          require('nvim-treesitter-textobjects.swap').swap_previous('@' .. textobject_prev)
+        end, { desc = name })
+      end
+
       local move = require 'custom.plugins.treesitter.move'
       vim.keymap.set({ 'n', 'x', 'o' }, '-', function()
         move.goto_enclosing_start()
@@ -345,6 +358,7 @@ return {
       map('list_item.unchecked', 'gu', false, false, false, 'gu', 'gU', { name = 'markdown list item unchecked' })
 
       map('attribute', 'x', 'X', 'x', 'x')
+      map_swap('attribute.outer', 'attribute.outer', 'x', 'attribute')
 
       -- [[ Swap ]]
       vim.keymap.set('n', '<leader>ta', function()
