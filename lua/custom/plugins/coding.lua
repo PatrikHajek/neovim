@@ -476,6 +476,7 @@ return {
       map('"', '"s', '"e', '" start', '" end')
       map('`', '`s', '`e', '` start', '` end')
 
+      vim.keymap.set({ 'x', 'o' }, 'agn', require('mini.comment').textobject, { desc = 'comment' })
       vim.keymap.set({ 'x', 'o' }, 'ign', require('mini.comment').textobject, { desc = 'comment' })
 
       local statusline = require 'mini.statusline'
