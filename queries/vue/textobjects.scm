@@ -1,7 +1,12 @@
-;; extends
+;; inherits: html
 
-[
-  (script_element)
-  (template_element)
-  (style_element)
-] @function.outer
+(template_element) @function.outer
+
+(template_element
+  (start_tag)
+  .
+  (_) @function.inner
+  .
+  (end_tag))
+
+(directive_attribute) @attribute.outer

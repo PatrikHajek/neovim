@@ -344,6 +344,8 @@ return {
       map('list_item', 'gl', 'gL', 'gl', 'gl', 'gl', 'gL', { name = 'markdown list item' })
       map('list_item.unchecked', 'gu', false, false, false, 'gu', 'gU', { name = 'markdown list item unchecked' })
 
+      map('attribute', 'x', 'X', 'x', 'x')
+
       -- [[ Swap ]]
       vim.keymap.set('n', '<leader>ta', function()
         require('nvim-treesitter-textobjects.swap').swap_next '@parameter.inner'
