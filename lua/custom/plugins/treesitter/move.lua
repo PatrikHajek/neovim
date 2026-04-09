@@ -103,12 +103,28 @@ M.goto_enclosing_start = function(opts)
     local cursor = vim.api.nvim_win_get_cursor(0)[1]
     local c_row = curr:range()
     -- "block" nodes start on the first line in the block and are masking the real parent.
-    return curr:type() ~= 'block' and cursor ~= c_row + 1
+    return curr:type() ~= 'block' and (cursor ~= c_row + 1 or curr:parent() == nil)
   end)
   if node then
+    local cursor_row = vim.api.nvim_win_get_cursor(0)[1]
     local row, col = node:range()
     vim.cmd 'normal! m`'
     vim.api.nvim_win_set_cursor(0, { row + 1, col })
+
+    -- The following code ensures that you can get out of injected trees using enclosing nav.
+
+    -- Is at the top of the tree (injected or not).
+    if node:parent() == nil and cursor_row == row + 1 then
+      local cursor_col = vim.api.nvim_win_get_cursor(0)[2]
+      local line = vim.api.nvim_get_current_line()
+      local char_col = line:sub(1, cursor_col):find '(%S)%s*$' or cursor_col + 1
+      char_col = char_col - 1
+      vim.api.nvim_win_set_cursor(0, { cursor_row, char_col })
+
+      if cursor_col == char_col then
+        vim.cmd 'normal! k'
+      end
+    end
   end
 end
 
@@ -117,13 +133,27 @@ M.goto_enclosing_end = function(opts)
   local node = get_enclosing(opts, function(curr)
     local cursor = vim.api.nvim_win_get_cursor(0)[1]
     local _, _, c_row = curr:range()
-    return cursor ~= c_row + 1
+    return cursor ~= c_row + 1 or curr:parent() == nil
   end)
   if node then
+    local cursor_row = vim.api.nvim_win_get_cursor(0)[1]
     local _, _, row, col = node:range()
     vim.cmd 'normal! m`'
     local line_count = vim.api.nvim_buf_line_count(0)
-    vim.api.nvim_win_set_cursor(0, { math.min(line_count, row + 1), math.max(0, col - 1) })
+    row = math.min(line_count - 1, row)
+    vim.api.nvim_win_set_cursor(0, { row + 1, math.max(0, col - 1) })
+
+    -- The following code ensures that you can get out of injected trees using enclosing nav.
+
+    -- Is at the top of the tree (injected or not).
+    if node:parent() == nil and cursor_row == row + 1 then
+      local cursor_col = vim.api.nvim_win_get_cursor(0)[2]
+      local line = vim.api.nvim_get_current_line()
+      local char_col = line:sub(cursor_col + 2):find '^%s*(%S)' or 1
+      -- Adding 1 to not end up on the end of root node.
+      char_col = cursor_col + char_col + 1
+      vim.api.nvim_win_set_cursor(0, { cursor_row, char_col })
+    end
   end
 end
 
