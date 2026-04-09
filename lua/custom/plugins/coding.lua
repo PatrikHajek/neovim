@@ -335,6 +335,7 @@ return {
       map('call', 'f', 'F', false, false, 'f', 'F')
 
       map('parameter', 'a', 'A', false, false)
+      map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
 
       map('return', 'gr', 'gR', 'gr', 'gr')
 
@@ -359,14 +360,6 @@ return {
 
       map('attribute', 'x', 'X', 'x', 'x')
       map_swap('attribute.outer', 'attribute.outer', 'x', 'attribute')
-
-      -- [[ Swap ]]
-      vim.keymap.set('n', '<leader>ta', function()
-        require('nvim-treesitter-textobjects.swap').swap_next '@parameter.inner'
-      end, { desc = 'Swap parameter with the next one' })
-      vim.keymap.set('n', '<leader>tA', function()
-        require('nvim-treesitter-textobjects.swap').swap_previous '@parameter.outer'
-      end, { desc = 'Swap parameter with the previous one' })
     end,
   },
 
