@@ -1,6 +1,6 @@
 -- To make these keymaps less disorienting when zoomed in.
-vim.keymap.set({ 'n', 'x' }, '<C-d>', '5j')
-vim.keymap.set({ 'n', 'x' }, '<C-u>', '5k')
+vim.keymap.set({ 'n', 'x' }, '<C-d>', '10j')
+vim.keymap.set({ 'n', 'x' }, '<C-u>', '10k')
 
 vim.keymap.set('x', '>', '>gv')
 vim.keymap.set('x', '<', '<gv')
