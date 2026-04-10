@@ -45,11 +45,14 @@ local M = {}
 
 -- [[ Implementation ]]
 
---- @param opts { bufnr: integer, displayer: fun(items: (string | [string, string])[]) }
+--- @param opts { bufnr: integer, displayer: fun(items: (string | [string, string])[]),
+--- padding: integer }
 local function make_entry(opts)
   --- @param entry picker.treesitter.Entry
   return function(entry)
     local icon = entry.capture.name:sub(1, 1):upper()
+
+    local padding = ('\1'):rep(opts.padding - #entry.capture.name - #tostring(entry.lnum) - #tostring(entry.col))
 
     local text = entry.text
     if entry.capture.chars then
@@ -64,7 +67,7 @@ local function make_entry(opts)
     end
 
     return {
-      ordinal = ('%s %s %i:%i'):format(entry.capture.name, text, entry.lnum, entry.col),
+      ordinal = ('%s %s %i:%i %s'):format(entry.capture.name, text, entry.lnum, entry.col, padding),
       lnum = entry.lnum,
       col = entry.col,
       filename = vim.api.nvim_buf_get_name(opts.bufnr),
@@ -268,13 +271,14 @@ M.treesitter = function(opts)
   }
 
   local telescope_opts = {}
+  local padding = cord_width + kind_width
 
   telescope_pickers
     .new(telescope_opts, {
       prompt_title = 'Treesitter',
       finder = telescope_finders.new_table {
         results = results,
-        entry_maker = make_entry { bufnr = bufnr, displayer = displayer },
+        entry_maker = make_entry { bufnr = bufnr, displayer = displayer, padding = padding },
       },
       sorter = telescope_extensions.fzf.native_fzf_sorter(),
       previewer = telescope_config.qflist_previewer(telescope_opts),
