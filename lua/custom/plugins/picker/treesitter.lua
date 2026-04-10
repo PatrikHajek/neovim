@@ -53,9 +53,10 @@ local function make_entry(bufnr, displayer, padding_length)
   return function(entry)
     local icon = entry.capture.name:sub(1, 1):upper()
 
-    local padding = ('\1'):rep(padding_length - #entry.capture.name - #tostring(entry.lnum) - #tostring(entry.col))
+    PADDING_CHAR = '\1'
+    local padding = PADDING_CHAR:rep(padding_length - #entry.capture.name - #tostring(entry.lnum) - #tostring(entry.col))
     if entry.capture.chars then
-      padding = padding .. ('\1'):rep(entry.capture.chars)
+      padding = padding .. PADDING_CHAR:rep(entry.capture.chars)
     end
 
     local cord = entry.lnum .. ':' .. entry.col
