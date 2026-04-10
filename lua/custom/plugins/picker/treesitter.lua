@@ -54,10 +54,8 @@ local function make_entry(bufnr, displayer, padding_length)
     local icon = entry.capture.name:sub(1, 1):upper()
 
     local padding = ('\1'):rep(padding_length - #entry.capture.name - #tostring(entry.lnum) - #tostring(entry.col))
-
-    local text = entry.text
     if entry.capture.chars then
-      text = text .. ('\1'):rep(entry.capture.chars)
+      padding = padding .. ('\1'):rep(entry.capture.chars)
     end
 
     local cord = entry.lnum .. ':' .. entry.col
@@ -68,7 +66,7 @@ local function make_entry(bufnr, displayer, padding_length)
     end
 
     return {
-      ordinal = ('%s %s %s %s'):format(entry.capture.name, text, cord, padding),
+      ordinal = ('%s %s %s %s'):format(entry.capture.name, entry.text, cord, padding),
       lnum = entry.lnum,
       col = entry.col,
       filename = vim.api.nvim_buf_get_name(bufnr),
