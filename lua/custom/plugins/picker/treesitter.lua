@@ -45,14 +45,15 @@ local M = {}
 
 -- [[ Implementation ]]
 
---- @param opts { bufnr: integer, displayer: fun(items: (string | [string, string])[]),
---- padding: integer }
-local function make_entry(opts)
+--- @param bufnr integer
+--- @param displayer fun(items: (string | [string, string])[])
+--- @param padding_length integer
+local function make_entry(bufnr, displayer, padding_length)
   --- @param entry picker.treesitter.Entry
   return function(entry)
     local icon = entry.capture.name:sub(1, 1):upper()
 
-    local padding = ('\1'):rep(opts.padding - #entry.capture.name - #tostring(entry.lnum) - #tostring(entry.col))
+    local padding = ('\1'):rep(padding_length - #entry.capture.name - #tostring(entry.lnum) - #tostring(entry.col))
 
     local text = entry.text
     if entry.capture.chars then
@@ -70,7 +71,7 @@ local function make_entry(opts)
       ordinal = ('%s %s %i:%i %s'):format(entry.capture.name, text, entry.lnum, entry.col, padding),
       lnum = entry.lnum,
       col = entry.col,
-      filename = vim.api.nvim_buf_get_name(opts.bufnr),
+      filename = vim.api.nvim_buf_get_name(bufnr),
 
       icon = icon,
       text = entry.text,
@@ -78,7 +79,7 @@ local function make_entry(opts)
       kind = entry.capture.name,
       hl = hl,
       display = function(ent)
-        return opts.displayer {
+        return displayer {
           { ent.icon, ent.hl },
           ent.text,
           ent.cord,
@@ -278,7 +279,7 @@ M.treesitter = function(opts)
       prompt_title = 'Treesitter',
       finder = telescope_finders.new_table {
         results = results,
-        entry_maker = make_entry { bufnr = bufnr, displayer = displayer, padding = padding },
+        entry_maker = make_entry(bufnr, displayer, padding),
       },
       sorter = telescope_extensions.fzf.native_fzf_sorter(),
       previewer = telescope_config.qflist_previewer(telescope_opts),
