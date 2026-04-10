@@ -68,7 +68,7 @@ local function make_entry(bufnr, displayer, padding_length)
     end
 
     return {
-      ordinal = ('%s %s %i:%i %s'):format(entry.capture.name, text, entry.lnum, entry.col, padding),
+      ordinal = ('%s %s %s %s'):format(entry.capture.name, text, cord, padding),
       lnum = entry.lnum,
       col = entry.col,
       filename = vim.api.nvim_buf_get_name(bufnr),
