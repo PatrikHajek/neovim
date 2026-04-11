@@ -265,14 +265,18 @@ return {
           local enclosing_start = ts_repeat_move.make_repeatable_move(function()
             move.goto_enclosing_start { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } }
           end)
-          vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_start, enclosing_start, { desc = 'Enclosing ' .. opts.name .. ' start' })
+          vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_start, function()
+            enclosing_start { forward = true }
+          end, { desc = 'Enclosing ' .. opts.name .. ' start' })
         end
 
         if key_enclosing_end then
           local enclosing_end = ts_repeat_move.make_repeatable_move(function()
             move.goto_enclosing_end { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } }
           end)
-          vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_end, enclosing_end, { desc = 'Enclosing ' .. opts.name .. ' end' })
+          vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_end, function()
+            enclosing_end { forward = true }
+          end, { desc = 'Enclosing ' .. opts.name .. ' end' })
         end
       end
 
@@ -444,13 +448,17 @@ return {
           vim.cmd 'normal! m`'
           require('mini.ai').move_cursor('left', 'a', textobject, { search_method = 'cover' })
         end)
-        vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_start, goto_enclosing_start, { desc = 'Enclosing ' .. (start_name or key_start) })
+        vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_start, function()
+          goto_enclosing_start { forward = true }
+        end, { desc = 'Enclosing ' .. (start_name or key_start) })
 
         local goto_enclosing_end = ts_repeat.make_repeatable_move(function()
           vim.cmd 'normal! m`'
           require('mini.ai').move_cursor('right', 'a', textobject, { search_method = 'cover' })
         end)
-        vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_end, goto_enclosing_end, { desc = 'Enclosing ' .. (end_name or key_end) })
+        vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_end, function()
+          goto_enclosing_end { forward = true }
+        end, { desc = 'Enclosing ' .. (end_name or key_end) })
       end
 
       vim.api.nvim_create_autocmd('FileType', {
