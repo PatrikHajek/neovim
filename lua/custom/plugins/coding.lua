@@ -308,6 +308,7 @@ return {
           'class.outer',
           'function.outer',
           'call.outer',
+          'parameter.inner',
           'local.definition.var',
           'assignment.outer',
           -- Prisma.
