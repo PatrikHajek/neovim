@@ -262,20 +262,20 @@ return {
         end
 
         if key_enclosing_start then
-          local enclosing_start = ts_repeat_move.make_repeatable_move(function()
+          local goto_enclosing_start = ts_repeat_move.make_repeatable_move(function()
             move.goto_enclosing_start { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } }
           end)
           vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_start, function()
-            enclosing_start { forward = true }
+            goto_enclosing_start { forward = true }
           end, { desc = 'Enclosing ' .. opts.name .. ' start' })
         end
 
         if key_enclosing_end then
-          local enclosing_end = ts_repeat_move.make_repeatable_move(function()
+          local goto_enclosing_end = ts_repeat_move.make_repeatable_move(function()
             move.goto_enclosing_end { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } }
           end)
           vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_end, function()
-            enclosing_end { forward = true }
+            goto_enclosing_end { forward = true }
           end, { desc = 'Enclosing ' .. opts.name .. ' end' })
         end
       end
