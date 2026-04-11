@@ -5,13 +5,10 @@ local M = {}
 --- @param captures string[]
 --- @return string | nil capture The first capture from captures that is queried or nil.
 local function get_capture(node, queries, captures)
-  local n_row, n_col = node:range()
-
   for _, query in pairs(queries) do
     for id, matched_node in query:iter_captures(node, 0) do
       local capture = query.captures[id]
-      local m_row, m_col = matched_node:range()
-      if vim.list_contains(captures, capture) and n_row == m_row and n_col == m_col then
+      if vim.list_contains(captures, capture) and matched_node == node then
         return capture
       end
     end
