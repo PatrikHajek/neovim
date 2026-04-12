@@ -315,6 +315,7 @@ return {
           'parameter.inner',
           'local.definition.var',
           'assignment.outer',
+          'attribute.outer',
           -- Prisma.
           'keyword',
           'keyword.type',
