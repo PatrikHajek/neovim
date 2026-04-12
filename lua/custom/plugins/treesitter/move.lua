@@ -194,23 +194,25 @@ local function get_sibling(opts, dir, predicate)
   local parent = curr and curr:parent()
   while parent do
     while curr do
-      -- "block" nodes start on the first line in the block and interfering with the real siblings.
-      if curr:type() ~= 'block' and predicate(curr, node) then
-        if opts then
-          if get_capture(curr, queries, opts.captures) ~= nil and (not opts.ignored or get_capture(curr, queries, opts.ignored) == nil) then
-            return curr
-          end
-        else
-          return curr
-        end
-      end
-
       if dir == 'next' then
         curr = curr:next_named_sibling()
       elseif dir == 'prev' then
         curr = curr:prev_named_sibling()
       else
         error('Unknown option: ' .. tostring(dir))
+      end
+
+      if curr then
+        -- "block" nodes start on the first line in the block and interfering with the real siblings.
+        if curr:type() ~= 'block' and predicate(curr, node) then
+          if opts then
+            if get_capture(curr, queries, opts.captures) ~= nil and (not opts.ignored or get_capture(curr, queries, opts.ignored) == nil) then
+              return curr
+            end
+          else
+            return curr
+          end
+        end
       end
     end
     curr = opts and get_node_captured(parent, queries, opts.captures) or parent
@@ -226,10 +228,8 @@ M.goto_sibling_next_start = function(opts)
     return
   end
 
-  local node = get_sibling(opts, 'next', function(curr)
-    local cursor = vim.api.nvim_win_get_cursor(0)[1]
-    local c_row = curr:range()
-    return cursor < c_row + 1
+  local node = get_sibling(opts, 'next', function()
+    return true
   end)
   if node then
     local row, col = node:range()
@@ -246,10 +246,8 @@ M.goto_sibling_prev_start = function(opts)
     return
   end
 
-  local node = get_sibling(opts, 'prev', function(curr)
-    local cursor = vim.api.nvim_win_get_cursor(0)[1]
-    local c_row = curr:range()
-    return cursor > c_row + 1
+  local node = get_sibling(opts, 'prev', function()
+    return true
   end)
   if node then
     local row, col = node:range()
