@@ -319,6 +319,7 @@ return {
           'keyword',
           'keyword.type',
         },
+        ignored = { 'comment' },
       }
       vim.keymap.set({ 'n', 'x', 'o' }, ')', function()
         vim.cmd 'normal! m`_'

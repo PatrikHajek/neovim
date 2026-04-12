@@ -166,13 +166,18 @@ M.goto_enclosing_end = function(opts)
   end
 end
 
+--- @class treesitter_get_sibling_opts
+--- @field query_files string[]
+--- @field captures string[]
+--- @field ignored string[]?
+
 --- Finds the sibling where `predicate` is true. If no direct sibling exists, goes up to the parent
 --- and uses it's sibling. Repeats this until it finds a sibling or reaches the root, in which case
 --- it returns nil.
 ---
 --- Ignores siblings that don't match the `captures`. If `opts` is omitted, any siblings passes.
 ---
---- @param opts treesitter_get_enclosing_opts?
+--- @param opts treesitter_get_sibling_opts?
 --- @param dir "next" | "prev"
 --- @param predicate fun(curr: TSNode, init: TSNode): boolean
 --- @return TSNode | nil
@@ -192,7 +197,7 @@ local function get_sibling(opts, dir, predicate)
       -- "block" nodes start on the first line in the block and interfering with the real siblings.
       if curr:type() ~= 'block' and predicate(curr, node) then
         if opts then
-          if get_capture(curr, queries, opts.captures) ~= nil then
+          if get_capture(curr, queries, opts.captures) ~= nil and (not opts.ignored or get_capture(curr, queries, opts.ignored) == nil) then
             return curr
           end
         else
@@ -213,7 +218,7 @@ local function get_sibling(opts, dir, predicate)
   end
 end
 
---- @param opts treesitter_get_enclosing_opts?
+--- @param opts treesitter_get_sibling_opts?
 M.goto_sibling_next_start = function(opts)
   local node_cursor = vim.treesitter.get_node { ignore_injections = false }
   if not node_cursor or not node_cursor:parent() then
@@ -233,7 +238,7 @@ M.goto_sibling_next_start = function(opts)
   end
 end
 
---- @param opts treesitter_get_enclosing_opts?
+--- @param opts treesitter_get_sibling_opts?
 M.goto_sibling_prev_start = function(opts)
   local node_cursor = vim.treesitter.get_node { ignore_injections = false }
   if not node_cursor or not node_cursor:parent() then
