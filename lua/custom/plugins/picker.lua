@@ -216,7 +216,7 @@ return {
         { kind = 'local.definition.import', name = 'import', hl = '@keyword.import', chars = 100 },
         { kind = 'keyword.import', name = 'import', chars = 100, text = 'full', filters = { 'include', js_filters } },
         { kind = 'module', name = 'module', filters = { 'exclude', { luadoc = true } } },
-        { kind = 'class.outer', name = 'type', hl = '@type', chars = 4 },
+        { kind = 'class.outer', name = 'type', hl = '@type', chars = 1 },
         { kind = 'comment', name = 'type', hl = '@type', text = 'full', filters = { 'include', { lua = lua_filter_type } } },
         { kind = 'keyword', name = 'type', hl = '@type', text = 'full', filters = { 'include', { prisma = prisma_filter_model } } },
         { kind = 'function', name = 'function' },
