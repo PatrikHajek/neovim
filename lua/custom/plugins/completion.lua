@@ -149,6 +149,11 @@ return {
           i(2),
           t { '', '</template>' },
         }),
+        s('vstyle', {
+          t { '<style scoped>', '' },
+          i(1),
+          t { '', '</style>' },
+        }),
       })
     end,
   },
