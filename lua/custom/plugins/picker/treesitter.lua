@@ -111,8 +111,7 @@ M.treesitter = function(opts)
   end
 
   local bufnr = vim.api.nvim_get_current_buf()
-  local ft = vim.bo[bufnr].filetype
-  local parser = vim.treesitter.get_parser(bufnr, ft)
+  local parser = vim.treesitter.get_parser(bufnr)
   if not parser then
     return
   end
