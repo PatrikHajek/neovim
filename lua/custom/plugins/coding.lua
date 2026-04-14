@@ -5,7 +5,7 @@ vim.keymap.set({ 'n', 'x' }, '<C-u>', '10k')
 vim.keymap.set('x', '>', '>gv')
 vim.keymap.set('x', '<', '<gv')
 
-vim.keymap.set({ 'x', 'o' }, 'i_', function()
+vim.keymap.set({ 'x', 'o' }, 'iv', function()
   vim.cmd 'normal! \27'
   local is_fugitive = require('custom.utils').is_fugitive()
   local line = vim.api.nvim_get_current_line()
@@ -19,8 +19,8 @@ vim.keymap.set({ 'x', 'o' }, 'i_', function()
     vim.api.nvim_command 'normal g_v_'
   end
 end, { desc = 'inner line' })
-vim.keymap.set({ 'x', 'o' }, 'il_', '<ESC>m0_v`0', { remap = true, desc = 'up to the start of line' })
-vim.keymap.set({ 'x', 'o' }, 'in_', '<ESC>m0g_v`0', { remap = true, desc = 'up to the end of line' })
+vim.keymap.set({ 'x', 'o' }, 'ilv', '<ESC>m0_v`0', { remap = true, desc = 'up to the start of line' })
+vim.keymap.set({ 'x', 'o' }, 'inv', '<ESC>m0g_v`0', { remap = true, desc = 'up to the end of line' })
 
 return {
   {
