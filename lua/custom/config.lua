@@ -346,6 +346,10 @@ local function get_servers()
     jdtls = {},
     pyright = {},
     rust_analyzer = {},
+    zls = {
+      enable_build_on_save = true,
+      build_on_save_step = 'check',
+    },
   }
 end
 
