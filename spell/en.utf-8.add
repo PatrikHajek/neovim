@@ -657,3 +657,9 @@ disambiguated
 providable
 zig
 allocator
+monomorphization
+monomorphized
+64-bit
+unnestable
+noop
+inferee
