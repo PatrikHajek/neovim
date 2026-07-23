@@ -58,15 +58,13 @@ vim.opt.termguicolors = true
 
 -- [[ Keymaps ]]
 
--- better default experience
-vim.keymap.set('x', 'p', '"_dP')
-vim.keymap.set('x', '"+p', '"_d"+P')
-vim.keymap.set({ 'n', 'v' }, 'd', '"_d')
-vim.keymap.set({ 'n', 'v' }, 'c', '"_c')
-vim.keymap.set('n', 's', '"_s')
-vim.keymap.set({ 'n', 'v' }, 'D', '"_D')
-vim.keymap.set({ 'n', 'v' }, 'C', '"_C')
-vim.keymap.set('n', 'S', '"_S')
+-- Better pasting behavior.
+vim.keymap.set('n', 'p', '"0p')
+vim.keymap.set('x', 'p', '"0P') -- `P` in select mode doesn't overwrite default register on paste
+vim.keymap.set('x', '"+p', '"+P')
+vim.keymap.set({ 'n', 'x' }, 'P', '"0P')
+vim.keymap.set({ 'n', 'x' }, '<leader>p', '""p', { desc = 'Paste register of last command' })
+vim.keymap.set({ 'n', 'x' }, '<leader>P', '""P', { desc = 'Paste register of last command' })
 
 vim.keymap.set({ 'n', 'x', 'o' }, '_', '^')
 
