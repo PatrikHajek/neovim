@@ -59,10 +59,18 @@ vim.opt.termguicolors = true
 -- [[ Keymaps ]]
 
 -- Better pasting behavior.
-vim.keymap.set('n', 'p', '"0p')
-vim.keymap.set('x', 'p', '"0P') -- `P` in select mode doesn't overwrite default register on paste
-vim.keymap.set('x', '"+p', '"+P')
-vim.keymap.set({ 'n', 'x' }, 'P', '"0P')
+--- Pastes last yank instead of default register, otherwise pastes from the specified one.
+local function smart_paste(cmd)
+  return function()
+    if vim.v.register == '"' then
+      return '"0' .. cmd
+    else
+      return cmd
+    end
+  end
+end
+vim.keymap.set({ 'n', 'x' }, 'p', smart_paste 'p', { expr = true })
+vim.keymap.set({ 'n', 'x' }, 'P', smart_paste 'P', { expr = true })
 vim.keymap.set({ 'n', 'x' }, '<leader>p', '""p', { desc = 'Paste register of last command' })
 vim.keymap.set({ 'n', 'x' }, '<leader>P', '""P', { desc = 'Paste register of last command' })
 
