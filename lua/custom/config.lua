@@ -69,6 +69,7 @@ local function smart_paste(cmd)
     end
   end
 end
+vim.keymap.set({ 'n', 'x' }, 'x', '"0x')
 vim.keymap.set({ 'n', 'x' }, 'p', smart_paste 'p', { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'P', smart_paste 'P', { expr = true })
 vim.keymap.set({ 'n', 'x' }, '<leader>p', '""p', { desc = 'Paste register of last command' })
