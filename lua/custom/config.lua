@@ -60,18 +60,20 @@ vim.opt.termguicolors = true
 
 -- Better pasting behavior.
 --- Pastes last yank instead of default register, otherwise pastes from the specified one.
-local function smart_paste(cmd)
+--- @param cmd string
+--- @param overrides { [string]: string }[] Replace register (key) with register (value).
+local function smart_register_action(cmd, overrides)
   return function()
-    if vim.v.register == '"' then
-      return '"0' .. cmd
+    if overrides[vim.v.register] then
+      return overrides[vim.v.register] .. cmd
     else
       return cmd
     end
   end
 end
-vim.keymap.set({ 'n', 'x' }, 'x', '"0x')
-vim.keymap.set({ 'n', 'x' }, 'p', smart_paste 'p', { expr = true })
-vim.keymap.set({ 'n', 'x' }, 'P', smart_paste 'P', { expr = true })
+vim.keymap.set({ 'n', 'x' }, 'x', smart_register_action('x', { ['"'] = '"0' }), { expr = true })
+vim.keymap.set({ 'n', 'x' }, 'p', smart_register_action('p', { ['"'] = '"0' }), { expr = true })
+vim.keymap.set({ 'n', 'x' }, 'P', smart_register_action('P', { ['"'] = '"0' }), { expr = true })
 vim.keymap.set({ 'n', 'x' }, '<leader>p', '""p', { desc = 'Paste register of last command' })
 vim.keymap.set({ 'n', 'x' }, '<leader>P', '""P', { desc = 'Paste register of last command' })
 
