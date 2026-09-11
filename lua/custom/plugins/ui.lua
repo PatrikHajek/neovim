@@ -18,6 +18,7 @@ return {
           -- #516c56 corresponds to the 20% mark between #43554d (GitsignsAddInline) and #89CA78
           -- (@string).
           GitsignsAddInline = { bg = '#516c56' },
+          GitsignsChangeInline = { bg = '#516c56' },
 
           ['@markup.list.checked.markdown'] = { fg = colors.purple },
           SpellBad = { fg = colors.green },
