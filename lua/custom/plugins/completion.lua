@@ -13,6 +13,7 @@ return {
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
+      'f3fora/cmp-spell',
     },
     config = function()
       -- See `:help cmp`
@@ -91,6 +92,7 @@ return {
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'buffer' },
+          { name = 'spell' },
         },
       }
     end,
