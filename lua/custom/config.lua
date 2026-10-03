@@ -72,6 +72,7 @@ local function smart_register_action(cmd, overrides)
   end
 end
 vim.keymap.set({ 'n', 'x' }, 'x', smart_register_action('x', { ['"'] = '"0' }), { expr = true })
+vim.keymap.set('x', 's', smart_register_action('s', { ['"'] = '"0' }), { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'p', smart_register_action('p', { ['"'] = '"0' }), { expr = true })
 vim.keymap.set({ 'n', 'x' }, 'P', smart_register_action('P', { ['"'] = '"0' }), { expr = true })
 vim.keymap.set({ 'n', 'x' }, '<leader>p', '""p', { desc = 'Paste register of last command' })
