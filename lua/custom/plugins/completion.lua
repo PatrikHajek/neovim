@@ -92,7 +92,7 @@ return {
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'buffer' },
-          { name = 'spell' },
+          { name = 'spell', option = { preselect_correct_word = false } },
         },
       }
     end,
