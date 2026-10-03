@@ -92,7 +92,13 @@ return {
           { name = 'luasnip' },
           { name = 'path' },
           { name = 'buffer' },
-          { name = 'spell', option = { preselect_correct_word = false } },
+          {
+            name = 'spell',
+            entry_filter = function(entry)
+              return not string.find(entry:get_word(), ' ')
+            end,
+            option = { preselect_correct_word = false },
+          },
         },
       }
     end,
