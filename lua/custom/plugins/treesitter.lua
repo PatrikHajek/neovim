@@ -37,6 +37,7 @@ return {
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     init = function()
       vim.keymap.set('n', '<leader>ti', ':InspectTree<CR>')
+      vim.keymap.set('n', '<leader>i', ':Inspect<CR>')
 
       vim.filetype.add { extension = { nobe = 'nobe' } }
     end,
