@@ -2,7 +2,10 @@ return {
   { -- Highlight, edit, and navigate code
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate',
-    main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    -- main = 'nvim-treesitter.configs', -- Sets main module to use for opts
+    dependencies = {
+      { dir = '~/dev/lang/nobe-tree-sitter' },
+    },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
@@ -34,6 +37,23 @@ return {
     --    - Treesitter + textobjects: https://github.com/nvim-treesitter/nvim-treesitter-textobjects
     init = function()
       vim.keymap.set('n', '<leader>ti', ':InspectTree<CR>')
+
+      vim.filetype.add { extension = { nobe = 'nobe' } }
+    end,
+    config = function(_, opts)
+      local parser_config = require('nvim-treesitter.parsers').get_parser_configs()
+
+      -- INFO: Run `:TSInstall nobe` to compile the parser.
+      parser_config.nobe = {
+        install_info = {
+          -- vim.fn.expand is strictly required here for local paths!
+          url = vim.fn.expand '~/dev/lang/nobe-tree-sitter',
+          files = { 'src/parser.c' },
+        },
+        filetype = 'nobe',
+      }
+
+      require('nvim-treesitter.configs').setup(opts)
     end,
   },
 
