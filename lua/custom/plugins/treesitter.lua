@@ -39,6 +39,8 @@ return {
       vim.keymap.set('n', '<leader>ti', ':InspectTree<CR>')
       vim.keymap.set('n', '<leader>i', ':Inspect<CR>')
 
+      vim.filetype.add { pattern = { ['touchegg.conf'] = 'xml' } }
+
       vim.filetype.add { extension = { nobe = 'nobe' } }
     end,
     config = function(_, opts)
