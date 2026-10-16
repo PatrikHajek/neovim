@@ -307,4 +307,30 @@ M.treesitter = function(opts)
     :find()
 end
 
+--- @param groups string[]
+local function dump_ts_captures(groups)
+  local lang = vim.treesitter.language.get_lang(vim.bo.filetype) or vim.bo.filetype
+
+  local grouped_captures = {}
+  for _, group in ipairs(groups) do
+    table.insert(grouped_captures, '\n[[' .. group .. ']]')
+    local query = vim.treesitter.query.get(lang, group)
+    if query then
+      vim.list_extend(grouped_captures, query.captures)
+    end
+  end
+
+  local caps = {}
+  for _, name in ipairs(grouped_captures) do
+    if not vim.list_contains(caps, name) then
+      table.insert(caps, name)
+    end
+  end
+
+  print(vim.fn.join(caps, '\n'))
+end
+vim.keymap.set('n', '<leader>td', function()
+  dump_ts_captures { 'highlights', 'locals', 'folds', 'textobjects', 'injections', 'indents' }
+end)
+
 return M
