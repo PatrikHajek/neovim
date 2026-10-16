@@ -22,6 +22,10 @@ end, { desc = 'inner line' })
 vim.keymap.set({ 'x', 'o' }, 'ilv', '<ESC>m0_v`0', { remap = true, desc = 'up to the start of line' })
 vim.keymap.set({ 'x', 'o' }, 'inv', '<ESC>m0g_v`0', { remap = true, desc = 'up to the end of line' })
 
+-- Free up `t` for the `@class` textobject.
+vim.keymap.set({ 'x', 'o' }, 'agt', 'at', { noremap = true, desc = 'tag block' })
+vim.keymap.set({ 'x', 'o' }, 'igt', 'it', { noremap = true, desc = 'tag block' })
+
 return {
   {
     'folke/which-key.nvim',
@@ -335,7 +339,7 @@ return {
       vim.keymap.set('n', ']z', ']s', { desc = 'Next misspelled word' })
       vim.keymap.set('n', '[z', '[s', { desc = 'Previous misspelled word' })
 
-      map('class', 'gc', 'gC', 'gc', 'gc')
+      map('class', 't', 'T', 't', 't', false, false, { name = 'type (class)' })
 
       map('function', 'm', 'M', 'm', 'm')
 
