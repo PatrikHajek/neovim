@@ -1,3 +1,15 @@
+-- TODO: Add markdown integration. Add some treesitter navigation also. Highlight whole line of
+-- checked todo.
+-- TODO: Update exported or more frequently used function and variable names into big-endian naming.
+-- TODO: Add throw statement into @statement in typescript.
+-- TODO: Extend assignment textobject to work in lua the same way as in ts? Select `local x = 1` the
+-- same way and also add table property selection.
+-- TODO: Think of some better way to save/see all unsaved buffers.
+-- FIX: TODO highlighting in prisma files.
+-- TODO: Highlight model in prisma.
+-- TODO: Create capture for binary expression to select stuff where conditions are: while, for loops
+-- and if conditions. Capture the stuff between logical operators &&, ||, ... also?
+
 -- To make these keymaps less disorienting when zoomed in.
 vim.keymap.set({ 'n', 'x' }, '<C-d>', '10j')
 vim.keymap.set({ 'n', 'x' }, '<C-u>', '10k')
@@ -305,6 +317,10 @@ return {
         move.goto_enclosing_end()
       end, { desc = 'Enclosing parent end' })
 
+      -- TODO: Check out <C-d>/<C-i>/<C-f>, <C-j> in insert mode.
+      -- TODO: Add <C-k> to create new line above and move to it in insert mode.
+      -- TODO: Add markdown captures.
+      -- TODO: Add C# integration.
       local opts = {
         query_files = { 'locals', 'textobjects', 'highlights', 'indents' },
         captures = {
@@ -348,6 +364,7 @@ return {
       map('parameter', 'a', 'A', false, false)
       map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
 
+      -- TODO: Choose better keymap.
       map('return', 'gr', 'gR', 'gr', 'gr')
 
       map('loop', 'o', 'O', 'o', 'o')
@@ -489,9 +506,11 @@ return {
       map('"', '"s', '"e', '" start', '" end')
       map('`', '`s', '`e', '` start', '` end')
 
+      -- TODO: Create comment navigation that works on a comment block.
       vim.keymap.set({ 'x', 'o' }, 'agn', require('mini.comment').textobject, { desc = 'comment' })
       vim.keymap.set({ 'x', 'o' }, 'ign', require('mini.comment').textobject, { desc = 'comment' })
 
+      -- TODO: Move to ui.
       local statusline = require 'mini.statusline'
       statusline.setup { use_icons = vim.g.have_nerd_font }
 
@@ -562,6 +581,7 @@ return {
     end,
   },
 
+  -- TODO: Remove?
   {
     'stevearc/aerial.nvim',
     dependencies = {

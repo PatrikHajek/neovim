@@ -271,10 +271,12 @@ require('lazy').setup({
   -- after the plugin has been loaded:
   --  config = function() ... end
 
+  -- TODO: Move to ui.
   { -- Useful plugin to show you pending keybinds.
     'folke/which-key.nvim',
     event = 'VimEnter', -- Sets the loading event to 'VimEnter'
     opts = {
+      -- TODO: Remove custom definitions, I will always use a nerd font.
       icons = {
         -- set icon mappings to true if you have a Nerd Font
         mappings = vim.g.have_nerd_font,
@@ -313,6 +315,7 @@ require('lazy').setup({
       },
 
       -- Document existing key chains
+      -- TODO: Remove or update.
       spec = {
         { '<leader>c', group = '[C]ode', mode = { 'n', 'x' } },
         { '<leader>d', group = '[D]ocument' },

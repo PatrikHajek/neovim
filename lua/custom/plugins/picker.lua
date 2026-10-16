@@ -111,6 +111,7 @@ return {
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
+      -- TODO: Change to search / register without \v.
       vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
       vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
@@ -202,6 +203,7 @@ return {
 
       local js_filters = { javascript = js_filter_import, typescript = js_filter_import, vue = js_filter_import }
 
+      -- TODO: Remove in favor of defining custom captures.
       local function prisma_filter_model(text)
         local match_col, match_text = text:match '%w+ ()(%w+)'
         if match_col then
@@ -213,6 +215,7 @@ return {
 
       --- @type picker.treesitter.Capture[]
       local captures = {
+        -- TODO: Define all captures from locals.
         { kind = 'local.definition.import', name = 'import', hl = '@keyword.import', chars = 100 },
         { kind = 'keyword.import', name = 'import', chars = 100, text = 'full', filters = { 'include', js_filters } },
         { kind = 'module', name = 'module', filters = { 'exclude', { luadoc = true } } },

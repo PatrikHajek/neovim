@@ -1,5 +1,27 @@
 local M = {}
 
+-- TODO: Validate function args using `vim.validate`.
+
+-- TODO: Prioritize local scope?
+-- TODO: Add dependencies to all plugins. For example, this file relies on treesitter.
+-- TODO: Add references and make them show the whole line?
+-- TODO: Show an icon for the language the match appears in? So like if it's in a script tag it's
+-- TS but in a template it would be Vue.
+-- TODO: Move the treesitter logic into a separate function.
+-- TODO: Create a workspace treesitter picker. Overkill?
+-- TODO: Somehow get lua type definitions inside the picker as a capture other than comment. Use
+-- `type` capture and filter it only for lua files.
+-- TODO: Filter out identical lines.
+-- TODO: Create a `lang` key for each capture that specifies (for now) a filter, which can be a
+-- function or false, to filter this capture in that specific language.
+-- TODO: Dynamically set the widths and positions of the columns.
+-- TODO: Rename all col to cnum or all lnum to row.
+-- TODO: A way to display languages in the current buffer. Lua and luadoc gets mixed up.
+-- FIX: `elseif` branches can't be searched. There is some `alternative` textobject though.
+-- TODO: Create custom query_files for the language for more difficult filters rather than using
+-- filter function? Or maybe not even query files, rather just query them directly (`struct_item`).
+-- Custom query_files are much cleaner I think, for code and config.
+
 -- [[ Types ]]
 
 --- @class picker.treesitter.Opts
