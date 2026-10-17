@@ -368,6 +368,8 @@ return {
 
       map('return', 'r', 'R', 'r', 'r')
 
+      map('yield', 'y', 'Y', 'y', 'y')
+
       map('loop', 'o', 'O', 'o', 'o')
 
       map('conditional', 'c', 'C', 'c', 'c')

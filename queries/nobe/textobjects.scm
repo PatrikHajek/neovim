@@ -13,6 +13,17 @@
   body: (block
     yield: _ @return.inner))
 
+; Add @yield.
+
+(block
+  yield: _ @yield.inner)
+
+((call_expression
+   function: (field_expression
+     value: _? @yield.inner
+     field: (builtin_identifier) @_keyword)) @yield.outer
+ (#any-of? @_keyword "break"))
+
 ; Add @expression.
 
 (comptime_expression
@@ -31,7 +42,7 @@
    function: (field_expression
      value: _? @expression.inner
      field: (builtin_identifier) @_keyword)) @expression.outer
- (#any-of? @_keyword "break" "block" "await"))
+ (#any-of? @_keyword "block" "await"))
 
 (qualified_expression
   _ @expression.inner
