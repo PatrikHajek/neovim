@@ -7,6 +7,12 @@
   .
   return_type: _ @return.inner @return.outer)
 
+; Include implicit returns in @return.
+
+(function_literal
+  body: (block
+    yield: _ @return.inner))
+
 ; Add @expression.
 
 (comptime_expression
