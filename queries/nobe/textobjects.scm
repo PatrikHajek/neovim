@@ -5,7 +5,7 @@
 (function_literal
   ";" @return.outer
   .
-  return_type: (_) @return.inner @return.outer)
+  return_type: _ @return.inner @return.outer)
 
 ; Add @expression.
 
