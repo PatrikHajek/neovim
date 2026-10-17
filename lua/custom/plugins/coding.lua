@@ -219,61 +219,63 @@ return {
         opts = opts or {}
         opts.name = opts.name or textobject
 
+        local capture = '@' .. textobject
+
         if key_start then
           vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_start, function()
-            ts_move.goto_next_start('@' .. textobject .. '.outer', 'textobjects')
+            ts_move.goto_next_start({ capture .. '.outer', capture .. '.inner' }, 'textobjects')
           end, { desc = 'Next ' .. opts.name .. ' start' })
           vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_start, function()
-            ts_move.goto_previous_start('@' .. textobject .. '.outer', 'textobjects')
+            ts_move.goto_previous_start({ capture .. '.outer', capture .. '.inner' }, 'textobjects')
           end, { desc = 'Previous ' .. opts.name .. ' start' })
         end
 
         if key_end then
           vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_end, function()
-            ts_move.goto_next_end('@' .. textobject .. '.outer', 'textobjects')
+            ts_move.goto_next_end({ capture .. '.outer', capture .. '.inner' }, 'textobjects')
           end, { desc = 'Next ' .. opts.name .. ' end' })
           vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_end, function()
-            ts_move.goto_previous_end('@' .. textobject .. '.outer', 'textobjects')
+            ts_move.goto_previous_end({ capture .. '.outer', capture .. '.inner' }, 'textobjects')
           end, { desc = 'Previous ' .. opts.name .. ' end' })
         end
 
         if key_around then
           vim.keymap.set({ 'x', 'o' }, 'a' .. key_around, function()
             vim.cmd 'normal! m`'
-            ts_select.select_textobject('@' .. textobject .. '.outer', 'textobjects')
+            ts_select.select_textobject(capture .. '.outer', 'textobjects')
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'an' .. key_around, function()
             vim.cmd 'normal! m`'
-            ts_move.goto_next_start('@' .. textobject .. '.outer', 'textobjects')
-            ts_select.select_textobject('@' .. textobject .. '.outer', 'textobjects')
+            ts_move.goto_next_start(capture .. '.outer', 'textobjects')
+            ts_select.select_textobject(capture .. '.outer', 'textobjects')
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'al' .. key_around, function()
             vim.cmd 'normal! m`'
-            ts_move.goto_previous_start('@' .. textobject .. '.outer', 'textobjects')
-            ts_move.goto_previous_start('@' .. textobject .. '.outer', 'textobjects')
-            ts_select.select_textobject('@' .. textobject .. '.outer', 'textobjects')
+            ts_move.goto_previous_start(capture .. '.outer', 'textobjects')
+            ts_move.goto_previous_start(capture .. '.outer', 'textobjects')
+            ts_select.select_textobject(capture .. '.outer', 'textobjects')
           end, { desc = opts.name })
         end
 
         if key_inner then
           vim.keymap.set({ 'x', 'o' }, 'i' .. key_inner, function()
             vim.cmd 'normal! m`'
-            ts_select.select_textobject('@' .. textobject .. '.inner', 'textobjects')
+            ts_select.select_textobject(capture .. '.inner', 'textobjects')
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'in' .. key_around, function()
             vim.cmd 'normal! m`'
-            ts_move.goto_next_start('@' .. textobject .. '.inner', 'textobjects')
-            ts_select.select_textobject('@' .. textobject .. '.inner', 'textobjects')
+            ts_move.goto_next_start(capture .. '.inner', 'textobjects')
+            ts_select.select_textobject(capture .. '.inner', 'textobjects')
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'il' .. key_around, function()
             vim.cmd 'normal! m`'
-            ts_move.goto_previous_start('@' .. textobject .. '.inner', 'textobjects')
-            ts_move.goto_previous_start('@' .. textobject .. '.inner', 'textobjects')
-            ts_select.select_textobject('@' .. textobject .. '.inner', 'textobjects')
+            ts_move.goto_previous_start(capture .. '.inner', 'textobjects')
+            ts_move.goto_previous_start(capture .. '.inner', 'textobjects')
+            ts_select.select_textobject(capture .. '.inner', 'textobjects')
           end, { desc = opts.name })
         end
 
