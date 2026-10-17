@@ -265,15 +265,15 @@ return {
 
           vim.keymap.set({ 'x', 'o' }, 'in' .. key_around, function()
             vim.cmd 'normal! m`'
-            ts_move.goto_next_start('@' .. textobject .. '.outer', 'textobjects')
-            ts_select.select_textobject('@' .. textobject .. '.outer', 'textobjects')
+            ts_move.goto_next_start('@' .. textobject .. '.inner', 'textobjects')
+            ts_select.select_textobject('@' .. textobject .. '.inner', 'textobjects')
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'il' .. key_around, function()
             vim.cmd 'normal! m`'
-            ts_move.goto_previous_start('@' .. textobject .. '.outer', 'textobjects')
-            ts_move.goto_previous_start('@' .. textobject .. '.outer', 'textobjects')
-            ts_select.select_textobject('@' .. textobject .. '.outer', 'textobjects')
+            ts_move.goto_previous_start('@' .. textobject .. '.inner', 'textobjects')
+            ts_move.goto_previous_start('@' .. textobject .. '.inner', 'textobjects')
+            ts_select.select_textobject('@' .. textobject .. '.inner', 'textobjects')
           end, { desc = opts.name })
         end
 
