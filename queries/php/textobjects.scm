@@ -115,3 +115,9 @@
 
 (binary_expression
   right: _ @expression.inner)
+
+(conditional_expression
+  condition: _ @expression.inner) @expression.outer
+
+(conditional_expression
+  alternative: _ @expression.inner)
