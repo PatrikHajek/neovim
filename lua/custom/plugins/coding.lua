@@ -375,14 +375,14 @@ return {
       map('conditional', 'c', 'C', 'c', 'c')
 
       map('assignment', false, false, '=', '=', '=')
-      vim.keymap.set({ 'x', 'o' }, 'iv', function()
-        vim.cmd 'normal! m`'
-        require('nvim-treesitter-textobjects.select').select_textobject('@assignment.rhs', 'textobjects')
-      end, { desc = 'rhs of assignment' })
       vim.keymap.set({ 'x', 'o' }, 'ik', function()
         vim.cmd 'normal! m`'
         require('nvim-treesitter-textobjects.select').select_textobject('@assignment.lhs', 'textobjects')
       end, { desc = 'lhs of assignment' })
+      vim.keymap.set({ 'x', 'o' }, 'iv', function()
+        vim.cmd 'normal! m`'
+        require('nvim-treesitter-textobjects.select').select_textobject('@assignment.rhs', 'textobjects')
+      end, { desc = 'rhs of assignment' })
 
       map('comment', 'gn', false, false, false, false, false)
 
