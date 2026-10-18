@@ -353,6 +353,8 @@ return {
 
       map('block', 'b', 'B', 'b', 'b')
 
+      map('yield', 'y', 'Y', 'y', 'y')
+
       map('statement', 's', 'S', 's', false)
       vim.keymap.set('n', ']z', ']s', { desc = 'Next misspelled word' })
       vim.keymap.set('n', '[z', '[s', { desc = 'Previous misspelled word' })
@@ -367,8 +369,6 @@ return {
       map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
 
       map('return', 'r', 'R', 'r', 'r')
-
-      map('yield', 'y', 'Y', 'y', 'y')
 
       map('loop', 'o', 'O', 'o', 'o')
 
