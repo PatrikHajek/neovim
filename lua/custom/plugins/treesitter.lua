@@ -4,7 +4,7 @@ return {
     build = ':TSUpdate',
     -- main = 'nvim-treesitter.configs', -- Sets main module to use for opts
     dependencies = {
-      { dir = '~/dev/lang/nobe-tree-sitter' },
+      { 'patrikhajek/nobe-tree-sitter' },
     },
     -- [[ Configure Treesitter ]] See `:help nvim-treesitter`
     opts = {
