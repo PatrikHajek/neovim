@@ -99,6 +99,11 @@
   _? @yield.inner @yield.outer
   ";")
 
+(continue_statement
+  "continue" @yield.outer
+  _? @yield.inner @yield.outer
+  ";")
+
 ; Add @expression.
 
 (unary_op_expression
