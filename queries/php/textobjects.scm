@@ -140,6 +140,16 @@
   _ @assignment.inner
   .)
 
+(argument
+  .
+  _ @assignment.inner @assignment.lhs
+  _ @assignment.rhs
+  .) @assignment.outer
+
+(argument
+  _ @assignment.inner
+  .)
+
 ; Add @yield.
 
 (exit_statement
