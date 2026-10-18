@@ -1,5 +1,6 @@
 return {
   'stevearc/oil.nvim',
+  dependencies = { 'nvim-tree/nvim-web-devicons' },
   opts = {
     columns = {
       'size',
@@ -30,6 +31,4 @@ return {
       oil.toggle_float()
     end, { desc = 'Open [E]xplorer' })
   end,
-  -- Optional dependencies
-  dependencies = { 'nvim-tree/nvim-web-devicons' },
 }
