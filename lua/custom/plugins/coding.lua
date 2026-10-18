@@ -384,7 +384,7 @@ return {
         require('nvim-treesitter-textobjects.select').select_textobject('@assignment.rhs', 'textobjects')
       end, { desc = 'rhs of assignment' })
 
-      map('comment', 'gn', false, false, false, false, false)
+      map('comment', 'gc', false, false, false, false, false)
 
       map('expression', 'e', 'E', 'e', 'e')
 
@@ -512,8 +512,8 @@ return {
       map('`', '`s', '`e', '` start', '` end')
 
       -- TODO: Create comment navigation that works on a comment block.
-      vim.keymap.set({ 'x', 'o' }, 'agn', require('mini.comment').textobject, { desc = 'comment' })
-      vim.keymap.set({ 'x', 'o' }, 'ign', require('mini.comment').textobject, { desc = 'comment' })
+      vim.keymap.set({ 'x', 'o' }, 'agc', require('mini.comment').textobject, { desc = 'comment' })
+      vim.keymap.set({ 'x', 'o' }, 'igc', require('mini.comment').textobject, { desc = 'comment' })
 
       -- TODO: Move to ui.
       local statusline = require 'mini.statusline'
