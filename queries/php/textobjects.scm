@@ -90,6 +90,19 @@
 
 ; Assignments
 
+(property_declaration
+  _* @assignment.outer
+  ";")
+
+(property_declaration
+  type: _? @assignment.inner)
+
+(property_element
+  name: _ @assignment.inner @assignment.lhs)
+
+(property_element
+  default_value: _ @assignment.inner @assignment.rhs)
+
 (assignment_expression
   left: _ @assignment.inner @assignment.lhs
   right: _ @assignment.rhs) @assignment.outer
