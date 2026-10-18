@@ -17,7 +17,7 @@ vim.keymap.set({ 'n', 'x' }, '<C-u>', '10k')
 vim.keymap.set('x', '>', '>gv')
 vim.keymap.set('x', '<', '<gv')
 
-vim.keymap.set({ 'x', 'o' }, 'iv', function()
+vim.keymap.set({ 'x', 'o' }, 'iz', function()
   vim.cmd 'normal! \27'
   local is_fugitive = require('custom.utils').is_fugitive()
   local line = vim.api.nvim_get_current_line()
@@ -31,8 +31,8 @@ vim.keymap.set({ 'x', 'o' }, 'iv', function()
     vim.api.nvim_command 'normal g_v_'
   end
 end, { desc = 'inner line' })
-vim.keymap.set({ 'x', 'o' }, 'ilv', '<ESC>m0_v`0', { remap = true, desc = 'up to the start of line' })
-vim.keymap.set({ 'x', 'o' }, 'inv', '<ESC>m0g_v`0', { remap = true, desc = 'up to the end of line' })
+vim.keymap.set({ 'x', 'o' }, 'ilz', '<ESC>m0_v`0', { remap = true, desc = 'up to the start of line' })
+vim.keymap.set({ 'x', 'o' }, 'inz', '<ESC>m0g_v`0', { remap = true, desc = 'up to the end of line' })
 
 -- Free up `t` for the `@class` textobject.
 vim.keymap.set({ 'x', 'o' }, 'agt', 'at', { noremap = true, desc = 'tag block' })
@@ -375,11 +375,11 @@ return {
       map('conditional', 'c', 'C', 'c', 'c')
 
       map('assignment', false, false, '=', '=', '=')
-      vim.keymap.set({ 'x', 'o' }, 'in=', function()
+      vim.keymap.set({ 'x', 'o' }, 'iv', function()
         vim.cmd 'normal! m`'
         require('nvim-treesitter-textobjects.select').select_textobject('@assignment.rhs', 'textobjects')
       end, { desc = 'rhs of assignment' })
-      vim.keymap.set({ 'x', 'o' }, 'il=', function()
+      vim.keymap.set({ 'x', 'o' }, 'ik', function()
         vim.cmd 'normal! m`'
         require('nvim-treesitter-textobjects.select').select_textobject('@assignment.lhs', 'textobjects')
       end, { desc = 'lhs of assignment' })
