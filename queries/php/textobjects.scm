@@ -27,6 +27,19 @@
   _* @loop.inner
   ")")
 
+; Parameters
+
+(array_creation_expression
+  .
+  _ @parameter.inner @parameter.outer
+  .
+  ","? @parameter.outer)
+
+(array_creation_expression
+  "," @parameter.outer
+  .
+  _ @parameter.inner @parameter.outer)
+
 ; Returns
 
 (function_definition
@@ -116,6 +129,16 @@
 
 (assignment_expression
   right: _ @assignment.inner)
+
+(array_element_initializer
+  .
+  _ @assignment.inner @assignment.lhs
+  _ @assignment.rhs
+  .) @assignment.outer
+
+(array_element_initializer
+  _ @assignment.inner
+  .)
 
 ; Add @yield.
 
