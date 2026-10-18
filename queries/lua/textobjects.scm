@@ -7,6 +7,8 @@
 
 ; Parameters
 
+; TODO: Trailing comma in fields is not preserved.
+
 (variable_list
   .
   _ @parameter.inner @parameter.outer
