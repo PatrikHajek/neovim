@@ -78,6 +78,16 @@
   ")" @call.outer
   ";")
 
+(object_creation_expression
+  "new"
+  (name) @call.inner @call.outer
+  (arguments) @call.outer)
+
+(arguments
+  "("
+  _* @call.inner
+  ")")
+
 ; Assignments
 
 (assignment_expression
@@ -109,6 +119,14 @@
 (unary_op_expression
   _ @expression.inner
   .) @expression.outer
+
+(throw_expression
+  _ @expression.inner
+  .) @expression.outer
+
+(object_creation_expression
+  "new"
+  _+ @expression.inner) @expression.outer
 
 (binary_expression
   left: _ @expression.inner) @expression.outer
