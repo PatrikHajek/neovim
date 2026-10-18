@@ -8,8 +8,10 @@ return {
     },
     keymaps = {
       ['_'] = false,
+      ['~'] = false,
       ['gh'] = { 'actions.toggle_hidden', mode = 'n' },
       ['gr'] = { 'actions.open_cwd', mode = 'n' },
+      ['g.'] = { 'actions.cd', opts = { scope = 'tab' }, mode = 'n' },
     },
   },
   config = function(_, opts)
