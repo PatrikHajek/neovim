@@ -14,25 +14,25 @@
 
 (variable_list
   .
-  (_) @parameter.inner @parameter.outer
+  _ @parameter.inner @parameter.outer
   .
   ","? @parameter.outer)
 
 (variable_list
   "," @parameter.outer
   .
-  (_) @parameter.inner @parameter.outer)
+  _ @parameter.inner @parameter.outer)
 
 (expression_list
   .
-  (_) @parameter.inner @parameter.outer
+  _ @parameter.inner @parameter.outer
   .
   ","? @parameter.outer)
 
 (expression_list
   "," @parameter.outer
   .
-  (_) @parameter.inner @parameter.outer)
+  _ @parameter.inner @parameter.outer)
 
 ; Assignments
 
