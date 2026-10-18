@@ -1,14 +1,9 @@
 ;; extends
 
-; For-Loops
+; Loops
 
 (for_statement
   clause: _ @loop.inner)
-
-; Functions
-
-(function_call
-  name: _ @call.inner)
 
 ; Parameters
 
@@ -33,6 +28,11 @@
   "," @parameter.outer
   .
   _ @parameter.inner @parameter.outer)
+
+; Calls
+
+(function_call
+  name: _ @call.inner)
 
 ; Assignments
 
