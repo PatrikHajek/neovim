@@ -386,6 +386,8 @@ return {
 
       map('comment', 'gn', false, false, false, false, false)
 
+      map('expression', 'e', 'E', 'e', 'e')
+
       map('list_item', 'gl', 'gL', 'gl', 'gl', 'gl', 'gL', { name = 'markdown list item' })
       map('list_item.unchecked', 'gu', false, false, false, 'gu', 'gU', { name = 'markdown list item unchecked' })
 
