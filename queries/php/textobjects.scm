@@ -1,5 +1,12 @@
 ;; extends
 
+; Statements
+
+[
+  (property_declaration)
+  (method_declaration)
+] @statement.outer
+
 ; Conditionals
 
 (if_statement
