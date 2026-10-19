@@ -203,6 +203,8 @@ return {
       -- [[ Diagnostics ]]
       vim.keymap.set('n', '?', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 
+      vim.keymap.del('n', ']d')
+      vim.keymap.del('n', '[d')
       local diagnostic_next, diagnostic_prev = require('repeatable_move').make_repeatable_move_pair(function()
         vim.diagnostic.jump { count = 1, float = true }
       end, function()
