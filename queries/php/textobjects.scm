@@ -131,6 +131,8 @@
   .) @assignment.outer
 
 (array_element_initializer
+  .
+  _
   _ @assignment.inner
   .)
 
@@ -141,6 +143,8 @@
   .) @assignment.outer
 
 (argument
+  .
+  _
   _ @assignment.inner
   .)
 
