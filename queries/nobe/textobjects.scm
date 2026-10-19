@@ -1,5 +1,7 @@
 ;; extends
 
+; [[ Non-Standard ]]
+
 ; Include return types in @return.
 
 (function_literal

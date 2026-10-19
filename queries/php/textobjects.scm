@@ -1,5 +1,7 @@
 ;; extends
 
+; [[ Standard ]]
+
 ; Statements
 
 [
@@ -41,14 +43,6 @@
   _ @parameter.inner @parameter.outer)
 
 ; Returns
-
-(function_definition
-  ":" @return.outer
-  return_type: _ @return.inner @return.outer)
-
-(method_declaration
-  ":" @return.outer
-  return_type: _ @return.inner @return.outer)
 
 (return_statement
   "return" @return.outer
@@ -149,6 +143,18 @@
 (argument
   _ @assignment.inner
   .)
+
+; [[ Non-Standard ]]
+
+; Include return types in @return.
+
+(function_definition
+  ":" @return.outer
+  return_type: _ @return.inner @return.outer)
+
+(method_declaration
+  ":" @return.outer
+  return_type: _ @return.inner @return.outer)
 
 ; Add @yield.
 
