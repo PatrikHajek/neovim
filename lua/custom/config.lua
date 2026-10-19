@@ -44,11 +44,15 @@ vim.api.nvim_create_autocmd('BufRead', {
 
 -- [[ Tab ]]
 
+--@ Convert tabs to spaces.
 vim.opt.expandtab = true
+
+--@ Set 2 spaces a tab by default.
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
--- turns off 4 spaces a tab in markdown files
+
+--@ Turn off 4 spaces a tab in markdown files.
 vim.g.markdown_recommended_style = 0
 
 -- [[ Terminal ]]
