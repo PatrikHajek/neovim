@@ -51,6 +51,10 @@ local M = {}
 ---
 --- Defaults to `identifier`.
 --- @field text? "identifier" | "preceding" | "full"
+--- List of Lua patterns describing the node types to use for the identifier node. First match wins.
+---
+--- Default is `{ 'identifier' }`.
+--- @field identifier? string[]
 --- Either `include` this capture in only the specified languages or `exclude` this capture from
 --- only the specified languages.
 --- @field filters ["include" | "exclude", table<string, true | filter_function>]?
@@ -168,9 +172,13 @@ M.treesitter = function(opts)
 
                 capture.text = capture.text or 'identifier'
                 if capture.text == 'identifier' then
+                  capture.identifier = capture.identifier or { 'identifier' }
                   local identifier_node = node
                   for child in node:iter_children() do
-                    if child:type():find 'identifier' then
+                    local is_identifier = vim.iter(capture.identifier):any(function(v)
+                      return child:type():find(v) ~= nil
+                    end)
+                    if is_identifier then
                       identifier_node = child
                       break
                     end
