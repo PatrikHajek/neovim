@@ -92,7 +92,20 @@ return {
           { name = 'nvim_lsp_signature_help', priority = 1000 },
           { name = 'luasnip', priority = 1000 },
           { name = 'path', priority = 1000 },
-          { name = 'buffer', priority = 500 },
+          {
+            name = 'buffer',
+            priority = 500,
+            option = {
+              get_bufnrs = function()
+                return vim
+                  .iter(vim.api.nvim_list_bufs())
+                  :filter(function(id)
+                    return vim.api.nvim_buf_is_loaded(id) and vim.api.nvim_get_option_value('buflisted', { buf = id })
+                  end)
+                  :totable()
+              end,
+            },
+          },
           {
             name = 'spell',
             priority = 500,
