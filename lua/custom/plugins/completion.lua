@@ -13,15 +13,7 @@ return {
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
-      {
-        'uga-rosa/cmp-dictionary',
-        opts = {
-          -- NOTE: Some words are included in both configs because the `:spelldump` command includes
-          -- the custom words in its output, which is the `dictionaries/en.utf-8` file.
-          paths = { vim.fn.stdpath 'config' .. '/dictionaries/en.utf-8', vim.fn.stdpath 'config' .. '/spell/en.utf-8.add' },
-          exact_length = 1,
-        },
-      },
+      'octaltree/cmp-look',
     },
     config = function()
       -- See `:help cmp`
@@ -115,8 +107,17 @@ return {
             },
           },
           {
-            name = 'dictionary',
+            name = 'look',
             priority = 500,
+            keyword_length = 2,
+            option = {
+              -- INFO: To reflect newly added words to the spell file (`zg`) in the completion, the
+              -- dictionary file has to be regenerated: run `:spelldump`, save it to that location
+              -- and run `:sort`.
+              dict = vim.fn.stdpath 'config' .. '/dictionaries/en.utf-8',
+              convert_case = true,
+              loud = true,
+            },
           },
         },
       }
