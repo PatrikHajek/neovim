@@ -218,7 +218,6 @@ return {
         -- TODO: Define all captures from locals.
         { kind = 'local.definition.import', name = 'import', hl = '@keyword.import', chars = 100 },
         { kind = 'keyword.import', name = 'import', chars = 100, text = 'full', filters = { 'include', js_filters } },
-        { kind = 'module', name = 'module', filters = { 'exclude', { luadoc = true } } },
         { kind = 'class.outer', name = 'type', identifier = { 'identifier', 'name' }, hl = '@type', chars = 1 },
         { kind = 'type', name = 'type', filters = { 'include', { query = true } } },
         { kind = 'comment', name = 'type', hl = '@type', text = 'full', filters = { 'include', { lua = lua_filter_type } } },
