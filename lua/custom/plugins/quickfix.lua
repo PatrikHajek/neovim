@@ -208,8 +208,8 @@ return {
       end, function()
         vim.diagnostic.jump { count = -1, float = true }
       end)
-      vim.keymap.set('n', ']d', diagnostic_next, { desc = 'Next diagnostic' })
-      vim.keymap.set('n', '[d', diagnostic_prev, { desc = 'Previous diagnostic' })
+      vim.keymap.set('n', ']?', diagnostic_next, { desc = 'Next diagnostic' })
+      vim.keymap.set('n', '[?', diagnostic_prev, { desc = 'Previous diagnostic' })
 
       vim.keymap.set('n', '<leader>ld', function()
         local diagnostics = vim.diagnostic.get()
