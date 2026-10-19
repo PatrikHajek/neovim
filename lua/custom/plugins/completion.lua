@@ -13,7 +13,13 @@ return {
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
-      'f3fora/cmp-spell',
+      {
+        'uga-rosa/cmp-dictionary',
+        opts = {
+          paths = { '/usr/share/dict/words', vim.fn.stdpath 'config' .. '/spell/en.utf-8.add' },
+          exact_length = 2,
+        },
+      },
     },
     config = function()
       -- See `:help cmp`
@@ -107,12 +113,9 @@ return {
             },
           },
           {
-            name = 'spell',
+            name = 'dictionary',
             priority = 500,
-            entry_filter = function(entry)
-              return not string.find(entry:get_word(), ' ')
-            end,
-            option = { preselect_correct_word = false },
+            keyword_length = 2,
           },
         },
       }
