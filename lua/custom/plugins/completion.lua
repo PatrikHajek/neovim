@@ -16,8 +16,10 @@ return {
       {
         'uga-rosa/cmp-dictionary',
         opts = {
-          paths = { '/usr/share/dict/words', vim.fn.stdpath 'config' .. '/spell/en.utf-8.add' },
-          exact_length = 2,
+          -- NOTE: Some words are included in both configs because the `:spelldump` command includes
+          -- the custom words in its output, which is the `dictionaries/en.utf-8` file.
+          paths = { vim.fn.stdpath 'config' .. '/dictionaries/en.utf-8', vim.fn.stdpath 'config' .. '/spell/en.utf-8.add' },
+          exact_length = 1,
         },
       },
     },
@@ -115,7 +117,6 @@ return {
           {
             name = 'dictionary',
             priority = 500,
-            keyword_length = 2,
           },
         },
       }
