@@ -84,16 +84,18 @@ return {
         sources = {
           {
             name = 'lazydev',
+            priority = 1000,
             -- set group index to 0 to skip loading LuaLS completions as lazydev recommends it
             group_index = 0,
           },
-          { name = 'nvim_lsp' },
-          { name = 'nvim_lsp_signature_help' },
-          { name = 'luasnip' },
-          { name = 'path' },
-          { name = 'buffer' },
+          { name = 'nvim_lsp', priority = 1000 },
+          { name = 'nvim_lsp_signature_help', priority = 1000 },
+          { name = 'luasnip', priority = 1000 },
+          { name = 'path', priority = 1000 },
+          { name = 'buffer', priority = 500 },
           {
             name = 'spell',
+            priority = 500,
             entry_filter = function(entry)
               return not string.find(entry:get_word(), ' ')
             end,
