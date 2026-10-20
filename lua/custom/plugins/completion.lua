@@ -95,6 +95,8 @@ return {
           {
             name = 'buffer',
             priority = 500,
+            keyword_length = 2,
+            max_item_count = 5,
             option = {
               get_bufnrs = function()
                 return vim
