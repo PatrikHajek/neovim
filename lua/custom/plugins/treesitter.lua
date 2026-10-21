@@ -49,8 +49,7 @@ return {
       -- INFO: Run `:TSInstall nobe` to compile the parser.
       parser_config.nobe = {
         install_info = {
-          -- vim.fn.expand is strictly required here for local paths!
-          url = vim.fn.expand '~/dev/lang/nobe-tree-sitter',
+          url = vim.fn.expand '~/.local/share/nvim/lazy/nobe-tree-sitter/',
           files = { 'src/parser.c' },
         },
         filetype = 'nobe',
