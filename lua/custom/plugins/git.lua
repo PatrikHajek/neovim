@@ -125,6 +125,37 @@ return {
       vim.api.nvim_create_autocmd({ 'BufEnter' }, {
         pattern = { 'fugitive://*' },
         callback = function(ev)
+          vim.keymap.set('n', '<C-j>', function()
+            local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+            local lines = vim.api.nvim_buf_get_lines(0, row - 1, -1, false)
+
+            for i, line in ipairs(vim.list_slice(lines, 2, #lines)) do
+              -- Due to `lines` including the previous line which is skipped, `i` points to it.
+              local line_prev = lines[i]
+              local is_hunk_edge = line:find '^[+-]' and (not line_prev or not line_prev:find '^[+-]')
+              if is_hunk_edge then
+                vim.cmd('normal!' .. row + i .. 'G')
+                vim.cmd('normal!' .. col + 1 .. '|')
+                return
+              end
+            end
+          end)
+          vim.keymap.set('n', '<C-k>', function()
+            local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+            local lines = vim.api.nvim_buf_get_lines(0, 0, row, false)
+
+            for i = #lines - 1, 1, -1 do
+              local line = lines[i]
+              local line_next = lines[i + 1]
+              local is_hunk_edge = line:find '^[+-]' and (not line_next or not line_next:find '^[+-]')
+              if is_hunk_edge then
+                vim.cmd('normal!' .. row - (#lines - i) .. 'G')
+                vim.cmd('normal!' .. col + 1 .. '|')
+                return
+              end
+            end
+          end)
+
           vim.keymap.set({ 'n', 'x' }, '_', function()
             local line = vim.api.nvim_get_current_line()
             --- @type string | nil
