@@ -21,6 +21,17 @@ return {
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
 
+      cmp.register_source('buffer_lines', require('cmp_buffer').new())
+
+      local function get_bufnrs_active()
+        return vim
+          .iter(vim.api.nvim_list_bufs())
+          :filter(function(id)
+            return vim.api.nvim_buf_is_loaded(id) and vim.api.nvim_get_option_value('buflisted', { buf = id })
+          end)
+          :totable()
+      end
+
       cmp.setup {
         snippet = {
           expand = function(args)
@@ -98,14 +109,17 @@ return {
             keyword_length = 2,
             max_item_count = 5,
             option = {
-              get_bufnrs = function()
-                return vim
-                  .iter(vim.api.nvim_list_bufs())
-                  :filter(function(id)
-                    return vim.api.nvim_buf_is_loaded(id) and vim.api.nvim_get_option_value('buflisted', { buf = id })
-                  end)
-                  :totable()
-              end,
+              get_bufnrs = get_bufnrs_active,
+            },
+          },
+          {
+            name = 'buffer_lines',
+            priority = 400,
+            keyword_length = 2,
+            max_item_count = 5,
+            option = {
+              keyword_pattern = [[^\s*\zs\S.\+]],
+              get_bufnrs = get_bufnrs_active,
             },
           },
           {
