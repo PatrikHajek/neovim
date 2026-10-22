@@ -13,7 +13,7 @@ return {
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
-      'octaltree/cmp-look',
+      -- 'octaltree/cmp-look',
     },
     config = function()
       -- See `:help cmp`
@@ -122,19 +122,19 @@ return {
               get_bufnrs = get_bufnrs_active,
             },
           },
-          {
-            name = 'look',
-            priority = 500,
-            keyword_length = 2,
-            option = {
-              -- INFO: To reflect newly added words to the spell file (`zg`) in the completion, the
-              -- dictionary file has to be regenerated: run `:spelldump`, save it to that location
-              -- and run `:sort`.
-              dict = vim.fn.stdpath 'config' .. '/dictionaries/en.utf-8',
-              convert_case = true,
-              loud = true,
-            },
-          },
+          -- {
+          --   name = 'look',
+          --   priority = 500,
+          --   keyword_length = 2,
+          --   option = {
+          --     -- INFO: To reflect newly added words to the spell file (`zg`) in the completion, the
+          --     -- dictionary file has to be regenerated: run `:spelldump`, save it to that location
+          --     -- and run `:sort`.
+          --     dict = vim.fn.stdpath 'config' .. '/dictionaries/en.utf-8',
+          --     convert_case = true,
+          --     loud = true,
+          --   },
+          -- },
         },
       }
     end,
