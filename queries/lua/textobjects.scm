@@ -45,6 +45,12 @@
 (function_call
   name: _ @call.inner)
 
+(bracket_index_expression
+  table: _ @call.inner) @call.outer
+
+(bracket_index_expression
+  field: _ @call.inner)
+
 ; Assignments
 
 (field
