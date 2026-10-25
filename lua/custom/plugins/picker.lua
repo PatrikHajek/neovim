@@ -286,9 +286,11 @@ return {
           require('telescope.builtin').live_grep { cwd = vim.fn.expand(path) }
         end, { desc = '[S]earch ' .. name .. ' by [G]rep' })
       end
-      map_search('p', '$HOME/notes/', '[P]KM')
+      map_search('m', '$HOME/notes/', '[M]y Personal Note')
       map_search('o', '$HOME/notes-tomake/', '[O]rganization')
       map_search('n', vim.fn.stdpath 'config', '[N]eovim')
+      map_search('p', vim.fn.stdpath 'data', 'Neovim [P]lugin')
+      map_search('H', '$HOME/', '[H]ome')
     end,
   },
 }
