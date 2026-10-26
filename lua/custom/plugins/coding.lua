@@ -390,7 +390,7 @@ return {
 
       map('conditional', 'c', 'C', 'c', 'c')
 
-      map('assignment', false, false, '=', '=', '=')
+      map('assignment', '=', false, '=', '=', '=')
       vim.keymap.set({ 'x', 'o' }, 'ik', function()
         if pcall(vim.treesitter.get_parser, 0) then
           vim.cmd 'normal! m`'
