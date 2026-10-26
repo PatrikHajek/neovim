@@ -2,13 +2,9 @@
 -- checked todo.
 -- TODO: Update exported or more frequently used function and variable names into big-endian naming.
 -- TODO: Add throw statement into @statement in typescript.
--- TODO: Extend assignment textobject to work in lua the same way as in ts? Select `local x = 1` the
--- same way and also add table property selection.
 -- TODO: Think of some better way to save/see all unsaved buffers.
 -- FIX: TODO highlighting in prisma files.
 -- TODO: Highlight model in prisma.
--- TODO: Create capture for binary expression to select stuff where conditions are: while, for loops
--- and if conditions. Capture the stuff between logical operators &&, ||, ... also?
 
 -- To make these keymaps less disorienting when zoomed in.
 vim.keymap.set({ 'n', 'x' }, '<C-d>', '10j')
