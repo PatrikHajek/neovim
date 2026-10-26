@@ -2,16 +2,6 @@ local M = {}
 
 M.CHARS_ESCAPE_MAGIC = [[^$.~*+?=@%&\|{}[]()<>]]
 
-local function log(...)
-  local args = { ... }
-  local chunks = {}
-  for i, v in ipairs(args) do
-    chunks[i] = { vim.inspect(v) }
-  end
-  vim.api.nvim_echo(chunks, true, {})
-end
-M.log = log
-
 -- Gets the start and end marks of the last selection.
 --
 -- If you run this function while still in visual mode, this will return the contents
