@@ -61,6 +61,15 @@
   name: _
   value: _ @assignment.inner)
 
+(variable_declaration
+  (assignment_statement
+    (variable_list) @assignment.inner @assignment.lhs
+    (expression_list) @assignment.rhs)) @assignment.outer
+
+(variable_declaration
+  (assignment_statement
+    (expression_list) @assignment.inner))
+
 ; [[ Non-Standard ]]
 
 ; Add @yield.
