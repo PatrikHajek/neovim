@@ -202,3 +202,12 @@
 
 (conditional_expression
   alternative: _ @expression.inner)
+
+(try_statement
+  body: _ @expression.inner) @expression.outer
+
+(catch_clause
+  body: _ @expression.inner)
+
+(finally_clause
+  body: _ @expression.inner)
