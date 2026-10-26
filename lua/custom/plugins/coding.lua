@@ -584,6 +584,8 @@ return {
       map('url', 'u', 'u')
       map('chainMember', '<leader>m', '<leader>m', 'chain member')
       map('filepath', '<leader>f', '<leader>f')
+      map('diagnostic', '<leader>?', '<leader>?')
+      map('number', '<leader>n', '<leader>n')
     end,
   },
 
