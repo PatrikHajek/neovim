@@ -172,6 +172,8 @@ return {
       local i = ls.insert_node
       local f = ls.function_node
 
+      -- Todo comments
+
       local function comment_start()
         return vim.bo.commentstring:match '^(.-)%%s' or ''
       end
@@ -188,6 +190,8 @@ return {
           f(comment_end),
         }),
       })
+
+      -- Web dev
 
       local snippets_eslint = {
         s('esd', { t { '/* eslint-disable ' }, i(1), t { ' */' } }),
