@@ -434,6 +434,7 @@ return {
       ai.setup {
         n_lines = 500,
         search_method = 'cover',
+        -- INFO: Can only define 1-letter long keys.
         custom_textobjects = {
           -- Used by treesitter.
           ['s'] = false,
