@@ -214,7 +214,6 @@ return {
       --- @param opts { name: string?, select_fallback: string? }?
       local function map(textobject, key_start, key_end, key_around, key_inner, key_enclosing_start, key_enclosing_end, opts)
         local ts_move = require 'nvim-treesitter-textobjects.move'
-        local ts_select = require 'nvim-treesitter-textobjects.select'
         local move = require 'custom.plugins.treesitter.move'
 
         if key_enclosing_start == nil then
