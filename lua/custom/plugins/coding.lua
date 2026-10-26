@@ -581,7 +581,7 @@ return {
       end
 
       map('subword', false, 's')
-      map('url', 'u', 'u')
+      map('url', '<leader>u', '<leader>u')
       map('chainMember', '<leader>m', '<leader>m', 'chain member')
       map('filepath', '<leader>f', '<leader>f')
       map('diagnostic', '<leader>?', '<leader>?')
