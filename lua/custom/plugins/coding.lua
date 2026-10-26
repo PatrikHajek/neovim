@@ -169,6 +169,7 @@ return {
     'nvim-treesitter/nvim-treesitter-textobjects',
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
+      'chrisgrieser/nvim-various-textobjs',
     },
     branch = 'main',
     opts = {
@@ -376,12 +377,20 @@ return {
 
       map('assignment', false, false, '=', '=', '=')
       vim.keymap.set({ 'x', 'o' }, 'ik', function()
-        vim.cmd 'normal! m`'
-        require('nvim-treesitter-textobjects.select').select_textobject('@assignment.lhs', 'textobjects')
+        if pcall(vim.treesitter.get_parser, 0) then
+          vim.cmd 'normal! m`'
+          require('nvim-treesitter-textobjects.select').select_textobject('@assignment.lhs', 'textobjects')
+        else
+          require('various-textobjs').key 'inner'
+        end
       end, { desc = 'lhs of assignment' })
       vim.keymap.set({ 'x', 'o' }, 'iv', function()
-        vim.cmd 'normal! m`'
-        require('nvim-treesitter-textobjects.select').select_textobject('@assignment.rhs', 'textobjects')
+        if pcall(vim.treesitter.get_parser, 0) then
+          vim.cmd 'normal! m`'
+          require('nvim-treesitter-textobjects.select').select_textobject('@assignment.rhs', 'textobjects')
+        else
+          require('various-textobjs').value 'inner'
+        end
       end, { desc = 'rhs of assignment' })
 
       map('comment', '<leader>c', false, false, false, false, false)
