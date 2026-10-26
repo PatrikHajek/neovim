@@ -1,3 +1,11 @@
+-- Make help buffers be listed.
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'help',
+  callback = function()
+    vim.bo.buflisted = true
+  end,
+})
+
 return {
   { -- Fuzzy Finder (files, lsp, etc)
     'nvim-telescope/telescope.nvim',
