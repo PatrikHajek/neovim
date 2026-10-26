@@ -35,8 +35,8 @@ vim.keymap.set({ 'x', 'o' }, 'ilz', '<ESC>m0_v`0', { remap = true, desc = 'up to
 vim.keymap.set({ 'x', 'o' }, 'inz', '<ESC>m0g_v`0', { remap = true, desc = 'up to the end of line' })
 
 -- Free up `t` for the `@class` textobject.
-vim.keymap.set({ 'x', 'o' }, 'agt', 'at', { noremap = true, desc = 'tag block' })
-vim.keymap.set({ 'x', 'o' }, 'igt', 'it', { noremap = true, desc = 'tag block' })
+vim.keymap.set({ 'x', 'o' }, 'a<leader>t', 'at', { noremap = true, desc = 'tag block' })
+vim.keymap.set({ 'x', 'o' }, 'i<leader>t', 'it', { noremap = true, desc = 'tag block' })
 
 return {
   {
@@ -46,9 +46,9 @@ return {
         { ']', group = 'Go to next textobject' },
         { '[', group = 'Go to previous textobject' },
         { '^', group = 'Go to enclosing textobject' },
-        { ']g', group = 'Less used' },
-        { '[g', group = 'Less used' },
-        { '^g', group = 'Less used' },
+        { ']<leader>', group = 'Less used' },
+        { '[<leader>', group = 'Less used' },
+        { '^<leader>', group = 'Less used' },
         { '<leader>]', group = 'Swap with next textobject' },
         { '<leader>[', group = 'Swap with previous textobject' },
       }
@@ -160,8 +160,8 @@ return {
       end, function()
         vim.cmd 'normal! ('
       end)
-      vim.keymap.set({ 'n', 'x', 'o' }, ']gs', sentence_next, { desc = 'Next sentence' })
-      vim.keymap.set({ 'n', 'x', 'o' }, '[gs', sentence_prev, { desc = 'Previous sentence' })
+      vim.keymap.set({ 'n', 'x', 'o' }, ']<leader>s', sentence_next, { desc = 'Next sentence' })
+      vim.keymap.set({ 'n', 'x', 'o' }, '[<leader>s', sentence_prev, { desc = 'Previous sentence' })
     end,
   },
 
@@ -384,12 +384,12 @@ return {
         require('nvim-treesitter-textobjects.select').select_textobject('@assignment.rhs', 'textobjects')
       end, { desc = 'rhs of assignment' })
 
-      map('comment', 'gc', false, false, false, false, false)
+      map('comment', '<leader>c', false, false, false, false, false)
 
       map('expression', 'e', 'E', 'e', 'e')
 
-      map('list_item', 'gl', 'gL', 'gl', 'gl', 'gl', 'gL', { name = 'markdown list item' })
-      map('list_item.unchecked', 'gu', false, false, false, 'gu', 'gU', { name = 'markdown list item unchecked' })
+      map('list_item', '<leader>l', '<leader>L', '<leader>l', '<leader>l', '<leader>l', '<leader>L', { name = 'markdown list item' })
+      map('list_item.unchecked', '<leader>u', false, false, false, '<leader>u', '<leader>U', { name = 'markdown list item unchecked' })
 
       map('attribute', 'x', 'X', 'x', 'x')
       map_swap('attribute.outer', 'attribute.outer', 'x', 'attribute')
@@ -436,6 +436,7 @@ return {
           ['c'] = false,
           ['='] = false,
           ['_'] = false,
+          [' '] = false,
           ['f'] = treesitter_with_fallback('call', ai.gen_spec.function_call),
           ['a'] = treesitter_with_fallback('parameter', ai.gen_spec.argument),
         },
@@ -512,8 +513,8 @@ return {
       map('`', '`s', '`e', '` start', '` end')
 
       -- TODO: Create comment navigation that works on a comment block.
-      vim.keymap.set({ 'x', 'o' }, 'agc', require('mini.comment').textobject, { desc = 'comment' })
-      vim.keymap.set({ 'x', 'o' }, 'igc', require('mini.comment').textobject, { desc = 'comment' })
+      vim.keymap.set({ 'x', 'o' }, 'a<leader>c', require('mini.comment').textobject, { desc = 'comment' })
+      vim.keymap.set({ 'x', 'o' }, 'i<leader>c', require('mini.comment').textobject, { desc = 'comment' })
 
       -- TODO: Move to ui.
       local statusline = require 'mini.statusline'
@@ -581,8 +582,8 @@ return {
 
       map('subword', false, 's')
       map('url', 'u', 'u')
-      map('chainMember', 'gm', 'gm', 'chain member')
-      map('filepath', 'gf', 'gf')
+      map('chainMember', '<leader>m', '<leader>m', 'chain member')
+      map('filepath', '<leader>f', '<leader>f')
     end,
   },
 
@@ -603,8 +604,8 @@ return {
       end, function()
         vim.cmd 'AerialPrev'
       end)
-      vim.keymap.set({ 'n', 'x', 'o' }, ']ga', aerial_next, { desc = 'Next Aerial symbol' })
-      vim.keymap.set({ 'n', 'x', 'o' }, '[ga', aerial_prev, { desc = 'Previous Aerial symbol' })
+      vim.keymap.set({ 'n', 'x', 'o' }, ']<leader>a', aerial_next, { desc = 'Next Aerial symbol' })
+      vim.keymap.set({ 'n', 'x', 'o' }, '[<leader>a', aerial_prev, { desc = 'Previous Aerial symbol' })
 
       vim.keymap.set('n', '<leader>an', ':AerialNavToggle<CR>', { desc = 'Open [A]erial [N]av' })
     end,
@@ -633,8 +634,8 @@ return {
       end, function()
         require('todo-comments').jump_prev()
       end)
-      vim.keymap.set('n', ']gt', todo_next, { desc = 'Next todo comment' })
-      vim.keymap.set('n', '[gt', todo_prev, { desc = 'Previous todo comment' })
+      vim.keymap.set('n', ']<leader>t', todo_next, { desc = 'Next todo comment' })
+      vim.keymap.set('n', '[<leader>t', todo_prev, { desc = 'Previous todo comment' })
     end,
   },
 }
