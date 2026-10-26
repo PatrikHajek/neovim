@@ -170,6 +170,24 @@ return {
       local s = ls.snippet
       local t = ls.text_node
       local i = ls.insert_node
+      local f = ls.function_node
+
+      local function comment_start()
+        return vim.bo.commentstring:match '^(.-)%%s' or ''
+      end
+      local function comment_end()
+        return vim.bo.commentstring:match '%%s(.*)$' or ''
+      end
+
+      ls.add_snippets('all', {
+        s('todo', {
+          f(comment_start),
+          i(2, 'TODO'),
+          t { ': ' },
+          i(1),
+          f(comment_end),
+        }),
+      })
 
       local snippets_eslint = {
         s('esd', { t { '/* eslint-disable ' }, i(1), t { ' */' } }),
