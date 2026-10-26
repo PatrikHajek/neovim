@@ -445,7 +445,14 @@ return {
           [' '] = false,
 
           ['f'] = false,
-          ['q'] = ai.gen_spec.function_call(),
+          ['q'] = {
+            {
+              '%f[%w%.%:][%w%.%-%:]+%s*%b()',
+              '%f[%w%.%:][%w%.%-%:]+%s*%b[]',
+            },
+            -- Stuff between `()` in mini.ai lua patterns is the capture.
+            '^().+()[%(%[].*',
+          },
           ['a'] = false,
           ['Q'] = ai.gen_spec.argument(),
         },
