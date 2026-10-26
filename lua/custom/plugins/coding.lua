@@ -442,7 +442,6 @@ return {
           ['o'] = false,
           ['c'] = false,
           ['='] = false,
-          ['_'] = false,
           [' '] = false,
 
           ['f'] = false,
