@@ -470,9 +470,15 @@ return {
         },
       })
 
-      map('parameter', 'a', 'A', 'a', 'a', nil, nil, { fallbacks = {
-        select = 'Q',
-      } })
+      map('parameter', 'a', 'A', 'a', 'a', nil, nil, {
+        fallbacks = {
+          select = 'Q',
+          goto_start = fallback_goto_mini_ai('left', 'Q'),
+          goto_end = fallback_goto_mini_ai('right', 'Q'),
+          goto_enclosing_start = fallback_goto_enclosing_mini_ai('left', 'Q'),
+          goto_enclosing_end = fallback_goto_enclosing_mini_ai('right', 'Q'),
+        },
+      })
       map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
 
       map('return', 'r', 'R', 'r', 'r')
