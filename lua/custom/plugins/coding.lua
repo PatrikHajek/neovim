@@ -489,16 +489,16 @@ return {
 
       map('assignment', '=', false, '=', '=', '=')
       vim.keymap.set({ 'x', 'o' }, 'ik', function()
+        vim.cmd 'normal! m`'
         if pcall(vim.treesitter.get_parser, 0) then
-          vim.cmd 'normal! m`'
           require('nvim-treesitter-textobjects.select').select_textobject('@assignment.lhs', 'textobjects')
         else
           require('various-textobjs').key 'inner'
         end
       end, { desc = 'lhs of assignment' })
       vim.keymap.set({ 'x', 'o' }, 'iv', function()
+        vim.cmd 'normal! m`'
         if pcall(vim.treesitter.get_parser, 0) then
-          vim.cmd 'normal! m`'
           require('nvim-treesitter-textobjects.select').select_textobject('@assignment.rhs', 'textobjects')
         else
           require('various-textobjs').value 'inner'
