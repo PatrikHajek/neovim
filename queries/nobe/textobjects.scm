@@ -13,12 +13,12 @@
 
 (function_literal
   body: (block
-    yield: _ @return.inner))
+    yield: _ @return.inner @return.outer))
 
 ; Add @yield.
 
 (block
-  yield: _ @yield.inner)
+  yield: _ @yield.inner @yield.outer)
 
 ((call_expression
    function: (field_expression

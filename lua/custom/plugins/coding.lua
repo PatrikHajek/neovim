@@ -230,19 +230,19 @@ return {
 
         if key_start then
           vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_start, function()
-            ts_move.goto_next_start({ capture .. '.outer', capture .. '.inner' }, 'textobjects')
+            ts_move.goto_next_start({ capture .. '.outer' }, 'textobjects')
           end, { desc = 'Next ' .. opts.name .. ' start' })
           vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_start, function()
-            ts_move.goto_previous_start({ capture .. '.outer', capture .. '.inner' }, 'textobjects')
+            ts_move.goto_previous_start({ capture .. '.outer' }, 'textobjects')
           end, { desc = 'Previous ' .. opts.name .. ' start' })
         end
 
         if key_end then
           vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_end, function()
-            ts_move.goto_next_end({ capture .. '.outer', capture .. '.inner' }, 'textobjects')
+            ts_move.goto_next_end({ capture .. '.outer' }, 'textobjects')
           end, { desc = 'Next ' .. opts.name .. ' end' })
           vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_end, function()
-            ts_move.goto_previous_end({ capture .. '.outer', capture .. '.inner' }, 'textobjects')
+            ts_move.goto_previous_end({ capture .. '.outer' }, 'textobjects')
           end, { desc = 'Previous ' .. opts.name .. ' end' })
         end
 
