@@ -2,6 +2,10 @@
 
 ; [[ Non-Standard ]]
 
+; Include parameters in @function.
+
+(parameters) @function.inner
+
 ; Include return types in @return.
 
 (function_literal
