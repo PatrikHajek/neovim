@@ -203,7 +203,57 @@ return {
         end
       end
 
+      --- @class textobjects.GotoOpts
+      --- Go to the next occurrence of this textobject.
+      --- @field next fun()
+      --- Go to the previous occurrence of this textobject.
+      --- @field prev fun()
+      ---
+      --- @alias textobjects.GotoEnclosingOpts fun()
+
+      --- @param fallback textobjects.GotoOpts?
+      --- @return fun()
+      --- @return fun()
+      local function prepare_goto_fallback(fallback)
+        if fallback then
+          vim.validate('fallback.next', fallback.next, 'function')
+          vim.validate('fallback.prev', fallback.prev, 'function')
+
+          return require('repeatable_move').make_repeatable_move_pair(function()
+            vim.cmd 'normal! m`'
+            fallback.next()
+          end, function()
+            vim.cmd 'normal! m`'
+            fallback.prev()
+          end)
+        else
+          return function() end, function() end
+        end
+      end
+
+      --- @param fallback textobjects.GotoEnclosingOpts?
+      --- @return fun()
+      local function prepare_goto_enclosing_fallback(fallback)
+        if fallback then
+          return function()
+            return ts_repeat_move.make_repeatable_move(function()
+              vim.cmd 'normal! m`'
+              fallback()
+            end) { forward = true }
+          end
+        else
+          return function() end
+        end
+      end
+
       -- [[ Textobjects ]]
+      --- @class textobjects.Fallbacks
+      --- @field select string?
+      --- @field goto_start textobjects.GotoOpts?
+      --- @field goto_end textobjects.GotoOpts?
+      --- @field goto_enclosing_start textobjects.GotoEnclosingOpts?
+      --- @field goto_enclosing_end textobjects.GotoEnclosingOpts?
+
       --- @param textobject string
       --- @param key_start string | false
       --- @param key_end string | false
@@ -211,7 +261,7 @@ return {
       --- @param key_inner string | false
       --- @param key_enclosing_start (string | false)?
       --- @param key_enclosing_end (string | false)?
-      --- @param opts { name: string?, select_fallback: string? }?
+      --- @param opts { name: string?, fallbacks: textobjects.Fallbacks? }?
       local function map(textobject, key_start, key_end, key_around, key_inner, key_enclosing_start, key_enclosing_end, opts)
         local ts_move = require 'nvim-treesitter-textobjects.move'
         local move = require 'custom.plugins.treesitter.move'
@@ -225,64 +275,75 @@ return {
 
         opts = opts or {}
         opts.name = opts.name or textobject
+        opts.fallbacks = opts.fallbacks or {}
 
         local capture = '@' .. textobject
 
         if key_start then
+          local fallback_next, fallback_prev = prepare_goto_fallback(opts.fallbacks.goto_start)
           vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_start, function()
-            ts_move.goto_next_start({ capture .. '.outer' }, 'textobjects')
+            if not pcall(ts_move.goto_next_start, { capture .. '.outer' }, 'textobjects') then
+              fallback_next()
+            end
           end, { desc = 'Next ' .. opts.name .. ' start' })
           vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_start, function()
-            ts_move.goto_previous_start({ capture .. '.outer' }, 'textobjects')
+            if not pcall(ts_move.goto_previous_start, { capture .. '.outer' }, 'textobjects') then
+              fallback_prev()
+            end
           end, { desc = 'Previous ' .. opts.name .. ' start' })
         end
 
         if key_end then
+          local fallback_next, fallback_prev = prepare_goto_fallback(opts.fallbacks.goto_end)
           vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_end, function()
-            ts_move.goto_next_end({ capture .. '.outer' }, 'textobjects')
+            if not pcall(ts_move.goto_next_end, { capture .. '.outer' }, 'textobjects') then
+              fallback_next()
+            end
           end, { desc = 'Next ' .. opts.name .. ' end' })
           vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_end, function()
-            ts_move.goto_previous_end({ capture .. '.outer' }, 'textobjects')
+            if not pcall(ts_move.goto_previous_end, { capture .. '.outer' }, 'textobjects') then
+              fallback_prev()
+            end
           end, { desc = 'Previous ' .. opts.name .. ' end' })
         end
 
         if key_around then
           vim.keymap.set({ 'x', 'o' }, 'a' .. key_around, function()
             vim.cmd 'normal! m`'
-            select_with_fallback(capture .. '.outer', opts.select_fallback, { ai_type = 'a' })
+            select_with_fallback(capture .. '.outer', opts.fallbacks.select, { ai_type = 'a' })
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'an' .. key_around, function()
             vim.cmd 'normal! m`'
             ts_move.goto_next_start(capture .. '.outer', 'textobjects')
-            select_with_fallback(capture .. '.outer', opts.select_fallback, { ai_type = 'a' })
+            select_with_fallback(capture .. '.outer', opts.fallbacks.select, { ai_type = 'a' })
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'al' .. key_around, function()
             vim.cmd 'normal! m`'
             ts_move.goto_previous_start(capture .. '.outer', 'textobjects')
             ts_move.goto_previous_start(capture .. '.outer', 'textobjects')
-            select_with_fallback(capture .. '.outer', opts.select_fallback, { ai_type = 'a' })
+            select_with_fallback(capture .. '.outer', opts.fallbacks.select, { ai_type = 'a' })
           end, { desc = opts.name })
         end
 
         if key_inner then
           vim.keymap.set({ 'x', 'o' }, 'i' .. key_inner, function()
             vim.cmd 'normal! m`'
-            select_with_fallback(capture .. '.inner', opts.select_fallback, { ai_type = 'i' })
+            select_with_fallback(capture .. '.inner', opts.fallbacks.select, { ai_type = 'i' })
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'in' .. key_around, function()
             vim.cmd 'normal! m`'
             ts_move.goto_next_start(capture .. '.inner', 'textobjects')
-            select_with_fallback(capture .. '.inner', opts.select_fallback, { ai_type = 'i' })
+            select_with_fallback(capture .. '.inner', opts.fallbacks.select, { ai_type = 'i' })
           end, { desc = opts.name })
 
           vim.keymap.set({ 'x', 'o' }, 'il' .. key_around, function()
             vim.cmd 'normal! m`'
             ts_move.goto_previous_start(capture .. '.inner', 'textobjects')
             ts_move.goto_previous_start(capture .. '.inner', 'textobjects')
-            select_with_fallback(capture .. '.inner', opts.select_fallback, { ai_type = 'i' })
+            select_with_fallback(capture .. '.inner', opts.fallbacks.select, { ai_type = 'i' })
           end, { desc = opts.name })
         end
 
@@ -290,8 +351,13 @@ return {
           local goto_enclosing_start = ts_repeat_move.make_repeatable_move(function()
             move.goto_enclosing_start { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } }
           end)
+          local fallback = prepare_goto_enclosing_fallback(opts.fallbacks.goto_enclosing_start)
           vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_start, function()
-            goto_enclosing_start { forward = true }
+            if pcall(vim.treesitter.get_parser, 0) then
+              goto_enclosing_start { forward = true }
+            else
+              fallback()
+            end
           end, { desc = 'Enclosing ' .. opts.name .. ' start' })
         end
 
@@ -299,8 +365,13 @@ return {
           local goto_enclosing_end = ts_repeat_move.make_repeatable_move(function()
             move.goto_enclosing_end { query_files = { 'textobjects' }, captures = { textobject .. '.outer' } }
           end)
+          local fallback = prepare_goto_enclosing_fallback(opts.fallbacks.goto_enclosing_end)
           vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_end, function()
-            goto_enclosing_end { forward = true }
+            if pcall(vim.treesitter.get_parser, 0) then
+              goto_enclosing_end { forward = true }
+            else
+              fallback()
+            end
           end, { desc = 'Enclosing ' .. opts.name .. ' end' })
         end
       end
@@ -370,13 +441,38 @@ return {
 
       map('function', 'm', 'M', 'm', 'm')
 
+      --- @return textobjects.GotoOpts
+      local function fallback_goto_mini_ai(side, id)
+        return {
+          next = function()
+            require('mini.ai').move_cursor(side, 'a', id, { search_method = 'next' })
+          end,
+          prev = function()
+            require('mini.ai').move_cursor(side, 'a', id, { search_method = 'prev' })
+          end,
+        }
+      end
+
+      --- @return textobjects.GotoEnclosingOpts
+      local function fallback_goto_enclosing_mini_ai(side, id)
+        return function()
+          require('mini.ai').move_cursor(side, 'a', id, { search_method = 'cover' })
+        end
+      end
+
       map('call', 'f', 'F', 'f', 'f', nil, nil, {
-        select_fallback = 'q',
+        fallbacks = {
+          select = 'q',
+          goto_start = fallback_goto_mini_ai('left', 'q'),
+          goto_end = fallback_goto_mini_ai('right', 'q'),
+          goto_enclosing_start = fallback_goto_enclosing_mini_ai('left', 'q'),
+          goto_enclosing_end = fallback_goto_enclosing_mini_ai('right', 'q'),
+        },
       })
 
-      map('parameter', 'a', 'A', 'a', 'a', nil, nil, {
-        select_fallback = 'Q',
-      })
+      map('parameter', 'a', 'A', 'a', 'a', nil, nil, { fallbacks = {
+        select = 'Q',
+      } })
       map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
 
       map('return', 'r', 'R', 'r', 'r')
