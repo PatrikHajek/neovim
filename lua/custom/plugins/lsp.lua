@@ -1,17 +1,20 @@
 return {
-  -- {
-  --   -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
-  --   -- used for completion, annotations and signatures of Neovim apis
-  --   'folke/lazydev.nvim',
-  --   ft = 'lua',
-  --   opts = {
-  --     library = {
-  --       -- Load luvit types when the `vim.uv` word is found
-  --       { path = 'luvit-meta/library', words = { 'vim%.uv' } },
-  --     },
-  --   },
-  -- },
-  -- { 'Bilal2453/luvit-meta', lazy = true },
+  {
+    -- `lazydev` configures Lua LSP for your Neovim config, runtime and plugins
+    -- used for completion, annotations and signatures of Neovim apis
+    'folke/lazydev.nvim',
+    dependencies = {
+      { 'Bilal2453/luvit-meta', lazy = true },
+    },
+    ft = 'lua',
+    opts = {
+      library = {
+        -- Load luvit types when the `vim.uv` word is found
+        { path = 'luvit-meta/library', words = { 'vim%.uv' } },
+      },
+    },
+  },
+
   {
     -- Main LSP Configuration
     'neovim/nvim-lspconfig',
@@ -205,12 +208,6 @@ return {
               },
               workspace = {
                 checkThirdParty = false,
-                -- NOTE: this is a lot slower and will cause issues when working on your own configuration.
-                --  See https://github.com/neovim/nvim-lspconfig/issues/3189
-                library = vim.tbl_extend('force', vim.api.nvim_get_runtime_file('', true), {
-                  '${3rd}/luv/library',
-                  '${3rd}/busted/library',
-                }),
               },
             })
           end,
