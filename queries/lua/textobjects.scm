@@ -40,6 +40,17 @@
   .
   _ @parameter.inner @parameter.outer)
 
+(for_numeric_clause
+  .
+  _* @parameter.inner @parameter.outer
+  .
+  ","? @parameter.outer)
+
+(for_numeric_clause
+  "," @parameter.outer
+  .
+  _* @parameter.inner @parameter.outer)
+
 ; Calls
 
 (function_call
@@ -69,6 +80,15 @@
 (variable_declaration
   (assignment_statement
     (expression_list) @assignment.inner))
+
+(for_numeric_clause
+  name: _ @assignment.inner @assignment.lhs @assignment.outer
+  "=" @assignment.outer
+  start: _ @assignment.rhs @assignment.outer)
+
+(for_numeric_clause
+  name: _
+  start: _ @assignment.inner)
 
 ; [[ Non-Standard ]]
 
