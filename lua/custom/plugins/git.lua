@@ -155,6 +155,41 @@ return {
               end
             end
           end, { buffer = ev.buf })
+          vim.keymap.set({ 'x', 'o' }, 'ah', function()
+            local cursor_row = unpack(vim.api.nvim_win_get_cursor(0))
+            local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
+
+            local row_start = -1
+            local row_end = -1
+            for i, line in ipairs(lines) do
+              if line:find '^[+-]' then
+                if row_start == -1 then
+                  row_start = i
+                end
+              else
+                if i > cursor_row then
+                  break
+                end
+
+                row_start = -1
+                row_end = -1
+              end
+
+              if row_start ~= -1 then
+                row_end = i
+              end
+            end
+
+            if row_start > -1 and row_end > -1 then
+              local mode = vim.fn.mode()
+              vim.cmd.normal(mode)
+              vim.cmd.normal(row_start .. 'G')
+              vim.cmd.normal(mode)
+              vim.cmd.normal(row_end .. 'G')
+            else
+              vim.notify 'No hunk'
+            end
+          end, { buffer = ev.buf })
 
           vim.keymap.set({ 'n', 'x' }, '_', function()
             local line = vim.api.nvim_get_current_line()
