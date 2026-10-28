@@ -171,7 +171,7 @@ M.treesitter = function(opts)
                 local text = ''
 
                 capture.text = capture.text or 'identifier'
-                if capture.text == 'identifier' then
+                if capture.text == 'identifier' or capture.text == 'preceding' then
                   capture.identifier = capture.identifier or { 'identifier' }
                   local identifier_node = node
                   for child in node:iter_children() do
@@ -186,10 +186,11 @@ M.treesitter = function(opts)
 
                   row, col = identifier_node:start()
                   text = vim.treesitter.get_node_text(identifier_node, bufnr)
-                elseif capture.text == 'preceding' then
-                  text = line
-                  local prefix = text:sub(1, col):match '%S+$' or ''
-                  text = prefix .. text:sub(col + 1)
+
+                  if capture.text == 'preceding' then
+                    local prefix = line:sub(1, col):match '%S+$' or ''
+                    text = prefix .. text
+                  end
                 elseif capture.text == 'full' then
                   text = vim.trim(line)
                 else
