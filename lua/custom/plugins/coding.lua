@@ -691,6 +691,7 @@ return {
       map('diagnostic', '<leader>?', '<leader>?')
       map('number', '<leader>n', '<leader>n')
       map('indentation', 'i', 'i')
+      map('lastChange', '<leader>p', '<leader>p', 'last change')
     end,
   },
 
