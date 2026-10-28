@@ -180,9 +180,9 @@ return {
               end
             end
 
+            local mode = vim.fn.mode()
+            vim.cmd.normal(mode)
             if row_start > -1 and row_end > -1 then
-              local mode = vim.fn.mode()
-              vim.cmd.normal(mode)
               vim.cmd.normal(row_start .. 'G')
               vim.cmd.normal(mode)
               vim.cmd.normal(row_end .. 'G')
