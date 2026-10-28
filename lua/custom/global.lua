@@ -7,4 +7,5 @@ Toolkit.log = function(...)
     chunks[i] = { vim.inspect(v) }
   end
   vim.api.nvim_echo(chunks, true, {})
+  return ...
 end
