@@ -41,9 +41,8 @@ local ts = {}
 --- @param info { ai_type: "a" | "i" }
 ts.select_with_fallback = function(capture, fallback, info)
   local ts_select = require 'nvim-treesitter-textobjects.select'
-  if not pcall(ts_select.select_textobject, capture, 'textobjects') then
-    local keys = vim.api.nvim_replace_termcodes(info.ai_type .. fallback, true, false, true)
-    vim.api.nvim_feedkeys(keys, 'm', false)
+  if not pcall(ts_select.select_textobject, capture, 'textobjects') and fallback then
+    require('mini.ai').select_textobject(info.ai_type, fallback)
   end
 end
 
@@ -513,21 +512,21 @@ return {
 
       ts.map('call', 'f', 'F', 'f', 'f', nil, nil, {
         fallbacks = {
-          select = 'q',
-          goto_start = mini_ai.goto_fallback('left', 'q'),
-          goto_end = mini_ai.goto_fallback('right', 'q'),
-          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'q'),
-          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'q'),
+          select = 'f',
+          goto_start = mini_ai.goto_fallback('left', 'f'),
+          goto_end = mini_ai.goto_fallback('right', 'f'),
+          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'f'),
+          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'f'),
         },
       })
 
       ts.map('parameter', 'a', 'A', 'a', 'a', nil, nil, {
         fallbacks = {
-          select = 'Q',
-          goto_start = mini_ai.goto_fallback('left', 'Q'),
-          goto_end = mini_ai.goto_fallback('right', 'Q'),
-          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'Q'),
-          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'Q'),
+          select = 'a',
+          goto_start = mini_ai.goto_fallback('left', 'a'),
+          goto_end = mini_ai.goto_fallback('right', 'a'),
+          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'a'),
+          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'a'),
         },
       })
       ts.map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
@@ -585,7 +584,6 @@ return {
         -- INFO: Can only define 1-letter long keys.
         custom_textobjects = {
           -- Used by treesitter.
-          ['s'] = false,
           ['b'] = false,
           ['m'] = false,
           ['o'] = false,
@@ -593,8 +591,7 @@ return {
           ['='] = false,
           [' '] = false,
 
-          ['f'] = false,
-          ['q'] = {
+          ['f'] = {
             {
               '%f[%w%.%:][%w%.%-%:]+%s*%b()',
               '%f[%w%.%:][%w%.%-%:]+%s*%b[]',
@@ -602,14 +599,13 @@ return {
             -- Stuff between `()` in mini.ai lua patterns is the capture.
             '^().+()[%(%[].*',
           },
-          ['a'] = false,
-          ['Q'] = ai.gen_spec.argument(),
+          ['a'] = ai.gen_spec.argument(),
 
           -- These patterns have a limitation of choosing the shorter textobject. That becomes
           -- problematic when having 2 texts both ending on a newline but the second being shorter.
           -- Mini will choose the second shorter text when the textobjects overlap (like on the
           -- separator: `.!?,;:-`), even though the separator belongs to the first sentence.
-          ['!'] = {
+          ['s'] = {
             {
               -- Sentence following another sentence or comment start.
               '[%.%?!#/*][^%w\n]*\n?[^%w\n]*()()%w[^%.%?!]*[%.%?!]+()()',
@@ -622,7 +618,7 @@ return {
               '\n\n%W*()()%w[^%.%?!]*[%.%?!]+()()',
             },
           },
-          ['&'] = {
+          ['S'] = {
             {
               -- Sentence clause following another clause or comment start.
               '[%.%?!#/*,;:%-][^%w\n]*\n?[^%w\n]*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()()',
@@ -663,12 +659,12 @@ return {
       mini_ai.map('`', '`s', '`e', '` start', '` end')
 
       -- Sentence
-      mini_ai.map('&', '<leader>s', '<leader>S')
+      mini_ai.map('S', '<leader>s', '<leader>S')
       vim.keymap.set({ 'x', 'o' }, 'a<leader>s', function()
-        ai.select_textobject('i', '!')
+        ai.select_textobject('i', 's')
       end)
       vim.keymap.set({ 'x', 'o' }, 'i<leader>s', function()
-        ai.select_textobject('i', '&')
+        ai.select_textobject('i', 'S')
       end)
 
       -- TODO: Create comment navigation that works on a comment block.
