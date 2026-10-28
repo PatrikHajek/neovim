@@ -604,14 +604,19 @@ return {
           },
           ['a'] = false,
           ['Q'] = ai.gen_spec.argument(),
+
+          -- These patterns have a limitation of choosing the shorter textobject. That becomes
+          -- problematic when having 2 texts both ending on a newline but the second being shorter.
+          -- Mini will choose the second shorter text when the textobjects overlap (like on the
+          -- separator: `.!?,;:-`), even though the separator belongs to the first sentence.
           ['!'] = {
             {
               -- Sentence following another sentence or comment start.
-              '[%.%?!#/*]%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+              '[%.%?!#/*][^%w\n]*\n?[^%w\n]*()()%w[^%.%?!]*[%.%?!]+()%s*()',
 
               -- Sentence following a `--` comment. Can't merge above because it has to be 2 dashes
               -- otherwise `Blah blah - blah - blah.` would match as separate sentences.
-              '%-%-%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+              '%-%-[^%w\n]*\n?[^%w\n]*()()%w[^%.%?!]*[%.%?!]+()%s*()',
 
               -- Sentence at the start of a paragraph.
               '\n\n%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
