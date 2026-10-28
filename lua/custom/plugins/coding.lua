@@ -572,8 +572,6 @@ return {
     dependencies = {
       'kiyoon/repeatable-move.nvim',
       'folke/which-key.nvim',
-      'nvim-treesitter/nvim-treesitter',
-      'nvim-treesitter/nvim-treesitter-textobjects',
     },
     config = function()
       local ai = require 'mini.ai'
