@@ -604,6 +604,22 @@ return {
           },
           ['a'] = false,
           ['Q'] = ai.gen_spec.argument(),
+          ['!'] = {
+            {
+              -- Sentence following another sentence or comment start.
+              '[%.%?!#/*]%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+
+              -- Sentence following a `--` comment. Can't merge above because it has to be 2 dashes
+              -- otherwise `Blah blah - blah - blah.` would match as separate sentences.
+              '%-%-%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+
+              -- Sentence at the start of a paragraph.
+              '\n\n%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+
+              -- Sentence at the start of the file.
+              '^%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+            },
+          },
         },
       }
 
@@ -630,6 +646,15 @@ return {
       mini_ai.map("'", "'s", "'e", "' start", "' end")
       mini_ai.map('"', '"s', '"e', '" start', '" end')
       mini_ai.map('`', '`s', '`e', '` start', '` end')
+
+      -- Sentence
+      mini_ai.map('!', '<leader>s', '<leader>S')
+      vim.keymap.set({ 'x', 'o' }, 'a<leader>s', function()
+        ai.select_textobject('a', '!')
+      end)
+      vim.keymap.set({ 'x', 'o' }, 'i<leader>s', function()
+        ai.select_textobject('i', '!')
+      end)
 
       -- TODO: Create comment navigation that works on a comment block.
       vim.keymap.set({ 'x', 'o' }, 'a<leader>c', require('mini.comment').textobject, { desc = 'comment' })
