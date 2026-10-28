@@ -625,6 +625,19 @@ return {
               '^%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
             },
           },
+          ['&'] = {
+            {
+              -- Sentence clause following another clause or comment start.
+              '[%.%?!#/*,;:%-][^%w\n]*\n?[^%w\n]*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()%s*()',
+
+              -- Sentence clause following a `--` comment. Can't merge above because it has to be 2
+              -- dashes otherwise the comment token would be treated as part of the sentence.
+              '%-%-[^%w\n]*\n?[^%w\n]*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()%s*()',
+
+              -- Sentence clause at the start of a paragraph.
+              '\n\n%W*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()%s*()',
+            },
+          },
         },
       }
 
@@ -653,12 +666,12 @@ return {
       mini_ai.map('`', '`s', '`e', '` start', '` end')
 
       -- Sentence
-      mini_ai.map('!', '<leader>s', '<leader>S')
+      mini_ai.map('&', '<leader>s', '<leader>S')
       vim.keymap.set({ 'x', 'o' }, 'a<leader>s', function()
-        ai.select_textobject('a', '!')
+        ai.select_textobject('i', '!')
       end)
       vim.keymap.set({ 'x', 'o' }, 'i<leader>s', function()
-        ai.select_textobject('i', '!')
+        ai.select_textobject('i', '&')
       end)
 
       -- TODO: Create comment navigation that works on a comment block.
