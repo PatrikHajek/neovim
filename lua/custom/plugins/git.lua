@@ -139,7 +139,7 @@ return {
                 return
               end
             end
-          end)
+          end, { buffer = ev.buf })
           vim.keymap.set('n', '<C-k>', function()
             local row, col = unpack(vim.api.nvim_win_get_cursor(0))
             local lines = vim.api.nvim_buf_get_lines(0, 0, row, false)
@@ -154,7 +154,7 @@ return {
                 return
               end
             end
-          end)
+          end, { buffer = ev.buf })
 
           vim.keymap.set({ 'n', 'x' }, '_', function()
             local line = vim.api.nvim_get_current_line()
