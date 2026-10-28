@@ -612,14 +612,14 @@ return {
           ['!'] = {
             {
               -- Sentence following another sentence or comment start.
-              '[%.%?!#/*][^%w\n]*\n?[^%w\n]*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+              '[%.%?!#/*][^%w\n]*\n?[^%w\n]*()()%w[^%.%?!]*[%.%?!]+()()',
 
               -- Sentence following a `--` comment. Can't merge above because it has to be 2 dashes
               -- otherwise `Blah blah - blah - blah.` would match as separate sentences.
-              '%-%-[^%w\n]*\n?[^%w\n]*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+              '%-%-[^%w\n]*\n?[^%w\n]*()()%w[^%.%?!]*[%.%?!]+()()',
 
               -- Sentence at the start of a paragraph.
-              '\n\n%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
+              '\n\n%W*()()%w[^%.%?!]*[%.%?!]+()()',
 
               -- Sentence at the start of the file.
               '^%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
@@ -628,14 +628,14 @@ return {
           ['&'] = {
             {
               -- Sentence clause following another clause or comment start.
-              '[%.%?!#/*,;:%-][^%w\n]*\n?[^%w\n]*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()%s*()',
+              '[%.%?!#/*,;:%-][^%w\n]*\n?[^%w\n]*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()()',
 
               -- Sentence clause following a `--` comment. Can't merge above because it has to be 2
               -- dashes otherwise the comment token would be treated as part of the sentence.
-              '%-%-[^%w\n]*\n?[^%w\n]*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()%s*()',
+              '%-%-[^%w\n]*\n?[^%w\n]*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()()',
 
               -- Sentence clause at the start of a paragraph.
-              '\n\n%W*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()%s*()',
+              '\n\n%W*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()()',
             },
           },
         },
