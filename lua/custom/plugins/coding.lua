@@ -234,6 +234,27 @@ ts.map_swap = function(textobject_next, textobject_prev, key, name)
   end, { desc = name })
 end
 
+local mini_ai = {}
+
+--- @return textobjects.GotoOpts
+mini_ai.goto_fallback = function(side, id)
+  return {
+    next = function()
+      require('mini.ai').move_cursor(side, 'a', id, { search_method = 'next' })
+    end,
+    prev = function()
+      require('mini.ai').move_cursor(side, 'a', id, { search_method = 'prev' })
+    end,
+  }
+end
+
+--- @return textobjects.GotoEnclosingOpts
+mini_ai.goto_enclosing_fallback = function(side, id)
+  return function()
+    require('mini.ai').move_cursor(side, 'a', id, { search_method = 'cover' })
+  end
+end
+
 return {
   {
     'folke/which-key.nvim',
@@ -444,42 +465,23 @@ return {
 
       ts.map('function', 'm', 'M', 'm', 'm')
 
-      --- @return textobjects.GotoOpts
-      local function fallback_goto_mini_ai(side, id)
-        return {
-          next = function()
-            require('mini.ai').move_cursor(side, 'a', id, { search_method = 'next' })
-          end,
-          prev = function()
-            require('mini.ai').move_cursor(side, 'a', id, { search_method = 'prev' })
-          end,
-        }
-      end
-
-      --- @return textobjects.GotoEnclosingOpts
-      local function fallback_goto_enclosing_mini_ai(side, id)
-        return function()
-          require('mini.ai').move_cursor(side, 'a', id, { search_method = 'cover' })
-        end
-      end
-
       ts.map('call', 'f', 'F', 'f', 'f', nil, nil, {
         fallbacks = {
           select = 'q',
-          goto_start = fallback_goto_mini_ai('left', 'q'),
-          goto_end = fallback_goto_mini_ai('right', 'q'),
-          goto_enclosing_start = fallback_goto_enclosing_mini_ai('left', 'q'),
-          goto_enclosing_end = fallback_goto_enclosing_mini_ai('right', 'q'),
+          goto_start = mini_ai.goto_fallback('left', 'q'),
+          goto_end = mini_ai.goto_fallback('right', 'q'),
+          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'q'),
+          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'q'),
         },
       })
 
       ts.map('parameter', 'a', 'A', 'a', 'a', nil, nil, {
         fallbacks = {
           select = 'Q',
-          goto_start = fallback_goto_mini_ai('left', 'Q'),
-          goto_end = fallback_goto_mini_ai('right', 'Q'),
-          goto_enclosing_start = fallback_goto_enclosing_mini_ai('left', 'Q'),
-          goto_enclosing_end = fallback_goto_enclosing_mini_ai('right', 'Q'),
+          goto_start = mini_ai.goto_fallback('left', 'Q'),
+          goto_end = mini_ai.goto_fallback('right', 'Q'),
+          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'Q'),
+          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'Q'),
         },
       })
       ts.map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
