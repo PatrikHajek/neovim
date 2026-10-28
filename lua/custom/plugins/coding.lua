@@ -620,9 +620,6 @@ return {
 
               -- Sentence at the start of a paragraph.
               '\n\n%W*()()%w[^%.%?!]*[%.%?!]+()()',
-
-              -- Sentence at the start of the file.
-              '^%W*()()%w[^%.%?!]*[%.%?!]+()%s*()',
             },
           },
           ['&'] = {
