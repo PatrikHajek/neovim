@@ -657,13 +657,13 @@ return {
       mini_ai.map('`', '`s', '`e', '` start', '` end')
 
       -- Sentence
-      mini_ai.map('S', '<leader>s', '<leader>S')
+      mini_ai.map('S', '<leader>s', '<leader>S', 'sentence', 'sentence')
       vim.keymap.set({ 'x', 'o' }, 'a<leader>s', function()
         ai.select_textobject('i', 's')
-      end)
+      end, { desc = 'sentence' })
       vim.keymap.set({ 'x', 'o' }, 'i<leader>s', function()
         ai.select_textobject('i', 'S')
-      end)
+      end, { desc = 'sentence' })
 
       -- TODO: Create comment navigation that works on a comment block.
       vim.keymap.set({ 'x', 'o' }, 'a<leader>c', require('mini.comment').textobject, { desc = 'comment' })
