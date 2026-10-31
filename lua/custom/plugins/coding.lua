@@ -36,9 +36,13 @@ vim.keymap.set({ 'x', 'o' }, 'i<leader>t', 'it', { noremap = true, desc = 'tag b
 
 local ts = {}
 
+--- @alias textobjects.SelectType "a" | "i"
+---
+--- @alias textobjects.Select fun(ai_type: textobjects.SelectType)
+
 --- @param capture string
---- @param fallback string|nil
---- @param info { ai_type: "a" | "i" }
+--- @param fallback textobjects.Select|nil
+--- @param info { ai_type: textobjects.SelectType }
 ts.select_with_fallback = function(capture, fallback, info)
   local ts_select = require 'nvim-treesitter-textobjects.select'
   if pcall(ts_select.select_textobject, capture, 'textobjects') then
@@ -56,7 +60,7 @@ ts.select_with_fallback = function(capture, fallback, info)
   end
 
   if fallback then
-    require('mini.ai').select_textobject(info.ai_type, fallback)
+    fallback(info.ai_type)
   end
 end
 
@@ -116,7 +120,7 @@ end
 
 -- [[ Textobjects ]]
 --- @class textobjects.Fallbacks
---- @field select string?
+--- @field select textobjects.Select?
 --- @field goto_start textobjects.GotoOpts?
 --- @field goto_end textobjects.GotoOpts?
 --- @field goto_enclosing_start textobjects.GotoEnclosingOpts?
@@ -252,6 +256,14 @@ ts.map_swap = function(textobject_next, textobject_prev, key, name)
 end
 
 local mini_ai = {}
+
+--- @param id string
+mini_ai.select_fallback = function(id)
+  --- @param select_type textobjects.SelectType
+  return function(select_type)
+    require('mini.ai').select_textobject(select_type, id)
+  end
+end
 
 --- @return textobjects.GotoOpts
 mini_ai.goto_fallback = function(side, id)
@@ -536,21 +548,21 @@ return {
 
       ts.map('call', 'f', 'F', 'f', 'f', nil, nil, {
         fallbacks = {
-          select = 'f',
-          goto_start = mini_ai.goto_fallback('left', 'f'),
-          goto_end = mini_ai.goto_fallback('right', 'f'),
-          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'f'),
-          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'f'),
+          select = mini_ai.select_fallback 'call',
+          goto_start = mini_ai.goto_fallback('left', 'call'),
+          goto_end = mini_ai.goto_fallback('right', 'call'),
+          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'call'),
+          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'call'),
         },
       })
 
       ts.map('parameter', 'j', 'J', 'j', 'j', nil, nil, {
         fallbacks = {
-          select = 'a',
-          goto_start = mini_ai.goto_fallback('left', 'a'),
-          goto_end = mini_ai.goto_fallback('right', 'a'),
-          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'a'),
-          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'a'),
+          select = mini_ai.select_fallback 'parameter',
+          goto_start = mini_ai.goto_fallback('left', 'parameter'),
+          goto_end = mini_ai.goto_fallback('right', 'parameter'),
+          goto_enclosing_start = mini_ai.goto_enclosing_fallback('left', 'parameter'),
+          goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'parameter'),
         },
       })
       ts.map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
@@ -612,8 +624,11 @@ return {
           ['c'] = false,
           ['='] = false,
           [' '] = false,
+          ['q'] = false,
+          ['f'] = false,
+          ['a'] = false,
 
-          ['f'] = {
+          ['call'] = {
             {
               '%f[%w_%.%:][%w_%.%-%:]+%s*%b()',
               '%f[%w_%.%:][%w_%.%-%:]+%s*%b[]',
@@ -621,7 +636,7 @@ return {
             -- Stuff between `()` in mini.ai lua patterns is the capture.
             '^().+()[%(%[].*',
           },
-          ['a'] = ai.gen_spec.argument(),
+          ['parameter'] = ai.gen_spec.argument(),
 
           -- These patterns have a limitation of choosing the shorter textobject. That becomes
           -- problematic when having 2 texts both ending on a newline but the second being shorter.
