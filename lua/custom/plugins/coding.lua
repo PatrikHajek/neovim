@@ -635,6 +635,10 @@ return {
               '\n\n%W*()()%w[^%.%?!,;:%-]*[%.%?!,;:%-]+()()',
             },
           },
+
+          ['n'] = {
+            '()%f[%+%-%.%d][%-%+]?()%d*%.?%d+%f[^%d]()()',
+          },
         },
       }
 
@@ -670,6 +674,15 @@ return {
       vim.keymap.set({ 'x', 'o' }, 'i<leader>s', function()
         ai.select_textobject('i', 'S')
       end, { desc = 'sentence' })
+
+      -- Number
+      mini_ai.map('n', '<leader>n', '<leader>N', 'number', 'number')
+      vim.keymap.set({ 'x', 'o' }, 'a<leader>n', function()
+        ai.select_textobject('a', 'n')
+      end, { desc = 'number' })
+      vim.keymap.set({ 'x', 'o' }, 'i<leader>n', function()
+        ai.select_textobject('i', 'n')
+      end, { desc = 'number' })
 
       -- TODO: Create comment navigation that works on a comment block.
       vim.keymap.set({ 'x', 'o' }, 'a<leader>c', require('mini.comment').textobject, { desc = 'comment' })
@@ -732,7 +745,6 @@ return {
       map('chainMember', '<leader>m', '<leader>m', 'chain member')
       map('filepath', '<leader>f', '<leader>f')
       map('diagnostic', '<leader>?', '<leader>?')
-      map('number', '<leader>n', '<leader>n')
       map('indentation', 'i', 'i')
       map('lastChange', '<leader>p', '<leader>p', 'last change')
     end,
