@@ -244,6 +244,7 @@ return {
         { name = 'exception', kind = 'keyword.exception' },
         { name = 'parameter', kind = 'variable.parameter', chars = 8 },
         { name = 'parameter', kind = 'local.definition.parameter', hl = '@variable.parameter', chars = 8 },
+        { name = 'member', kind = 'local.definition.field', hl = '@variable.member', chars = 10 },
         { name = 'member', kind = 'variable.member', chars = 10 },
         { name = 'member', kind = 'property', hl = '@variable.member', chars = 10 },
         { name = 'variable', kind = 'local.definition.var', hl = '@variable' },
