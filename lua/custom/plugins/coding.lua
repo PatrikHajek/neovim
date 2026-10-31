@@ -258,6 +258,7 @@ end
 local mini_ai = {}
 
 --- @param id string
+--- @return textobjects.SelectFallback
 mini_ai.select_fallback = function(id)
   --- @param select_type textobjects.SelectType
   return function(select_type)
@@ -265,6 +266,8 @@ mini_ai.select_fallback = function(id)
   end
 end
 
+--- @param side 'left' | 'right'
+--- @param id string
 --- @return textobjects.GotoFallbacks
 mini_ai.goto_fallback = function(side, id)
   return {
@@ -277,6 +280,8 @@ mini_ai.goto_fallback = function(side, id)
   }
 end
 
+--- @param side 'left' | 'right'
+--- @param id string
 --- @return textobjects.GotoEnclosingFallback
 mini_ai.goto_enclosing_fallback = function(side, id)
   return function()
