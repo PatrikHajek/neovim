@@ -40,6 +40,14 @@ local ts = {}
 ---
 --- @alias textobjects.Select fun(select_type: textobjects.SelectType)
 
+--- @class textobjects.GotoOpts
+--- Go to the next occurrence of this textobject.
+--- @field next fun()
+--- Go to the previous occurrence of this textobject.
+--- @field prev fun()
+---
+--- @alias textobjects.GotoEnclosingOpts fun()
+
 --- @param capture string
 --- @param fallback textobjects.Select|nil
 --- @param info { select_type: textobjects.SelectType }
@@ -63,14 +71,6 @@ ts.select_with_fallback = function(capture, fallback, info)
     fallback(info.select_type)
   end
 end
-
---- @class textobjects.GotoOpts
---- Go to the next occurrence of this textobject.
---- @field next fun()
---- Go to the previous occurrence of this textobject.
---- @field prev fun()
----
---- @alias textobjects.GotoEnclosingOpts fun()
 
 --- @param fallback textobjects.GotoOpts?
 --- @return fun()
