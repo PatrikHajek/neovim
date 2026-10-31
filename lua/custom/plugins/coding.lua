@@ -38,11 +38,11 @@ local ts = {}
 
 --- @alias textobjects.SelectType "a" | "i"
 ---
---- @alias textobjects.Select fun(ai_type: textobjects.SelectType)
+--- @alias textobjects.Select fun(select_type: textobjects.SelectType)
 
 --- @param capture string
 --- @param fallback textobjects.Select|nil
---- @param info { ai_type: textobjects.SelectType }
+--- @param info { select_type: textobjects.SelectType }
 ts.select_with_fallback = function(capture, fallback, info)
   local ts_select = require 'nvim-treesitter-textobjects.select'
   if pcall(ts_select.select_textobject, capture, 'textobjects') then
@@ -60,7 +60,7 @@ ts.select_with_fallback = function(capture, fallback, info)
   end
 
   if fallback then
-    fallback(info.ai_type)
+    fallback(info.select_type)
   end
 end
 
@@ -176,40 +176,40 @@ ts.map = function(textobject, key_start, key_end, key_around, key_inner, key_enc
   if key_around then
     vim.keymap.set({ 'x', 'o' }, 'a' .. key_around, function()
       vim.cmd 'normal! m`'
-      ts.select_with_fallback(capture .. '.outer', opts.fallbacks.select, { ai_type = 'a' })
+      ts.select_with_fallback(capture .. '.outer', opts.fallbacks.select, { select_type = 'a' })
     end, { desc = opts.name })
 
     vim.keymap.set({ 'x', 'o' }, 'an' .. key_around, function()
       vim.cmd 'normal! m`'
       ts_move.goto_next_start(capture .. '.outer', 'textobjects')
-      ts.select_with_fallback(capture .. '.outer', opts.fallbacks.select, { ai_type = 'a' })
+      ts.select_with_fallback(capture .. '.outer', opts.fallbacks.select, { select_type = 'a' })
     end, { desc = opts.name })
 
     vim.keymap.set({ 'x', 'o' }, 'al' .. key_around, function()
       vim.cmd 'normal! m`'
       ts_move.goto_previous_start(capture .. '.outer', 'textobjects')
       ts_move.goto_previous_start(capture .. '.outer', 'textobjects')
-      ts.select_with_fallback(capture .. '.outer', opts.fallbacks.select, { ai_type = 'a' })
+      ts.select_with_fallback(capture .. '.outer', opts.fallbacks.select, { select_type = 'a' })
     end, { desc = opts.name })
   end
 
   if key_inner then
     vim.keymap.set({ 'x', 'o' }, 'i' .. key_inner, function()
       vim.cmd 'normal! m`'
-      ts.select_with_fallback(capture .. '.inner', opts.fallbacks.select, { ai_type = 'i' })
+      ts.select_with_fallback(capture .. '.inner', opts.fallbacks.select, { select_type = 'i' })
     end, { desc = opts.name })
 
     vim.keymap.set({ 'x', 'o' }, 'in' .. key_around, function()
       vim.cmd 'normal! m`'
       ts_move.goto_next_start(capture .. '.inner', 'textobjects')
-      ts.select_with_fallback(capture .. '.inner', opts.fallbacks.select, { ai_type = 'i' })
+      ts.select_with_fallback(capture .. '.inner', opts.fallbacks.select, { select_type = 'i' })
     end, { desc = opts.name })
 
     vim.keymap.set({ 'x', 'o' }, 'il' .. key_around, function()
       vim.cmd 'normal! m`'
       ts_move.goto_previous_start(capture .. '.inner', 'textobjects')
       ts_move.goto_previous_start(capture .. '.inner', 'textobjects')
-      ts.select_with_fallback(capture .. '.inner', opts.fallbacks.select, { ai_type = 'i' })
+      ts.select_with_fallback(capture .. '.inner', opts.fallbacks.select, { select_type = 'i' })
     end, { desc = opts.name })
   end
 
