@@ -38,18 +38,18 @@ local ts = {}
 
 --- @alias textobjects.SelectType "a" | "i"
 ---
---- @alias textobjects.Select fun(select_type: textobjects.SelectType)
+--- @alias textobjects.SelectFallback fun(select_type: textobjects.SelectType)
 
---- @class textobjects.GotoOpts
+--- @class textobjects.GotoFallbacks
 --- Go to the next occurrence of this textobject.
 --- @field next fun()
 --- Go to the previous occurrence of this textobject.
 --- @field prev fun()
 ---
---- @alias textobjects.GotoEnclosingOpts fun()
+--- @alias textobjects.GotoEnclosingFallback fun()
 
 --- @param capture string
---- @param fallback textobjects.Select|nil
+--- @param fallback textobjects.SelectFallback|nil
 --- @param info { select_type: textobjects.SelectType }
 ts.select_with_fallback = function(capture, fallback, info)
   local ts_select = require 'nvim-treesitter-textobjects.select'
@@ -72,7 +72,7 @@ ts.select_with_fallback = function(capture, fallback, info)
   end
 end
 
---- @param fallback textobjects.GotoOpts?
+--- @param fallback textobjects.GotoFallbacks?
 --- @return fun()
 --- @return fun()
 ts.prepare_goto_fallback = function(fallback)
@@ -103,7 +103,7 @@ ts.goto_with_fallback = function(fn, captures, query_name, fallback)
   end
 end
 
---- @param fallback textobjects.GotoEnclosingOpts?
+--- @param fallback textobjects.GotoEnclosingFallback?
 --- @return fun()
 ts.prepare_goto_enclosing_fallback = function(fallback)
   if fallback then
@@ -120,11 +120,11 @@ end
 
 -- [[ Textobjects ]]
 --- @class textobjects.Fallbacks
---- @field select textobjects.Select?
---- @field goto_start textobjects.GotoOpts?
---- @field goto_end textobjects.GotoOpts?
---- @field goto_enclosing_start textobjects.GotoEnclosingOpts?
---- @field goto_enclosing_end textobjects.GotoEnclosingOpts?
+--- @field select textobjects.SelectFallback?
+--- @field goto_start textobjects.GotoFallbacks?
+--- @field goto_end textobjects.GotoFallbacks?
+--- @field goto_enclosing_start textobjects.GotoEnclosingFallback?
+--- @field goto_enclosing_end textobjects.GotoEnclosingFallback?
 
 --- @param textobject string
 --- @param key_start string | false
@@ -265,7 +265,7 @@ mini_ai.select_fallback = function(id)
   end
 end
 
---- @return textobjects.GotoOpts
+--- @return textobjects.GotoFallbacks
 mini_ai.goto_fallback = function(side, id)
   return {
     next = function()
@@ -277,7 +277,7 @@ mini_ai.goto_fallback = function(side, id)
   }
 end
 
---- @return textobjects.GotoEnclosingOpts
+--- @return textobjects.GotoEnclosingFallback
 mini_ai.goto_enclosing_fallback = function(side, id)
   return function()
     require('mini.ai').move_cursor(side, 'a', id, { search_method = 'cover' })
