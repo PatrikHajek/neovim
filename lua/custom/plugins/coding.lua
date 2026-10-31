@@ -62,7 +62,7 @@ ts.select_with_fallback = function(capture, fallback, info)
 
   local has_captures = require('custom.utils.treesitter').has_captures
   -- This branch also checks for no active parser.
-  if not has_captures({ capture }, 'textobjects') then
+  if not has_captures({ capture:sub(2) }, 'textobjects') then
     fallback(info.select_type)
     return
   end

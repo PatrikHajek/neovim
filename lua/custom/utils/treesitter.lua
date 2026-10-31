@@ -2,6 +2,8 @@ local M = {}
 
 --- Checks if the query file has defined any of the captures.
 ---
+--- Provide captures without leading `@`.
+---
 --- @param captures string[]
 --- @param query_name string
 --- @return boolean
