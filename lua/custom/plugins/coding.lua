@@ -45,6 +45,11 @@ ts.select_with_fallback = function(capture, fallback, info)
     return
   end
 
+  local has_captures = require('custom.utils.treesitter').has_captures
+  if has_captures({ capture }, 'textobjects') then
+    return
+  end
+
   local node = vim.treesitter.get_node()
   local node_type = node and node:type() or ''
   if not node_type:find 'comment' then
@@ -84,6 +89,17 @@ ts.prepare_goto_fallback = function(fallback)
   end
 end
 
+--- @param fn fun()
+--- @param captures string[]
+---@param query_name string
+---@param fallback fun()
+ts.goto_with_fallback = function(fn, captures, query_name, fallback)
+  local utils = require 'custom.utils.treesitter'
+  if not pcall(fn, captures, query_name) or not utils.has_captures(captures, query_name) then
+    fallback()
+  end
+end
+
 --- @param fallback textobjects.GotoEnclosingOpts?
 --- @return fun()
 ts.prepare_goto_enclosing_fallback = function(fallback)
@@ -119,6 +135,7 @@ ts.map = function(textobject, key_start, key_end, key_around, key_inner, key_enc
   local ts_move = require 'nvim-treesitter-textobjects.move'
   local ts_repeat_move = require 'nvim-treesitter-textobjects.repeatable_move'
   local move = require 'custom.plugins.treesitter.move'
+  local utils = require 'custom.utils.treesitter'
 
   if key_enclosing_start == nil then
     key_enclosing_start = key_start
@@ -136,28 +153,20 @@ ts.map = function(textobject, key_start, key_end, key_around, key_inner, key_enc
   if key_start then
     local fallback_next, fallback_prev = ts.prepare_goto_fallback(opts.fallbacks.goto_start)
     vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_start, function()
-      if not pcall(ts_move.goto_next_start, { capture .. '.outer' }, 'textobjects') then
-        fallback_next()
-      end
+      ts.goto_with_fallback(ts_move.goto_next_start, { capture .. '.outer' }, 'textobjects', fallback_next)
     end, { desc = 'Next ' .. opts.name .. ' start' })
     vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_start, function()
-      if not pcall(ts_move.goto_previous_start, { capture .. '.outer' }, 'textobjects') then
-        fallback_prev()
-      end
+      ts.goto_with_fallback(ts_move.goto_previous_start, { capture .. '.outer' }, 'textobjects', fallback_prev)
     end, { desc = 'Previous ' .. opts.name .. ' start' })
   end
 
   if key_end then
     local fallback_next, fallback_prev = ts.prepare_goto_fallback(opts.fallbacks.goto_end)
     vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_end, function()
-      if not pcall(ts_move.goto_next_end, { capture .. '.outer' }, 'textobjects') then
-        fallback_next()
-      end
+      ts.goto_with_fallback(ts_move.goto_next_end, { capture .. '.outer' }, 'textobjects', fallback_next)
     end, { desc = 'Next ' .. opts.name .. ' end' })
     vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_end, function()
-      if not pcall(ts_move.goto_previous_end, { capture .. '.outer' }, 'textobjects') then
-        fallback_prev()
-      end
+      ts.goto_with_fallback(ts_move.goto_previous_end, { capture .. '.outer' }, 'textobjects', fallback_prev)
     end, { desc = 'Previous ' .. opts.name .. ' end' })
   end
 
@@ -207,7 +216,7 @@ ts.map = function(textobject, key_start, key_end, key_around, key_inner, key_enc
     end)
     local fallback = ts.prepare_goto_enclosing_fallback(opts.fallbacks.goto_enclosing_start)
     vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_start, function()
-      if pcall(vim.treesitter.get_parser, 0) then
+      if pcall(vim.treesitter.get_parser, 0) and utils.has_captures({ capture .. '.outer' }, 'textobjects') then
         goto_enclosing_start { forward = true }
       else
         fallback()
@@ -221,7 +230,7 @@ ts.map = function(textobject, key_start, key_end, key_around, key_inner, key_enc
     end)
     local fallback = ts.prepare_goto_enclosing_fallback(opts.fallbacks.goto_enclosing_end)
     vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_end, function()
-      if pcall(vim.treesitter.get_parser, 0) then
+      if pcall(vim.treesitter.get_parser, 0) and utils.has_captures({ capture .. '.outer' }, 'textobjects') then
         goto_enclosing_end { forward = true }
       else
         fallback()
