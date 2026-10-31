@@ -520,7 +520,7 @@ return {
 
       ts.map('yield', 'y', 'Y', 'y', 'y')
 
-      ts.map('statement', 's', 'S', 's', false)
+      ts.map('statement', 'k', 'K', 'k', false, nil, nil, { name = 'chun[K] (statement)' })
       vim.keymap.set('n', ']z', ']s', { desc = 'Next misspelled word' })
       vim.keymap.set('n', '[z', '[s', { desc = 'Previous misspelled word' })
 
@@ -752,7 +752,7 @@ return {
         end
       end
 
-      map('subword', false, 's')
+      map('subword', 's', 's')
       map('url', '<leader>u', '<leader>u')
       map('chainMember', '<leader>m', '<leader>m', 'chain member')
       map('filepath', '<leader>f', '<leader>f')
