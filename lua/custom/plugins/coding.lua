@@ -40,7 +40,7 @@ local ts = {}
 ---
 --- @alias textobjects.SelectFallback fun(select_type: textobjects.SelectType)
 
---- @class textobjects.GotoFallbacks
+--- @class textobjects.GotoFallback
 --- Go to the next occurrence of this textobject.
 --- @field next fun()
 --- Go to the previous occurrence of this textobject.
@@ -72,7 +72,7 @@ ts.select_with_fallback = function(capture, fallback, info)
   end
 end
 
---- @param fallback textobjects.GotoFallbacks?
+--- @param fallback textobjects.GotoFallback?
 --- @return fun()
 --- @return fun()
 ts.prepare_goto_fallback = function(fallback)
@@ -121,8 +121,8 @@ end
 -- [[ Textobjects ]]
 --- @class textobjects.Fallbacks
 --- @field select textobjects.SelectFallback?
---- @field goto_start textobjects.GotoFallbacks?
---- @field goto_end textobjects.GotoFallbacks?
+--- @field goto_start textobjects.GotoFallback?
+--- @field goto_end textobjects.GotoFallback?
 --- @field goto_enclosing_start textobjects.GotoEnclosingFallback?
 --- @field goto_enclosing_end textobjects.GotoEnclosingFallback?
 
@@ -268,7 +268,7 @@ end
 
 --- @param side 'left' | 'right'
 --- @param id string
---- @return textobjects.GotoFallbacks
+--- @return textobjects.GotoFallback
 mini_ai.goto_fallback = function(side, id)
   return {
     next = function()
