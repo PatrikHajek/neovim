@@ -544,7 +544,7 @@ return {
         },
       })
 
-      ts.map('parameter', 'a', 'A', 'a', 'a', nil, nil, {
+      ts.map('parameter', 'j', 'J', 'j', 'j', nil, nil, {
         fallbacks = {
           select = 'a',
           goto_start = mini_ai.goto_fallback('left', 'a'),
