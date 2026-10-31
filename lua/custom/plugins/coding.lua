@@ -442,6 +442,14 @@ return {
       end)
       vim.keymap.set({ 'n', 'x', 'o' }, ']<leader>s', sentence_next, { desc = 'Next sentence' })
       vim.keymap.set({ 'n', 'x', 'o' }, '[<leader>s', sentence_prev, { desc = 'Previous sentence' })
+
+      local misspell_next, misspell_prev = repeat_move.make_repeatable_move_pair(function()
+        vim.cmd 'normal! ]s'
+      end, function()
+        vim.cmd 'normal! [s'
+      end)
+      vim.keymap.set('n', ']z', misspell_next, { desc = 'Next misspelled word' })
+      vim.keymap.set('n', '[z', misspell_prev, { desc = 'Previous misspelled word' })
     end,
   },
 
@@ -521,8 +529,6 @@ return {
       ts.map('yield', 'y', 'Y', 'y', 'y')
 
       ts.map('statement', 'k', 'K', 'k', false, nil, nil, { name = 'chun[K] (statement)' })
-      vim.keymap.set('n', ']z', ']s', { desc = 'Next misspelled word' })
-      vim.keymap.set('n', '[z', '[s', { desc = 'Previous misspelled word' })
 
       ts.map('class', 't', 'T', 't', 't', false, false, { name = 'type (class)' })
 
