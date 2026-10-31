@@ -2,16 +2,19 @@ local M = {}
 
 --- Checks if the query file has defined any of the captures.
 ---
+--- In the case of no active parser returns `false`.
+---
 --- Provide captures without leading `@`.
 ---
 --- @param captures string[]
 --- @param query_name string
 --- @return boolean
 M.has_captures = function(captures, query_name)
-  local root_parser = vim.treesitter.get_parser(0)
-  if not root_parser then
+  local has_parser, root_parser = pcall(vim.treesitter.get_parser, 0)
+  if not has_parser then
     return false
   end
+  assert(root_parser)
 
   local node = vim.treesitter.get_node()
   if not node then
