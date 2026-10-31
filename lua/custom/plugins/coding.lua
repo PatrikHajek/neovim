@@ -52,24 +52,23 @@ local ts = {}
 --- @param fallback textobjects.SelectFallback|nil
 --- @param info { select_type: textobjects.SelectType }
 ts.select_with_fallback = function(capture, fallback, info)
-  local ts_select = require 'nvim-treesitter-textobjects.select'
-  if pcall(ts_select.select_textobject, capture, 'textobjects') then
+  fallback = fallback or function() end
+
+  local node = vim.treesitter.get_node()
+  if node and node:type():find 'comment' then
+    fallback(info.select_type)
     return
   end
 
   local has_captures = require('custom.utils.treesitter').has_captures
-  if has_captures({ capture }, 'textobjects') then
-    return
-  end
-
-  local node = vim.treesitter.get_node()
-  if node and not node:type():find 'comment' then
-    return
-  end
-
-  if fallback then
+  -- This branch also checks for no active parser.
+  if not has_captures({ capture }, 'textobjects') then
     fallback(info.select_type)
+    return
   end
+
+  local ts_select = require 'nvim-treesitter-textobjects.select'
+  ts_select.select_textobject(capture, 'textobjects')
 end
 
 --- @param fallback textobjects.GotoFallback?
