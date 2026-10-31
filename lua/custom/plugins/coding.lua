@@ -40,14 +40,18 @@ local ts = {}
 --- @param fallback string|nil
 --- @param info { ai_type: "a" | "i" }
 ts.select_with_fallback = function(capture, fallback, info)
-  if not pcall(vim.treesitter.get_parser, 0) then
+  local ts_select = require 'nvim-treesitter-textobjects.select'
+  if pcall(ts_select.select_textobject, capture, 'textobjects') then
     return
   end
 
-  local ts_select = require 'nvim-treesitter-textobjects.select'
   local node = vim.treesitter.get_node()
   local node_type = node and node:type() or ''
-  if (not pcall(ts_select.select_textobject, capture, 'textobjects') or node_type:find 'comment') and fallback then
+  if not node_type:find 'comment' then
+    return
+  end
+
+  if fallback then
     require('mini.ai').select_textobject(info.ai_type, fallback)
   end
 end
