@@ -218,7 +218,7 @@ ts.map = function(textobject, key_start, key_end, key_around, key_inner, key_enc
     end)
     local fallback = ts.prepare_goto_enclosing_fallback(opts.fallbacks.goto_enclosing_start)
     vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_start, function()
-      if pcall(vim.treesitter.get_parser, 0) and utils.has_captures({ capture .. '.outer' }, 'textobjects') then
+      if utils.has_captures({ textobject .. '.outer' }, 'textobjects') then
         goto_enclosing_start { forward = true }
       else
         fallback()
@@ -232,7 +232,7 @@ ts.map = function(textobject, key_start, key_end, key_around, key_inner, key_enc
     end)
     local fallback = ts.prepare_goto_enclosing_fallback(opts.fallbacks.goto_enclosing_end)
     vim.keymap.set({ 'n', 'x', 'o' }, '^' .. key_enclosing_end, function()
-      if pcall(vim.treesitter.get_parser, 0) and utils.has_captures({ capture .. '.outer' }, 'textobjects') then
+      if utils.has_captures({ textobject .. '.outer' }, 'textobjects') then
         goto_enclosing_end { forward = true }
       else
         fallback()
