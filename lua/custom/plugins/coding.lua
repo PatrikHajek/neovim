@@ -51,8 +51,7 @@ ts.select_with_fallback = function(capture, fallback, info)
   end
 
   local node = vim.treesitter.get_node()
-  local node_type = node and node:type() or ''
-  if not node_type:find 'comment' then
+  if node and not node:type():find 'comment' then
     return
   end
 
