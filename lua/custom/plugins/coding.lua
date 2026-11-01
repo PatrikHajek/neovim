@@ -598,6 +598,8 @@ return {
       ts.map('comment', 'd', false, false, false, false, false)
 
       ts.map('expression', 'e', 'E', 'e', 'e')
+      ts.map_swap('expression.inner', 'expression.inner', 'e', 'expression (inner)')
+      ts.map_swap('expression.outer', 'expression.outer', 'E', 'expression (outer)')
 
       ts.map('list_item', '<leader>l', '<leader>L', '<leader>l', '<leader>l', '<leader>l', '<leader>L', { name = 'markdown list item' })
       ts.map('list_item.unchecked', '<leader>u', false, false, false, '<leader>u', '<leader>U', { name = 'markdown list item unchecked' })
