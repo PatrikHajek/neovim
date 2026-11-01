@@ -732,6 +732,103 @@ return {
     version = '^4.0.0', -- Use for stability; omit to use `main` branch for the latest features
     event = 'VeryLazy',
     config = function()
+      local surround = require 'nvim-surround'
+      local config = require 'nvim-surround.config'
+
+      --- @param motion string
+      --- @return fun(): selection | nil
+      local motion = function(motion)
+        return function()
+          return config.get_selection { motion = motion }
+        end
+      end
+
+      --- @generic T
+      --- @param list [string[] | nil, T][]
+      --- @param lang string
+      --- @return T
+      local get_by_lang = function(list, lang)
+        for _, v in ipairs(vim.list_slice(list, 0, #list - 1)) do
+          local langs = v[1]
+          assert(langs, 'Default must be put at the end of the list')
+          if vim.list_contains(langs, lang) then
+            return v[2]
+          end
+        end
+
+        local default = list[#list]
+        assert(not default[1], 'List must contain default at the end')
+        return default[2]
+      end
+
+      --- @param list [string[] | nil, [ [string], [string]]][]
+      --- @return fun(): [ [string], [string]]
+      local pairs_per_lang = function(list)
+        return function()
+          return get_by_lang(list, vim.bo.filetype)
+        end
+      end
+
+      --- @param list [string[] | nil, string][]
+      --- @return fun(char: string | nil): selections | nil
+      local patterns_per_lang = function(list)
+        return function(char)
+          assert(char, "'char' is always provided")
+          return config.get_selections { char = char, pattern = get_by_lang(list, vim.bo.filetype) }
+        end
+      end
+
+      --- @param opts user_surround
+      --- @return user_surround
+      local create_surround = function(opts)
+        return {
+          find = opts.find,
+          add = opts.add,
+          delete = opts.delete,
+          change = opts.change or {
+            target = opts.delete,
+          },
+        }
+      end
+
+      surround.setup {
+        surrounds = {
+          c = create_surround {
+            find = motion 'ac',
+            add = pairs_per_lang {
+              { { 'lua' }, { { 'if x then ' }, { ' end' } } },
+              { nil, { { 'if (x) { ' }, { ' }' } } },
+            },
+            delete = patterns_per_lang {
+              { { 'lua' }, '^(if.+then%s*)().-(%s*end)()$' },
+              { nil, '^(if.+%{%s*)().-(%s*%})()$' },
+            },
+          },
+          o = create_surround {
+            find = motion 'ao',
+            add = pairs_per_lang {
+              { { 'lua' }, { { 'for x, y in z do ' }, { ' end' } } },
+              { nil, { { 'for (x) { ' }, { ' }' } } },
+            },
+            delete = patterns_per_lang {
+              { { 'lua' }, '^(for.+do%s*)().-(%s*end)()$' },
+              { nil, '^(for.+%{%s*)().-(%s*%})()$' },
+            },
+          },
+          m = create_surround {
+            find = motion 'am',
+            add = pairs_per_lang {
+              { { 'lua' }, { { 'function() ' }, { ' end' } } },
+              { nil, { { 'function() { ' }, { ' }' } } },
+            },
+            delete = patterns_per_lang {
+              { { 'lua' }, '^(function.-%(.-%)%s*)().-(%s*end)()$' },
+              { nil, '^(function.-%(.-%)%s*%{%s*)().-(%s*%})()$' },
+            },
+          },
+        },
+      }
+
       vim.keymap.set('x', 'z', 'S', { remap = true })
     end,
   },
