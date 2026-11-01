@@ -804,6 +804,7 @@ return {
               { nil, '^(if.+%{%s*)().-(%s*%})()$' },
             },
           },
+
           o = create_surround {
             find = motion 'ao',
             add = pairs_per_lang {
@@ -815,6 +816,7 @@ return {
               { nil, '^(for.+%{%s*)().-(%s*%})()$' },
             },
           },
+
           m = create_surround {
             find = motion 'am',
             add = pairs_per_lang {
@@ -826,6 +828,7 @@ return {
               { nil, '^(function.-%(.-%)%s*%{%s*)().-(%s*%})()$' },
             },
           },
+
           ['='] = create_surround {
             find = motion 'a=',
             delete = patterns_per_lang {
