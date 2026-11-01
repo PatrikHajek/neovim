@@ -26,15 +26,28 @@ end
 --- @return TSNode?
 local function get_node_captured(node, queries, captures)
   local node_row, node_col = node:range()
+
   --- @type TSNode?
   local n = node
   while n do
     local n_row, n_col = n:range()
-    if get_capture(n, queries, captures) ~= nil and node_row == n_row and node_col == n_col then
+
+    -- Because nodes contain other nodes, their start positions can only get larger when traversing
+    -- upwards. So if the current node doesn't match the original node's start position, no other
+    -- ancestor can/will. This means we can early exit.
+    if n_row ~= node_row or n_col ~= node_col then
+      break
+    end
+
+    -- This is an expensive operation so make sure to run it last.
+    if get_capture(n, queries, captures) ~= nil then
       return n
     end
+
     n = n:parent()
   end
+
+  return nil
 end
 
 --- @param query_files string[]
