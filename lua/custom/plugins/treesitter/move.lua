@@ -20,6 +20,9 @@ local function get_capture(node, queries, captures)
   return nil
 end
 
+--- Returns the 1st node matching any of the `captures` that shares its start position with `node`.
+--- Essentially checks if any nested nodes, like assignment and identifier, match any of `captures`.
+---
 --- @param node TSNode
 --- @param queries { [string]: vim.treesitter.Query }
 --- @param captures string[]
