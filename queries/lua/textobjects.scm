@@ -1,13 +1,5 @@
 ; [[ Standard ]]
 
-; Statements
-
-(block
-  (function_call) @statement.outer)
-(block
-  (assignment_statement) @statement.outer)
-(variable_declaration) @statement.outer
-
 ; Loops
 
 (for_statement
