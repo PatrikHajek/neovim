@@ -95,6 +95,7 @@ local function get_enclosing(opts, predicate)
     return
   end
 
+  -- PERF: Cache per buffer on BufEnter. Currently it's reevaluated on every navigation.
   local queries = opts and prepare_queries(opts.query_files, node) or {}
 
   --- @type TSNode?
@@ -194,6 +195,7 @@ local function get_sibling(opts, dir, predicate)
     return
   end
 
+  -- PERF: Cache per buffer on BufEnter. Currently it's reevaluated on every navigation.
   local queries = opts and prepare_queries(opts.query_files, node) or {}
 
   --- @type TSNode?
