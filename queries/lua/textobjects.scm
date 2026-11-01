@@ -89,6 +89,24 @@
   (assignment_statement
     (expression_list) @assignment.inner))
 
+(chunk
+  (assignment_statement
+    (variable_list) @assignment.inner @assignment.lhs
+    (expression_list) @assignment.rhs) @assignment.outer)
+
+(chunk
+  (assignment_statement
+    (expression_list) @assignment.inner))
+
+(block
+  (assignment_statement
+    (variable_list) @assignment.inner @assignment.lhs
+    (expression_list) @assignment.rhs) @assignment.outer)
+
+(block
+  (assignment_statement
+    (expression_list) @assignment.inner))
+
 (for_numeric_clause
   name: _ @assignment.inner @assignment.lhs @assignment.outer
   "=" @assignment.outer
@@ -218,12 +236,12 @@
 ; number
 (number) @number.inner
 
-(assignment_statement
-  (variable_list) @assignment.lhs
-  (expression_list) @assignment.inner @assignment.rhs) @assignment.outer
-
-(assignment_statement
-  (variable_list) @assignment.inner)
+; (assignment_statement
+;   (variable_list) @assignment.lhs
+;   (expression_list) @assignment.inner @assignment.rhs) @assignment.outer
+;
+; (assignment_statement
+;   (variable_list) @assignment.inner)
 
 ; scopename
 ; statement
