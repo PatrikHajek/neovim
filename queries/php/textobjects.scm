@@ -102,6 +102,10 @@
   _* @call.inner
   ")")
 
+(subscript_expression
+  .
+  _ @call.inner) @call.outer
+
 ; Assignments
 
 (property_declaration
