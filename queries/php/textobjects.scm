@@ -205,6 +205,9 @@
   condition: _ @expression.inner) @expression.outer
 
 (conditional_expression
+  body: _ @expression.inner)
+
+(conditional_expression
   alternative: _ @expression.inner)
 
 (try_statement
