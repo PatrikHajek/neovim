@@ -5,20 +5,11 @@ local M = {}
 --- @param captures string[]
 --- @return string | nil capture The first capture from captures that is queried or nil.
 local function get_capture(node, queries, captures)
-  local scope = node:parent()
-  -- All nodes have a parent except "program", which won't match may capture.
-  if not scope then
-    return
-  end
-
-  -- Use node's range if parent is the whole tree to save on performance. Don't think this breaks
-  -- any captures as no capture probably relies on "program" node.
-  if not scope:parent() then
-    scope = node
-  end
+  local root = node:tree():root()
+  local row_start, _, row_end, _ = node:range()
 
   for _, query in pairs(queries) do
-    for id, matched_node in query:iter_captures(scope, 0) do
+    for id, matched_node in query:iter_captures(root, 0, row_start, row_end + 1) do
       local capture = query.captures[id]
       if vim.list_contains(captures, capture) and matched_node == node then
         return capture
