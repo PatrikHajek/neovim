@@ -569,7 +569,7 @@ return {
           goto_enclosing_end = mini_ai.goto_enclosing_fallback('right', 'parameter'),
         },
       })
-      ts.map_swap('parameter.inner', 'parameter.inner', 'a', 'parameter')
+      ts.map_swap('parameter.inner', 'parameter.inner', 'j', 'parameter')
 
       ts.map('return', 'r', 'R', 'r', 'r')
 
