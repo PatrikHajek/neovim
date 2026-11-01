@@ -595,7 +595,7 @@ return {
         end
       end, { desc = 'rhs of assignment' })
 
-      ts.map('comment', '<leader>c', false, false, false, false, false)
+      ts.map('comment', 'd', false, false, false, false, false)
 
       ts.map('expression', 'e', 'E', 'e', 'e')
 
@@ -722,8 +722,8 @@ return {
       end, { desc = 'number' })
 
       -- TODO: Create comment navigation that works on a comment block.
-      vim.keymap.set({ 'x', 'o' }, 'a<leader>c', require('mini.comment').textobject, { desc = 'comment' })
-      vim.keymap.set({ 'x', 'o' }, 'i<leader>c', require('mini.comment').textobject, { desc = 'comment' })
+      vim.keymap.set({ 'x', 'o' }, 'ad', require('mini.comment').textobject, { desc = 'comment' })
+      vim.keymap.set({ 'x', 'o' }, 'id', require('mini.comment').textobject, { desc = 'comment' })
     end,
   },
 
