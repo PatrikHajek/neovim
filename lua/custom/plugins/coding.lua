@@ -822,7 +822,7 @@ return {
               { nil, { { 'function() { ' }, { ' }' } } },
             },
             delete = patterns_per_lang {
-              { { 'lua' }, '^(function.-%(.-%)%s*)().-(%s*end)()$' },
+              { { 'lua' }, '^(.*function.-%(.-%)%s*)().-(%s*end)()$' },
               { nil, '^(function.-%(.-%)%s*%{%s*)().-(%s*%})()$' },
             },
           },
