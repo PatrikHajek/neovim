@@ -826,6 +826,12 @@ return {
               { nil, '^(function.-%(.-%)%s*%{%s*)().-(%s*%})()$' },
             },
           },
+          ['='] = create_surround {
+            find = motion 'a=',
+            delete = patterns_per_lang {
+              { nil, '^(.*%=%s*)().*()()$' },
+            },
+          },
         },
       }
 
