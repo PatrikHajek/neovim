@@ -13,6 +13,7 @@ return {
       'hrsh7th/cmp-nvim-lsp-signature-help',
       'hrsh7th/cmp-path',
       'hrsh7th/cmp-buffer',
+      'f3fora/cmp-spell',
       -- 'octaltree/cmp-look',
     },
     config = function()
@@ -121,6 +122,14 @@ return {
               keyword_pattern = [[^\s*\zs\S.\+]],
               get_bufnrs = get_bufnrs_active,
             },
+          },
+          {
+            name = 'spell',
+            priority = 500,
+            entry_filter = function(entry)
+              return not string.find(entry:get_word(), ' ')
+            end,
+            option = { preselect_correct_word = false },
           },
           -- {
           --   name = 'look',
