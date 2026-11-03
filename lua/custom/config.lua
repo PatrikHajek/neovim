@@ -139,7 +139,7 @@ local function goto_file(preset)
   local is_fugitive = require('custom.utils').is_fugitive()
   if vim.bo.buftype == 'terminal' or is_fugitive then
     if is_fugitive then
-      local cwd = vim.fn.expand('%:h'):gsub('^fugitive://', ''):gsub('%.git$', '')
+      local cwd = require('custom.utils').get_cwd_from_buf()
       local git_root = require('custom.utils').get_git_root(cwd)
       line = git_root .. line
       path = git_root .. path
@@ -297,7 +297,7 @@ vim.keymap.set('n', '<leader>cdf', function()
   vim.api.nvim_command ':cd %:h'
 end, { desc = "[C]hange [D]irectory to the current [F]ile's directory" })
 vim.keymap.set('n', '<leader>cdg', function()
-  local cwd = vim.fn.expand '%:h'
+  local cwd = require('custom.utils').get_cwd_from_buf()
   local git_root = require('custom.utils').get_git_root(cwd)
   vim.api.nvim_command(':cd ' .. git_root)
 end, { desc = '[C]hange [D]irectory to the closest [G]it root' })

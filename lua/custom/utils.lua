@@ -30,6 +30,18 @@ M.get_selection_marks = function()
   return { start = start, end_ = end_ }
 end
 
+--- Get the cwd from the current buffer.
+---
+--- @return string
+M.get_cwd_from_buf = function()
+  if M.is_fugitive() then
+    local cwd = vim.fn.expand('%:h'):gsub('^fugitive://', ''):gsub('%.git$', '')
+    return cwd
+  else
+    return vim.fn.expand '%:h'
+  end
+end
+
 --- Get the git root for the cwd.
 ---
 --- Returned path always ends with a `/`.
