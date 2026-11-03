@@ -131,6 +131,7 @@ return {
             end,
             option = { preselect_correct_word = false },
           },
+          -- FIX: Lags when manually opening menu because it loads whole dictionary.
           -- {
           --   name = 'look',
           --   priority = 500,
