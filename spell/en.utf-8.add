@@ -709,3 +709,5 @@ fallbacks
 inlining
 versioning
 unstage
+linewise
+blockwise
