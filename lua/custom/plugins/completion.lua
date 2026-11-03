@@ -126,6 +126,8 @@ return {
           {
             name = 'spell',
             priority = 500,
+            keyword_length = 2,
+            max_item_count = 3,
             entry_filter = function(entry)
               return not string.find(entry:get_word(), ' ')
             end,
