@@ -136,6 +136,7 @@ return {
           --   name = 'look',
           --   priority = 500,
           --   keyword_length = 2,
+          --   max_item_count = 5,
           --   option = {
           --     -- INFO: To reflect newly added words to the spell file (`zg`) in the completion, the
           --     -- dictionary file has to be regenerated: run `:spelldump`, save it to that location
