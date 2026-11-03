@@ -187,20 +187,40 @@ return {
 
       -- Todo comments
 
-      local function comment_start()
-        return vim.bo.commentstring:match '^(.-)%%s' or ''
+      local function get_comment()
+        local utils = require 'Comment.utils'
+        local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+
+        return require('Comment.ft').calculate {
+          ctype = utils.ctype.linewise,
+          cmode = utils.cmode.toggle,
+          cmotion = utils.cmotion.line,
+          range = { srow = row, scol = col, erow = row, ecol = col },
+        } or vim.bo.commentstring
       end
-      local function comment_end()
-        return vim.bo.commentstring:match '%%s(.*)$' or ''
+
+      local function get_comment_prefix()
+        local c = get_comment():match '^(.*)%%s' or ''
+        return vim.trim(c) .. ' '
+      end
+
+      local function get_comment_suffix()
+        local c = get_comment():match '%%s(.*)$' or ''
+        c = vim.trim(c)
+        if c ~= '' then
+          return ' ' .. c
+        else
+          return ''
+        end
       end
 
       ls.add_snippets('all', {
         s('todo', {
-          f(comment_start),
+          f(get_comment_prefix),
           i(2, 'TODO'),
           t { ': ' },
           i(1),
-          f(comment_end),
+          f(get_comment_suffix),
         }),
       })
 
