@@ -794,6 +794,16 @@ return {
       end
 
       surround.setup {
+        -- Disable default aliases to not mess with custom/textobject surrounds.
+        aliases = {
+          a = false,
+          b = false,
+          B = false,
+          r = false,
+          q = false,
+          s = false,
+        },
+
         surrounds = {
           c = create_surround {
             find = motion 'ac',
@@ -828,6 +838,16 @@ return {
             delete = patterns_per_lang {
               { { 'lua' }, '^(.*function.-%(.-%)%s*)().-(%s*end)()$' },
               { nil, '^(function.-%(.-%)%s*%{%s*)().-(%s*%})()$' },
+            },
+          },
+
+          r = create_surround {
+            find = motion 'ar',
+            add = pairs_per_lang {
+              { nil, { { 'return ' }, { '' } } },
+            },
+            delete = patterns_per_lang {
+              { nil, '^(return%s*)().*()()$' },
             },
           },
 
