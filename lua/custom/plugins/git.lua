@@ -119,12 +119,12 @@ end, {
 vim.keymap.set('n', '<leader>gs', function()
   local cwd = require('custom.utils').get_cwd_from_buf()
   local git_root = require('custom.utils').get_git_root(cwd)
-  vim.system { 'git', 'add', git_root }
+  vim.system { 'git', '-C', git_root, 'add', '.' }
 end, { desc = '[G]it [S]tage all changes' })
 vim.keymap.set('n', '<leader>gu', function()
   local cwd = require('custom.utils').get_cwd_from_buf()
   local git_root = require('custom.utils').get_git_root(cwd)
-  vim.system { 'git', 'restore', '--staged', git_root }
+  vim.system { 'git', '-C', git_root, 'restore', '--staged', '.' }
 end, { desc = '[G]it [U]nstage all changes' })
 
 return {
