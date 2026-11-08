@@ -223,6 +223,15 @@ return {
           f(get_comment_suffix),
         }),
       })
+      -- The prefix is necessary due to the comment already having a prefix, which causes
+      -- buffer_lines to be prioritized since it matches `-- todo` while the snippet only `todo`.
+      ls.add_snippets('all', {
+        s('@todo', {
+          i(2, 'TODO'),
+          t { ': ' },
+          i(1),
+        }),
+      })
 
       -- Web dev
 
