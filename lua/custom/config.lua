@@ -421,6 +421,9 @@ local function go_to_definition()
   }
 end
 
+-- [[ Todos ]]
+vim.keymap.set('n', '<leader>to', ':tabedit ~/notes/inbox.md<CR>', { desc = '[T]odo [O]pen' })
+
 -- [[ Imported commands ]]
 require 'custom.commands.unsaved-buffers'
 require 'custom.commands.buffer-info'
