@@ -175,7 +175,6 @@ vim.keymap.set('x', 'gf', function()
 end, { noremap = true, desc = 'Jump to file using current selection' })
 
 -- [[ Buffers ]]
-vim.keymap.set('n', '<leader>bb', '<C-^>', { desc = 'Switch [B]ack to Last [B]uffer' })
 vim.keymap.set('n', '<leader>bd', ':bd<CR>', { desc = '[B]uffer [D]elete' })
 
 -- [[ Vim Search ]]
