@@ -951,7 +951,13 @@ return {
       'nvim-lua/plenary.nvim',
       'kiyoon/repeatable-move.nvim',
     },
-    opts = { signs = false },
+    opts = {
+      signs = false,
+      highlight = {
+        -- To allow todo comments in markdown and text files. Could highlight in code also though.
+        comments_only = false,
+      },
+    },
     init = function()
       vim.keymap.set('n', '<leader>tt', ':TodoTelescope<CR>', { desc = 'Search [T]odos using [T]elescope' })
       vim.keymap.set('n', '<leader>lt', ':Trouble todo<CR>', { desc = '[L]ist [T]odos' })
