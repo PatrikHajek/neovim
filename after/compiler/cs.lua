@@ -6,4 +6,5 @@ vim.opt_local.makeprg = 'dotnet build --no-restore'
 vim.opt_local.errorformat = {
   [[%f(%l\,%c):\ %trror\ %.%\\+:\ %m]],
   [[%f\ :\ %tarning\ %.%\\+:\ %m]],
+  [[%-G%.%#]],
 }
