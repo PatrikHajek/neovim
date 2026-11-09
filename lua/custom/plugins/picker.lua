@@ -233,6 +233,7 @@ return {
         { name = 'type', kind = 'keyword', hl = '@type', text = 'full', filters = { 'include', { prisma = prisma_filter_model } } },
         { name = 'function', kind = 'function', text = 'preceding' },
         { name = 'method', kind = 'function.method' },
+        { name = 'return', kind = 'return.inner', hl = '@keyword', chars = 10 },
         { name = 'constructor', kind = 'constructor' },
         { name = 'call fn', kind = 'function.call', text = 'full', chars = 10 },
         { name = 'call mtd', kind = 'function.method.call', text = 'full', chars = 10 },
