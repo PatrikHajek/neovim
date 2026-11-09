@@ -3,8 +3,7 @@
 vim.filetype.add {
   extension = {
     -- For Avalonia development.
-    -- XML doesn't have textobjects, so using HTML instead.
-    axaml = 'html',
+    axaml = 'xml',
   },
 }
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
