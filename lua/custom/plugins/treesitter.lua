@@ -55,6 +55,18 @@ return {
         filetype = 'nobe',
       }
 
+      -- Add support for Oracle SQL syntax.
+      parser_config.plsql = {
+        install_info = {
+          url = 'https://github.com/andreasmaierde/tree-sitter-plsql',
+          files = { 'src/parser.c' },
+          branch = 'main',
+        },
+        -- Overrides default SQL parser, so turn off after finishing work on Oracle SQL.
+        filetype = 'sql',
+        -- filetype = 'plsql',
+      }
+
       require('nvim-treesitter.configs').setup(opts)
     end,
   },
