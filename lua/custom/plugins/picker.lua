@@ -118,6 +118,7 @@ return {
       vim.keymap.set('n', '<leader>sch', builtin.command_history, { desc = '[S]earch [C]ommand [H]istory' })
       vim.keymap.set('n', '<leader>sk', builtin.keymaps, { desc = '[S]earch [K]eymaps' })
       vim.keymap.set('n', '<leader>sf', builtin.find_files, { desc = '[S]earch [F]iles' })
+      vim.keymap.set('n', '<leader>sG', builtin.git_files, { desc = '[S]earch [G]it Files' })
       vim.keymap.set('n', '<leader>ss', builtin.builtin, { desc = '[S]earch [S]elect Telescope' })
       -- TODO: Change to search / register without \v.
       vim.keymap.set({ 'n', 'x' }, '<leader>sw', builtin.grep_string, { desc = '[S]earch current [W]ord' })
