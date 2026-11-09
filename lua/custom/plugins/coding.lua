@@ -955,7 +955,7 @@ return {
       signs = false,
       highlight = {
         -- To allow todo comments in markdown and text files. Could highlight in code also though.
-        comments_only = false,
+        -- comments_only = false,
       },
     },
     init = function()
