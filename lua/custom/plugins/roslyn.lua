@@ -7,6 +7,10 @@ vim.filetype.add {
     axaml = 'html',
   },
 }
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, {
+  pattern = '*.cshtml',
+  command = 'set filetype=html',
+})
 
 return {
   'seblyng/roslyn.nvim',
