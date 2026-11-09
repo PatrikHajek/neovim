@@ -61,6 +61,9 @@
 
 ; Returns
 
+(method_declaration
+  returns: _ @return.inner @return.outer)
+
 (return_statement
   "return" @return.outer
   _ @return.inner @return.outer
@@ -107,6 +110,17 @@
 
 (assignment_expression
   right: _ @assignment.inner)
+
+(property_declaration
+  type: _ @assignment.inner
+  name: _ @assignment.lhs
+  value: _ @assignment.rhs) @assignment.outer
+
+(property_declaration
+  name: _ @assignment.inner)
+
+(property_declaration
+  value: _ @assignment.inner)
 
 ; [[ Non-Standard ]]
 
