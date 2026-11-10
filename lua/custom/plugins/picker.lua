@@ -130,6 +130,7 @@ return {
       vim.keymap.set('n', '<leader>gb', builtin.git_branches, { desc = '[G]it [B]ranches' })
       vim.keymap.set('n', '<leader>gc', builtin.git_commits, { desc = '[G]it [C]ommits' })
       vim.keymap.set('n', '<leader>bc', builtin.git_bcommits, { desc = 'Show [B]uffer [C]ommits' })
+      vim.keymap.set('x', '<leader>bc', builtin.git_bcommits_range, { desc = 'Show [B]uffer [C]ommits of the selection' })
 
       -- Slightly advanced example of overriding default behavior and theme
       vim.keymap.set('n', '<leader>/', function()
