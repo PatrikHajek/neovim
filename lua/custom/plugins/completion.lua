@@ -22,6 +22,7 @@ return {
       local luasnip = require 'luasnip'
       luasnip.config.setup {}
 
+      cmp.register_source('buffer_subwords', require('cmp_buffer').new())
       cmp.register_source('buffer_lines', require('cmp_buffer').new())
 
       local function get_bufnrs_active()
@@ -110,6 +111,16 @@ return {
             keyword_length = 2,
             max_item_count = 5,
             option = {
+              get_bufnrs = get_bufnrs_active,
+            },
+          },
+          {
+            name = 'buffer_subwords',
+            priority = 500,
+            keyword_length = 2,
+            max_item_count = 5,
+            option = {
+              keyword_pattern = [[[A-Z]\?[a-z]\+]],
               get_bufnrs = get_bufnrs_active,
             },
           },
