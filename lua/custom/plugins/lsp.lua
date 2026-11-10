@@ -63,7 +63,7 @@ local function get_servers()
   }
 end
 
-local function go_to_definition()
+local function goto_definition()
   vim.lsp.buf.definition {
     on_list = function(opts)
       ---@alias item {filename: string, text: string}[]
@@ -209,7 +209,7 @@ return {
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
           --  To jump back, press <C-t>.
-          map('gd', go_to_definition, '[G]oto [D]efinition')
+          map('gd', goto_definition, '[G]oto [D]efinition')
 
           -- Find references for the word under your cursor.
           map('gr', require('telescope.builtin').lsp_references, '[G]oto [R]eferences')
