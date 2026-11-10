@@ -1,3 +1,6 @@
+-- Preserve tag jumping (`<C-t>` is used for toggling terminal).
+vim.keymap.set('n', '<leader>T', '<C-t>', { noremap = true, desc = 'Jump to previous [T]ag' })
+
 return {
   'akinsho/toggleterm.nvim',
   version = '*',
