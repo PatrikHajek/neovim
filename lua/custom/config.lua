@@ -425,16 +425,6 @@ local function go_to_definition()
   }
 end
 
--- [[ Todos ]]
-vim.keymap.set('n', '<leader>to', function()
-  local path = vim.fn.expand '~/notes/inbox.md'
-  if vim.api.nvim_buf_get_name(0) == path and #vim.api.nvim_list_tabpages() > 1 then
-    vim.cmd.quit()
-  else
-    vim.cmd.tabedit(path)
-  end
-end, { desc = '[T]odo [O]pen' })
-
 return {
   get_servers = get_servers,
   go_to_definition = go_to_definition,
