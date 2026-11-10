@@ -120,7 +120,7 @@ return {
             keyword_length = 2,
             max_item_count = 5,
             option = {
-              keyword_pattern = [[[A-Z]\?[a-z]\+]],
+              keyword_pattern = [[\([A-Z]\?[a-z]\+\|\d\+\)]],
               get_bufnrs = get_bufnrs_active,
             },
           },
