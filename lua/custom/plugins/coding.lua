@@ -938,9 +938,4 @@ return {
       vim.keymap.set('n', '<leader>an', ':AerialNavToggle<CR>', { desc = 'Open [A]erial [N]av' })
     end,
   },
-
-  {
-    'numToStr/Comment.nvim',
-    opts = {},
-  },
 }
