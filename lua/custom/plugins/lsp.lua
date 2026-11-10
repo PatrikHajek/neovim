@@ -63,6 +63,15 @@ local function get_servers()
   }
 end
 
+local function push_tagstack()
+  local pos = vim.fn.getpos '.'
+  local item = {
+    tagname = vim.fn.expand '<cword>',
+    from = { vim.fn.bufnr '%', pos[2], pos[3], pos[4] },
+  }
+  vim.fn.settagstack(vim.fn.win_getid(), { items = { item } }, 't')
+end
+
 local function goto_definition()
   vim.lsp.buf.definition {
     on_list = function(opts)
@@ -83,8 +92,10 @@ local function goto_definition()
       if #filtered == 0 then
         vim.fn.setloclist(0, items)
         if #items == 1 then
+          push_tagstack()
           vim.api.nvim_command ':lfirst'
         elseif #items > 1 then
+          push_tagstack()
           require('telescope.builtin').loclist()
         else
           vim.notify 'No definitions found'
@@ -94,6 +105,7 @@ local function goto_definition()
 
       vim.fn.setloclist(0, filtered)
       if #filtered > 1 then
+        push_tagstack()
         require('telescope.builtin').loclist()
         return
       end
@@ -108,9 +120,11 @@ local function goto_definition()
         if not path or not filename then
           vim.notify "File path couldn't be extracted"
         else
+          push_tagstack()
           vim.api.nvim_command(':e ' .. filename .. path .. extension)
         end
       else
+        push_tagstack()
         vim.api.nvim_command ':lfirst'
       end
     end,
