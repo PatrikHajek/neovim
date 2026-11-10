@@ -293,11 +293,6 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { silent = true })
 vim.keymap.set('v', '<C-J>', ":co '<-1<CR>gv=gv", { silent = true })
 vim.keymap.set('v', '<C-K>', ":co '><CR>gv=gv", { silent = true })
 
--- [[ Git ]]
-vim.keymap.set('n', '<leader>gb', ':Telescope git_branches<CR>', { desc = '[G]it [B]ranches' })
-vim.keymap.set('n', '<leader>gc', ':Telescope git_commits<CR>', { desc = '[G]it [C]ommits' })
-vim.keymap.set('n', '<leader>bc', ':Telescope git_bcommits<CR>', { desc = 'Show [B]uffer [C]ommits' })
-
 -- Changing directories
 vim.keymap.set('n', '<leader>cdf', function()
   vim.api.nvim_command ':cd %:h'
