@@ -307,13 +307,3 @@ end, { desc = '[C]hange [D]irectory to the closest [G]it root' })
 vim.keymap.set('n', '<leader>cdl', function()
   vim.api.nvim_command ':cd -'
 end, { desc = '[C]hange [D]irectory to the [L]ast directory' })
-
--- [[ LSP ]]
--- Remove default lsp keymaps.
-vim.keymap.del('n', 'gra')
-vim.keymap.del('n', 'gri')
-vim.keymap.del('n', 'grn')
-vim.keymap.del('n', 'grr')
-vim.keymap.del('n', 'grt')
-
-vim.keymap.set('n', '<leader>rl', ':LspRestart<CR>', { desc = '[R]estart [L]SP' })
