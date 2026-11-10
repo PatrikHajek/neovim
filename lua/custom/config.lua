@@ -195,6 +195,8 @@ end, { noremap = true, desc = 'Jump to file using current selection' })
 
 -- [[ Buffers ]]
 vim.keymap.set('n', '<leader>bd', ':bd<CR>', { desc = '[B]uffer [D]elete' })
+require 'custom.commands.unsaved-buffers'
+require 'custom.commands.buffer-info'
 
 -- [[ Vim Search ]]
 vim.keymap.set('n', '<CR>', function()
@@ -432,10 +434,6 @@ vim.keymap.set('n', '<leader>to', function()
     vim.cmd.tabedit(path)
   end
 end, { desc = '[T]odo [O]pen' })
-
--- [[ Imported commands ]]
-require 'custom.commands.unsaved-buffers'
-require 'custom.commands.buffer-info'
 
 return {
   get_servers = get_servers,
