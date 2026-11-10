@@ -62,6 +62,25 @@ vim.opt.termguicolors = true
 
 -- [[ Keymaps ]]
 
+-- Keymaps for better default experience
+-- See `:help vim.keymap.set()`
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
+
+-- Remap for dealing with word wrap
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+
+-- To make these keymaps less disorienting when zoomed in.
+vim.keymap.set({ 'n', 'x' }, '<C-d>', '10j')
+vim.keymap.set({ 'n', 'x' }, '<C-u>', '10k')
+
+vim.keymap.set('x', '>', '>gv')
+vim.keymap.set('x', '<', '<gv')
+
+-- keep cursor in the middle when searching
+vim.keymap.set('n', 'n', 'nzzzv', { silent = true })
+vim.keymap.set('n', 'N', 'Nzzzv', { silent = true })
+
 -- Better pasting behavior.
 --- Pastes last yank instead of default register, otherwise pastes from the specified one.
 --- @param cmd string
@@ -263,10 +282,6 @@ vim.keymap.set('n', '/', '/\\v', { desc = 'Enable very magic for searching', nor
 vim.keymap.set('n', '<leader>br', ':%s///g<Left><Left>', { desc = '[B]uffer [R]eplace' })
 vim.keymap.set('v', '<leader>br', ':s///g<Left><Left>', { desc = '[B]uffer [R]eplace in selected lines' })
 
--- keep cursor in the middle when searching
-vim.keymap.set('n', 'n', 'nzzzv', { silent = true })
-vim.keymap.set('n', 'N', 'Nzzzv', { silent = true })
-
 -- [[ Lines ]]
 -- NOTE: `'<` and `'>` specify line number of the first/last line or character
 -- of the selection respectively. See help for more info.
@@ -277,14 +292,6 @@ vim.keymap.set('v', 'K', ":m '<-2<CR>gv=gv", { silent = true })
 -- copying lines up/down
 vim.keymap.set('v', '<C-J>', ":co '<-1<CR>gv=gv", { silent = true })
 vim.keymap.set('v', '<C-K>', ":co '><CR>gv=gv", { silent = true })
-
--- Keymaps for better default experience
--- See `:help vim.keymap.set()`
-vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
-
--- Remap for dealing with word wrap
-vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- [[ Git ]]
 vim.keymap.set('n', '<leader>gb', ':Telescope git_branches<CR>', { desc = '[G]it [B]ranches' })
