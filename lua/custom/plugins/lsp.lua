@@ -1,3 +1,56 @@
+local function get_servers()
+  local vue_language_server_path = vim.fn.expand '$MASON/packages' .. '/vue-language-server' .. '/node_modules/@vue/language-server'
+  return {
+    -- formatters
+    prettierd = {},
+    black = {},
+    -- linters
+    eslint_d = {},
+    shellcheck = {},
+    -- servers
+    ts_ls = {
+      init_options = {
+        plugins = {
+          {
+            name = '@vue/typescript-plugin',
+            location = vue_language_server_path,
+            languages = { 'vue' },
+            configNamespace = 'typescript',
+          },
+        },
+      },
+      filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue' },
+    },
+    vue_ls = {},
+    cssls = {
+      settings = {
+        css = { lint = { unknownAtRules = 'ignore' } },
+      },
+    },
+    tailwindcss = {
+      filetypes = { 'typescript', 'javascript', 'javascriptreact', 'typescriptreact', 'vue', 'css', 'html' },
+    },
+    prismals = {},
+    jsonls = {},
+    html = { filetypes = { 'html', 'twig', 'hbs' } },
+    bashls = {
+      filetypes = { 'sh' },
+    },
+    markdown_oxide = {},
+    markdownlint = {},
+    clangd = {},
+    -- java_language_server = {},
+    jdtls = {},
+    pyright = {},
+    rust_analyzer = {},
+    zls = {
+      enable_build_on_save = true,
+      build_on_save_step = 'check',
+    },
+    intelephense = {},
+  }
+end
+
 local function go_to_definition()
   vim.lsp.buf.definition {
     on_list = function(opts)
@@ -270,7 +323,7 @@ return {
           },
         },
       }
-      servers = vim.tbl_extend('force', servers, require('custom.config').get_servers())
+      servers = vim.tbl_extend('force', servers, get_servers())
 
       -- Ensure the servers and tools above are installed
       --
