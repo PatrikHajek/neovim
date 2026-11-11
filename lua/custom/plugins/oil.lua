@@ -1,6 +1,9 @@
+-- TODO: Rename file to "explorer.lua".
+
 return {
   'stevearc/oil.nvim',
   dependencies = { 'nvim-tree/nvim-web-devicons' },
+  -- TODO: Remove confirmation.
   opts = {
     columns = {
       'size',

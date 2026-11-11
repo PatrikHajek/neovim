@@ -5,6 +5,11 @@
 -- TODO: Think of some better way to save/see all unsaved buffers.
 -- FIX: TODO highlighting in prisma files.
 -- TODO: Highlight model in prisma.
+-- TODO: keymap to fill current line with as much words from the following without going over
+-- colorcolumn. - macro?
+-- TODO: Add `@param name type` into key-value pattern textobject.
+-- TODO: Add `identifier` textobject. Useful when wanting to jump to function name.
+-- TODO: Rename this file to "textobjects.lua".
 
 vim.keymap.set({ 'x', 'o' }, 'iz', function()
   vim.cmd 'normal! \27'
@@ -641,6 +646,8 @@ return {
           -- problematic when having 2 texts both ending on a newline but the second being shorter.
           -- Mini will choose the second shorter text when the textobjects overlap (like on the
           -- separator: `.!?,;:-`), even though the separator belongs to the first sentence.
+          -- FIX: Inner sentence breaks on `for-loop`.
+          -- TODO: Change to words as well; to disable mappings.
           ['s'] = {
             {
               -- Sentence following another sentence or comment start.
@@ -717,6 +724,8 @@ return {
       end, { desc = 'number' })
 
       -- TODO: Create comment navigation that works on a comment block.
+      -- TODO: Remake into custom mini.ai textobject; don't rely on treesitter at all.
+      -- TODO: Make `ad` with whitespace (newline), `id` without.
       vim.keymap.set({ 'x', 'o' }, 'ad', require('mini.comment').textobject, { desc = 'comment' })
       vim.keymap.set({ 'x', 'o' }, 'id', require('mini.comment').textobject, { desc = 'comment' })
     end,
@@ -786,6 +795,7 @@ return {
         }
       end
 
+      -- TODO: `call`; make sure it works in comments due to comparing filetypes.
       surround.setup {
         -- Disable default aliases to not mess with custom/textobject surrounds.
         aliases = {
@@ -846,6 +856,7 @@ return {
 
           ['='] = create_surround {
             find = motion 'a=',
+            -- FIX: Multiline doesn't work.
             delete = patterns_per_lang {
               { nil, '^(.*%=%s*)().*()()$' },
             },
@@ -899,8 +910,10 @@ return {
       end
 
       map('subword', 's', 's')
+      -- TODO: Define in mini.ai to have seeking.
       map('url', '<leader>u', '<leader>u')
       map('chainMember', '<leader>m', '<leader>m', 'chain member')
+      -- TODO: Define in mini.ai to have seeking.
       map('filepath', '<leader>f', '<leader>f')
       map('diagnostic', '<leader>?', '<leader>?')
       map('indentation', 'i', 'i')

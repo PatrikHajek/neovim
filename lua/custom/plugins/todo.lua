@@ -1,3 +1,11 @@
+-- TODO: Create custom todo picker using standard rg.
+-- Highlight results (preview too?)
+-- Option for files to search to allow for buffer and project wide searches.
+-- Option to show only some labels to filter out NOTE, INFO, ... Add keymap to show all?
+-- Option to search by commit date? Allows searching todos chronologically.
+-- Todo-comments seems to enable using custom patterns for matching and is already using rg.
+-- TODO: Todo textobject: outer is whole todo with comment, inner is the text without label.
+
 vim.keymap.set('n', '<leader>to', function()
   local path = vim.fn.expand '~/notes/inbox.md'
   if vim.api.nvim_buf_get_name(0) == path and #vim.api.nvim_list_tabpages() > 1 then
