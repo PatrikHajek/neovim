@@ -53,6 +53,28 @@
   .
   _ @parameter.inner @parameter.outer)
 
+(tuple_expression
+  .
+  _ @parameter.inner @parameter.outer
+  .
+  ","? @parameter.outer)
+
+(tuple_expression
+  "," @parameter.outer
+  .
+  _ @parameter.inner @parameter.outer)
+
+(list_pattern
+  .
+  _ @parameter.inner @parameter.outer
+  .
+  ","? @parameter.outer)
+
+(list_pattern
+  "," @parameter.outer
+  .
+  _ @parameter.inner @parameter.outer)
+
 ; Functions
 
 ; FIX: Selects the whole brackets.
