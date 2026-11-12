@@ -105,6 +105,13 @@ return {
           { name = 'nvim_lsp_signature_help', priority = 1000 },
           { name = 'luasnip', priority = 1000 },
           { name = 'path', priority = 1000 },
+          -- FIX: Completion in arguments doesn't work.
+          -- FIX: All completion apart from LSP is lost on dot access.
+          -- TODO: Completion of commented code (comments without prefix/suffix).
+          -- TODO: Completion of big words (only whitespace is a delimiter; `W` motion).
+          -- TODO: Completion of assigned values (any value after assignment operator).
+          -- TODO: Completion of calls.
+          -- TODO: Completion of parameters/arguments.
           {
             name = 'buffer',
             priority = 500,
@@ -225,6 +232,7 @@ return {
         end
       end
 
+      -- TODO: Define for FIX, TEST, FEAT?, REFACTOR?
       ls.add_snippets('all', {
         s('todo', {
           f(get_comment_prefix),

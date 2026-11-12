@@ -84,6 +84,8 @@ I hope you enjoy your Neovim journey,
 P.S. You can delete this when you're done too. It's your config now! :)
 --]]
 
+-- TODO: Change stylua linewidth to 100/120.
+
 -- Register global helper functions.
 require 'custom.global'
 

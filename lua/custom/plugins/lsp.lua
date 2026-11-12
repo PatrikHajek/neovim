@@ -1,3 +1,5 @@
+-- FIX: Mini's function documentation renders incorrectly.
+
 -- Remove default lsp keymaps.
 vim.keymap.del('n', 'gra')
 vim.keymap.del('n', 'gri')
