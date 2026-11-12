@@ -290,6 +290,7 @@ end
 --- @param side 'left' | 'right'
 --- @param dir 'next' | 'prev'
 mini_ai.move = function(textobject, side, dir)
+  -- FIX: prev+right and next+left jump backwards.
   local ai = require 'mini.ai'
   local lua = require 'custom.utils.lua'
 
