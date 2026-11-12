@@ -26,6 +26,7 @@ return {
           -- SpellBad = { underdashed = true },
 
           -- Lua
+          ['@keyword.operator.lua'] = { link = '@keyword.operator' },
           ['@lsp.type.variable.lua'] = {},
 
           -- Scala
