@@ -287,6 +287,55 @@ mini_ai.goto_enclosing_fallback = function(side, id)
 end
 
 --- @param textobject string
+--- @param side 'left' | 'right'
+--- @param dir 'next' | 'prev'
+mini_ai.move = function(textobject, side, dir)
+  local ai = require 'mini.ai'
+  local lua = require 'custom.utils.lua'
+
+  --- @type { from: { line: integer, col: integer }, to: { line: integer, col: integer } } | nil
+  local region_cov = ai.find_textobject('a', textobject, { search_method = 'cover' })
+
+  local cur_row, cur_col = unpack(vim.api.nvim_win_get_cursor(0))
+  cur_col = cur_col + 1 --@ to convert into 1-indexing
+  if region_cov then
+    local is_on_edge_left = cur_row == region_cov.from.line and cur_col == region_cov.from.col
+    local is_on_edge_right = cur_row == region_cov.to.line and cur_col == region_cov.to.col
+    local is_after_edge_left = lua.pos.is_before({ region_cov.from.line, region_cov.from.col }, { cur_row, cur_col })
+    local is_before_edge_right = lua.pos.is_before({ cur_row, cur_col }, { region_cov.to.line, region_cov.to.col })
+    if
+      dir == 'prev' and is_on_edge_left
+      or dir == 'prev' and side == 'right' and is_before_edge_right
+      or dir == 'next' and is_on_edge_right
+      or dir == 'next' and side == 'left' and is_after_edge_left
+    then
+      region_cov = ai.find_textobject('a', textobject, { search_method = 'cover', n_times = 2 })
+    end
+  end
+
+  if not region_cov then
+    ai.move_cursor(side, 'a', textobject, { search_method = dir })
+    return
+  end
+
+  --- @type { from: { line: integer, col: integer }, to: { line: integer, col: integer } } | nil
+  local region_dir = ai.find_textobject('a', textobject, { search_method = dir })
+  if not region_dir then
+    ai.move_cursor(side, 'a', textobject, { search_method = 'cover' })
+    return
+  end
+
+  if
+    lua.pos.is_before({ region_cov.from.line, region_cov.from.col }, { region_dir.from.line, region_dir.from.col })
+    and lua.pos.is_before({ region_dir.to.line, region_dir.to.col }, { region_cov.to.line, region_cov.to.col })
+  then
+    ai.move_cursor(side, 'a', textobject, { search_method = dir })
+  else
+    ai.move_cursor(side, 'a', textobject, { search_method = 'cover' })
+  end
+end
+
+--- @param textobject string
 --- @param key_start string
 --- @param key_end string
 --- @param start_name string?
@@ -297,20 +346,20 @@ mini_ai.map = function(textobject, key_start, key_end, start_name, end_name)
 
   local next_start, prev_start = repeat_move.make_repeatable_move_pair(function()
     vim.cmd 'normal! m`'
-    require('mini.ai').move_cursor('left', 'a', textobject, { search_method = 'next' })
+    mini_ai.move(textobject, 'left', 'next')
   end, function()
     vim.cmd 'normal! m`'
-    require('mini.ai').move_cursor('left', 'a', textobject, { search_method = 'prev' })
+    mini_ai.move(textobject, 'left', 'prev')
   end)
   vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_start, next_start, { desc = 'Next ' .. (start_name or key_start) })
   vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_start, prev_start, { desc = 'Previous ' .. (start_name or key_start) })
 
   local next_end, prev_end = repeat_move.make_repeatable_move_pair(function()
     vim.cmd 'normal! m`'
-    require('mini.ai').move_cursor('right', 'a', textobject, { search_method = 'next' })
+    mini_ai.move(textobject, 'right', 'next')
   end, function()
     vim.cmd 'normal! m`'
-    require('mini.ai').move_cursor('right', 'a', textobject, { search_method = 'prev' })
+    mini_ai.move(textobject, 'right', 'prev')
   end)
   vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_end, next_end, { desc = 'Next ' .. (end_name or key_end) })
   vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_end, prev_end, { desc = 'Previous ' .. (end_name or key_end) })
