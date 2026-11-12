@@ -345,25 +345,25 @@ mini_ai.map = function(textobject, key_start, key_end, start_name, end_name)
   local repeat_move = require 'repeatable_move'
   local ts_repeat = require 'nvim-treesitter-textobjects.repeatable_move'
 
-  local next_start, prev_start = repeat_move.make_repeatable_move_pair(function()
+  local start_next, start_prev = repeat_move.make_repeatable_move_pair(function()
     vim.cmd 'normal! m`'
     mini_ai.move(textobject, 'left', 'next')
   end, function()
     vim.cmd 'normal! m`'
     mini_ai.move(textobject, 'left', 'prev')
   end)
-  vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_start, next_start, { desc = 'Next ' .. (start_name or key_start) })
-  vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_start, prev_start, { desc = 'Previous ' .. (start_name or key_start) })
+  vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_start, start_next, { desc = 'Next ' .. (start_name or key_start) })
+  vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_start, start_prev, { desc = 'Previous ' .. (start_name or key_start) })
 
-  local next_end, prev_end = repeat_move.make_repeatable_move_pair(function()
+  local end_next, end_prev = repeat_move.make_repeatable_move_pair(function()
     vim.cmd 'normal! m`'
     mini_ai.move(textobject, 'right', 'next')
   end, function()
     vim.cmd 'normal! m`'
     mini_ai.move(textobject, 'right', 'prev')
   end)
-  vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_end, next_end, { desc = 'Next ' .. (end_name or key_end) })
-  vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_end, prev_end, { desc = 'Previous ' .. (end_name or key_end) })
+  vim.keymap.set({ 'n', 'x', 'o' }, ']' .. key_end, end_next, { desc = 'Next ' .. (end_name or key_end) })
+  vim.keymap.set({ 'n', 'x', 'o' }, '[' .. key_end, end_prev, { desc = 'Previous ' .. (end_name or key_end) })
 
   local goto_enclosing_start = ts_repeat.make_repeatable_move(function()
     vim.cmd 'normal! m`'
