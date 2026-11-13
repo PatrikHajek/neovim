@@ -232,25 +232,27 @@ return {
         end
       end
 
-      -- TODO: Define for FIX, TEST, FEAT?, REFACTOR?
-      ls.add_snippets('all', {
-        s('todo', {
-          f(get_comment_prefix),
-          i(2, 'TODO'),
-          t { ': ' },
-          i(1),
-          f(get_comment_suffix),
-        }),
-      })
-      -- The prefix is necessary due to the comment already having a prefix, which causes
-      -- buffer_lines to be prioritized since it matches `-- todo` while the snippet only `todo`.
-      ls.add_snippets('all', {
-        s('@todo', {
-          i(2, 'TODO'),
-          t { ': ' },
-          i(1),
-        }),
-      })
+      local todo_labels = { 'TODO', 'FIX', 'TEST' }
+      for _, label in ipairs(todo_labels) do
+        ls.add_snippets('all', {
+          s(vim.fn.tolower(label), {
+            f(get_comment_prefix),
+            i(2, label),
+            t { ': ' },
+            i(1),
+            f(get_comment_suffix),
+          }),
+        })
+        -- The prefix is necessary due to the comment already having a prefix, which causes
+        -- buffer_lines to be prioritized since it matches `-- todo` while the snippet only `todo`.
+        ls.add_snippets('all', {
+          s('@' .. vim.fn.tolower(label), {
+            i(2, label),
+            t { ': ' },
+            i(1),
+          }),
+        })
+      end
 
       -- Web dev
 
