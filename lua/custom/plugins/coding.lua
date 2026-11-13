@@ -290,7 +290,6 @@ end
 --- @param side 'left' | 'right'
 --- @param dir 'next' | 'prev'
 mini_ai.move = function(textobject, side, dir)
-  -- FIX: prev+right and next+left jump backwards.
   local ai = require 'mini.ai'
   local lua = require 'custom.utils.lua'
 
@@ -306,11 +305,12 @@ mini_ai.move = function(textobject, side, dir)
     local is_before_edge_right = lua.pos.is_before({ cur_row, cur_col }, { region_cov.to.line, region_cov.to.col })
     if
       dir == 'prev' and is_on_edge_left
-      or dir == 'prev' and side == 'right' and is_before_edge_right
+      or dir == 'prev' and side == 'right' and (is_on_edge_right or is_before_edge_right)
       or dir == 'next' and is_on_edge_right
-      or dir == 'next' and side == 'left' and is_after_edge_left
+      or dir == 'next' and side == 'left' and (is_on_edge_left or is_after_edge_left)
     then
-      region_cov = ai.find_textobject('a', textobject, { search_method = 'cover', n_times = 2 })
+      --@ Seems to run until it reaches the end of `n_times` or no textobject is found.
+      region_cov = ai.find_textobject('a', textobject, { search_method = 'cover', n_times = 100 })
     end
   end
 
@@ -332,7 +332,8 @@ mini_ai.move = function(textobject, side, dir)
   then
     ai.move_cursor(side, 'a', textobject, { search_method = dir })
   else
-    ai.move_cursor(side, 'a', textobject, { search_method = 'cover' })
+    local pos = side == 'left' and region_cov.from or region_cov.to
+    vim.api.nvim_win_set_cursor(0, { pos.line, pos.col - 1 })
   end
 end
 
